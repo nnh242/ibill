@@ -1,0 +1,28 @@
+{
+  "name": "ibill",
+  "version": "1.0.0",
+  "description": "billing database app",
+  "main": "server.js",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "express": "^4.15.4",
+    "mocha": "^3.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/nnh242/ibill.git"
+  },
+  "keywords": [
+    "node",
+    "mongo",
+    "mongoose",
+    "passport"
+  ],
+  "author": "Ngoc Tina Hoang",
+  "license": "MIT"
+}
