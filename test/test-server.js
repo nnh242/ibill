@@ -21,7 +21,19 @@ describe('index page', function() {
   });
 });
 
-describe('index page', function() {
+describe('login page', function() {
+  it('exists', function(done) {
+    chai.request(app)
+      .get('/')
+      .end(function(err, res) {
+        res.should.have.status(200);
+        res.should.be.html;
+        done();
+    });
+  });
+});
+
+describe('dashboard page', function() {
   it('exists', function(done) {
     chai.request(app)
       .get('/dashboard')
@@ -33,7 +45,7 @@ describe('index page', function() {
   });
 });
 
-describe ('preview page', function (){
+describe ('preview invoice', function (){
   it('exists', function(done) {
     chai.request(app)
       .get('/preview')
