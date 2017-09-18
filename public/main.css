@@ -60,9 +60,15 @@ h2 {
 h3 {
     font-size: 32px;
 }
-.link {
+.link, a {
     color: #FF9800;
     cursor: pointer;
+}
+.link:hover, a:hover {
+    color: #F57C00;
+}
+.link:active, a:active {
+    color: #E65100;
 }
 .headlines {
     color: #222222;
@@ -84,14 +90,14 @@ h3 {
 .primary-button:active {
     background-color: #6A1B9A;
 }
-/* styling for index page */
 
-/* styling for login page */
+/* styling for index page */
 #big-logo {
     color: #9C27B0;
     border-bottom: 1px solid #B9B9B9;
 }
 
+/* styling for login page */
 #sign-in-form input, #register-form input {
     padding-left: 20px;
     width: 310px;

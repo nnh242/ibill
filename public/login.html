@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">    
 </head>
 <body>
-    <header class="row">
+    <header role ="banner" class="row">
         <h1 class="col-12"id="big-logo">iBill</h1>
     </header>
     <main>
@@ -19,9 +19,9 @@
             <form id="sign-in-form">
                 <legend class="headlines"><h3>Sign In</h3></legend>
                 <label for="email">Email address</label> <br>
-                <input type ="text" name ="email" /> <br>
+                <input type ="text" name ="email" id = "sign-in-email" placeholder="user@email.com"/> <br>
                 <label for="password" >Password</label> <br>
-                <input type ="password" name="password"/> <br>
+                <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="sign-in-password"/> <br>
                 <button type="submit" class="primary-button" id="sign-in-button">Submit</button>
             </form>
         <p>
@@ -36,11 +36,15 @@
                 <form id="register-form">
                     <legend class="headlines"><h3>Register</h3></legend>
                     <label for="email">Email address</label> <br>
-                    <input type ="text" name ="email" /> <br>
+                    <input type ="text" name ="email" placeholder="user@email.com"/> <br>
                     <label for="password" >Password</label> <br>
-                    <input type ="password" name="password"/> <br>
+                    <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"/> <br>
                     <button type="submit" class="primary-button" id="register-button">Register</button>
                 </form>
+            <p>
+                <span id="register-note">Already have an account?</span>
+                <a href ="login.html">Sign In </a>
+            </p>
             </div>
         </section>
     <section id="demo">

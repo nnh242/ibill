@@ -27,12 +27,24 @@ const MOCK_INVOICES = {
         }
     ]
 }
-
+const email = $('#sign-in-email').val();
+console.log(email);
+const password = $('#sign-in-password').val();
+console.log(password);
 $(document).ready(function() {
     $('#register-link').on('click',registerFn);
+    $('#sign-in-button').on('submit',signInFn);
     getInvoices(displayInvoices);
 
 })
+function signInFn () {
+    if (email || password == undefined) {
+        alert ('please enter valid credentials');
+    } 
+    else {
+        window.location.href = "dashboard.html";
+    }
+}
 function registerFn () {
     $('#sign-in-section').addClass('hidden');
     $('#register-section').removeClass('hidden');
