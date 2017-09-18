@@ -13,24 +13,40 @@
         <h1 class="col-12"id="big-logo">iBill</h1>
     </header>
     <main>
-    <section name ="sign-in-section" class="row">
+    <section id ="sign-in-section" class="row">
         <div class="col-3"><br></div>
         <div class="col-6">
             <form id="sign-in-form">
-                <legend class="headlines">Sign In</legend>
-                <label for="email">Email address</label>
-                <input type ="text" name ="email" />
-                <label for="password" >Password</label>
-                <input type ="password" name="password"/>
-                <button type="submit" class="primary-button" >Submit</button>
+                <legend class="headlines"><h3>Sign In</h3></legend>
+                <label for="email">Email address</label> <br>
+                <input type ="text" name ="email" /> <br>
+                <label for="password" >Password</label> <br>
+                <input type ="password" name="password"/> <br>
+                <button type="submit" class="primary-button" id="sign-in-button">Submit</button>
             </form>
+        <p>
         <span id="register-note">Don't have an account?</span>
-        <span class="link" on-click ="registerFn">Register</span>
+        <span class="link" id="register-link" on-click="registerFn">Register</span>
+        </p>
         </div>
     </section>
-    
+    <section id ="register-section" class="row hidden">
+            <div class="col-3"><br></div>
+            <div class="col-6">
+                <form id="register-form">
+                    <legend class="headlines"><h3>Register</h3></legend>
+                    <label for="email">Email address</label> <br>
+                    <input type ="text" name ="email" /> <br>
+                    <label for="password" >Password</label> <br>
+                    <input type ="password" name="password"/> <br>
+                    <button type="submit" class="primary-button" id="register-button">Register</button>
+                </form>
+            </div>
+        </section>
     <section id="demo">
+        <span>Demo Account:</span> <br>
         <span>Email: demo@demo.com</span>
+        <br>
         <span>Password: demo</span>
     </section>
     </main>

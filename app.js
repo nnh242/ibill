@@ -1,3 +1,4 @@
+//mock API in client
 const MOCK_INVOICES = {
     "allInvoices" : [
         {
@@ -26,6 +27,16 @@ const MOCK_INVOICES = {
         }
     ]
 }
+
+$(document).ready(function() {
+    $('#register-link').on('click',registerFn);
+    getInvoices(displayInvoices);
+
+})
+function registerFn () {
+    $('#sign-in-section').addClass('hidden');
+    $('#register-section').removeClass('hidden');
+}
 //note: only this getInvoices function changes when we have a real API
 function getInvoices(callback) {
     setTimeout(function(){callback(MOCK_INVOICES)},100);
@@ -47,7 +58,5 @@ function displayInvoices (data) {
     }
 }
 
-$(document).ready(function() {
-    getInvoices(displayInvoices);
-})
+
 

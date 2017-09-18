@@ -43,7 +43,7 @@
      .col-12 {
       width: 100%;
     }
-
+}
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #EFEFEF;
@@ -76,28 +76,60 @@ h3 {
     background-color: #9C27B0;
     border: 1px solid #EFEFEF;
     border-radius: 3px;
-    text-align: center;
-    margin: 10px auto;
+    cursor: pointer;
 }
+.primary-button:hover {
+    background-color: #7B1FA2;
+}
+.primary-button:active {
+    background-color: #6A1B9A;
+}
+/* styling for index page */
 
 /* styling for login page */
 #big-logo {
     color: #9C27B0;
     border-bottom: 1px solid #B9B9B9;
 }
-input {
+
+#sign-in-form input, #register-form input {
+    padding-left: 20px;
     width: 310px;
     height: 44px;
     margin: 10px;
     border: 1px solid #EFEFEF;
     border-radius: 3px;
+    font-size: 17px;
+    color: #707070;
 }
+
+#sign-in-button, #register-button {
+    width: 320px;
+    height: 44px;
+    margin-top: 10px;
+    font-size: 21px;
+}
+
 #register-note {
+    clear: left;
+    text-align: center;
+}
+#register-link:hover {
+    text-decoration: underline;
+    color: #F57C00;
+}
+#register-link:active {
+    text-decoration: underline;
+    color: #E65100;
+}
+#demo {
+    margin: 20px;
+    padding: 10px;
     text-align: center;
 }
 
-/* styling for index page */
+/* styling for dashboard page */
 
 /* styling for preview page */
 
-/* styling for dashboard page */
+
