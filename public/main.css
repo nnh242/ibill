@@ -96,7 +96,11 @@ h3 {
     color: #9C27B0;
     border-bottom: 1px solid #B9B9B9;
 }
-
+#start-button {
+    font-size: 21px;
+    width: 310px;
+    height: 44px;
+}
 /* styling for login page */
 #sign-in-form input, #register-form input {
     padding-left: 20px;
@@ -135,7 +139,20 @@ h3 {
 }
 
 /* styling for dashboard page */
-
+.container {
+    display:block;
+    border-bottom: 1px solid #707070;
+}
+#app-logo {
+    display: inline;
+    color: #9C27B0;
+}
+#company-name {
+    float: right;
+    margin-top: 20px;
+    color: #707070;
+    display: inline;
+}
 /* styling for preview page */
 
 
