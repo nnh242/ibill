@@ -44,6 +44,7 @@
       width: 100%;
     }
 }
+/*typography*/
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #EFEFEF;
@@ -91,7 +92,7 @@ h3 {
     background-color: #6A1B9A;
 }
 
-/* styling for index page */
+/* style for index page */
 #big-logo {
     color: #9C27B0;
     border-bottom: 1px solid #B9B9B9;
@@ -101,7 +102,7 @@ h3 {
     height: 44px;
     font-size: 21px;
 }
-/* styling for login page */
+/* style for login page */
 #sign-in-form input, #register-form input {
     padding-left: 20px;
     width: 310px;
@@ -138,7 +139,7 @@ h3 {
     text-align: center;
 }
 
-/* styling for dashboard page */
+/* style for dashboard page */
 .container {
     display:block;
     border-bottom: 1px solid #707070;
@@ -159,10 +160,28 @@ h3 {
 }
 #form-button {
     display: inline-block;
-    float:right;
+    float: right;
     width: 140px;
     height: 30px;
 }
-/* styling for preview page */
+
+table, th, td {
+    border-bottom: 1px solid #707070;
+}
+th, td {
+    padding: 15px;
+    text-align: center;
+}
+
+table#invoices {
+    margin: 0 auto;
+}
+table#invoices tr:nth-child(odd) {
+    color: #222222;
+}
+table#invoices tr:nth-child(even) {
+    background-color: #FFFFFF;
+}
+/* style for preview page */
 
 
