@@ -22,7 +22,21 @@
                 <h3 class="headlines">Invoices</h3><button type="button" class="primary-button" id="form-button">Create Invoice</button>
             </div>
         </div>
-        <form  id="create-form" >
+        <form  id="create-form" class="hidden">
+            <label>From</label>
+            <input type="text" placeholder="Your Company or Name"/>
+            <label for="customer">Bill To </label>
+            <input type="text" placeholder="Customer's Name" id="customer" required/>
+            </label for="invoice-number">Invoice Number</label>
+            <input type="text" placeholder="0005" id="invoice-number" required/>
+            </label for="invoice-date">Invoice Date</label>
+            <input type="date" id="invoice-date" required/>
+            <label for"description">Description</label>
+            <input type="text" id="description"/>
+            <label for ="price">Price</label>
+            <input type="number" min="0.01" step="0.01" required/>
+            <label for="quantity">Quantity</label>
+            <input type="number" min="1" step="1" required/>
             <button type="button" class="primary-button" id="create-button">Save Invoice</button>
         </form>
     </section>
@@ -31,12 +45,15 @@
             <input type="search" id="search" placeholder="invoice number, customer or date"><button type="submit" class="primary-button"> Find</button></form>
     </section>
     <section name ="invoices" >
-     <table class="col-12">
-         <td>Date</td>
-         <td>Number</td>
-         <td>Customer</td>
-         <td>Total</td>
-     </table>
+        <table id="invoices">
+            <tr>
+                <th>Date</th>
+                <th>Invoice Number</th>
+                <th>Customer</th>
+                <th>Total</th>
+            </tr>
+
+        </table>
     </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

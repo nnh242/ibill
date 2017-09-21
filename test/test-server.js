@@ -24,7 +24,7 @@ describe('index page', function() {
 describe('login page', function() {
   it('exists', function(done) {
     chai.request(app)
-      .get('/')
+      .get('/login')
       .end(function(err, res) {
         res.should.have.status(200);
         res.should.be.html;
