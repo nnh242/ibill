@@ -1,1 +1,168 @@
-* { box-sizing: border-box }
+* { 
+    box-sizing: border-box;
+}
+/*responsive grid*/
+.row {
+    max-width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+  }
+  
+  .row::before, .row::after {
+    display: table;
+    content: '';
+  }
+  
+  .row::after {
+    clear: both;
+  }
+  
+  .col-3, .col-4, .col-6,.col-12 {
+    float: left;
+    padding-left: 1.04166666%;
+    padding-right: 1.04166666%;
+  }
+  
+  .col-3, .col-4, .col-6, .col-12 {
+    width: 100%;
+  }
+  /*media query*/
+  @media only screen and (min-width: 640px) {
+    .col-3 {
+      width: 25%;
+    }
+  
+    .col-4 {
+      width: 33.33%;
+    }
+  
+    .col-6 {
+      width: 50%;
+    }  
+     .col-12 {
+      width: 100%;
+    }
+}
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #EFEFEF;
+    color: #707070;
+}
+h1 {
+    font-size: 55px;
+}
+
+h2 {
+    font-size: 44px;
+}
+
+h3 {
+    font-size: 32px;
+}
+.link, a {
+    color: #FF9800;
+    cursor: pointer;
+}
+.link:hover, a:hover {
+    color: #F57C00;
+}
+.link:active, a:active {
+    color: #E65100;
+}
+.headlines {
+    color: #222222;
+    margin: 0;
+}
+.hidden {
+    display:none;
+}
+.primary-button {
+    color: #FFFFFF;
+    background-color: #9C27B0;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.primary-button:hover {
+    background-color: #7B1FA2;
+}
+.primary-button:active {
+    background-color: #6A1B9A;
+}
+
+/* styling for index page */
+#big-logo {
+    color: #9C27B0;
+    border-bottom: 1px solid #B9B9B9;
+}
+#start-button {
+    width: 310px;
+    height: 44px;
+    font-size: 21px;
+}
+/* styling for login page */
+#sign-in-form input, #register-form input {
+    padding-left: 20px;
+    width: 310px;
+    height: 44px;
+    margin: 10px;
+    border: 1px solid #EFEFEF;
+    border-radius: 3px;
+    font-size: 17px;
+    color: #707070;
+}
+
+#sign-in-button, #register-button {
+    width: 320px;
+    height: 44px;
+    margin-top: 10px;
+    font-size: 21px;
+}
+
+#register-note {
+    clear: left;
+    text-align: center;
+}
+#register-link:hover {
+    text-decoration: underline;
+    color: #F57C00;
+}
+#register-link:active {
+    text-decoration: underline;
+    color: #E65100;
+}
+#demo {
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+/* styling for dashboard page */
+.container {
+    display:block;
+    border-bottom: 1px solid #707070;
+}
+#app-logo {
+    display: inline;
+    color: #9C27B0;
+}
+#company-name {
+    float: right;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #707070;
+    display: inline;
+}
+.create-invoice {
+    margin-top: 20px;
+}
+#form-button {
+    display: inline-block;
+    float:right;
+    width: 140px;
+    height: 30px;
+}
+/* styling for preview page */
+
+

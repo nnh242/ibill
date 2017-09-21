@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>iBill-login</title>
+    <link href="main.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">    
+</head>
+<body>
+    <header role ="banner" class="row">
+        <h2 class="col-12" class="big-logo">iBill</h2>
+    </header>
+    <main>
+    <section id ="sign-in-section" class="row">
+        <div class="col-3"><br></div>
+        <div class="col-6">
+            <form id="sign-in-form">
+                <legend class="headlines"><h3>Sign In</h3></legend>
+                <label for="email">Email address</label> <br>
+                <input type ="text" name ="email" id = "sign-in-email" placeholder="user@email.com"/> <br>
+                <label for="password" >Password</label> <br>
+                <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="sign-in-password"/> <br>
+                <button type="submit" class="primary-button" id="sign-in-button">Submit</button>
+            </form>
+        <p>
+        <span id="register-note">Don't have an account?</span>
+        <span class="link" id="register-link" on-click="registerFn">Register</span>
+        </p>
+        </div>
+    </section>
+    <section id ="register-section" class="row hidden">
+            <div class="col-3"><br></div>
+            <div class="col-6">
+                <form id="register-form">
+                    <legend class="headlines"><h3>Register</h3></legend>
+                    <label for="email">Email address</label> <br>
+                    <input type ="text" name ="email" placeholder="user@email.com"/> <br>
+                    <label for="password" >Password</label> <br>
+                    <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"/> <br>
+                    <button type="submit" class="primary-button" id="register-button">Register</button>
+                </form>
+            <p>
+                <span id="register-note">Already have an account?</span>
+                <a href ="login.html">Sign In </a>
+            </p>
+            </div>
+        </section>
+    <section id="demo">
+        <span>Demo Account:</span> <br>
+        <span>Email: demo@demo.com</span>
+        <br>
+        <span>Password: demo</span>
+    </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="../app.js"></script>
+</body>
+</html>
