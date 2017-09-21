@@ -36,7 +36,7 @@ describe('login page', function() {
 describe('dashboard page', function() {
   it('exists', function(done) {
     chai.request(app)
-      .get('/dashboard')
+      .get('/')
       .end(function(err, res) {
         res.should.have.status(200);
         res.should.be.html;
@@ -48,7 +48,7 @@ describe('dashboard page', function() {
 describe ('preview invoice', function (){
   it('exists', function(done) {
     chai.request(app)
-      .get('/preview')
+      .get('/')
       .end(function(err, res) {
         res.should.have.status(200);
         res.should.be.html;
