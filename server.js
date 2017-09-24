@@ -2,9 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.static('public'));
-//create
 
-//retrieve
 app.get('/', (req,res) => {
     res.sendFile(__dirname + 'index.html');
 });
@@ -16,16 +14,14 @@ app.get('/dashboard', (req,res) => {
 });
 app.get('/preview', (req,res) => {
     res.sendFile(__dirname + 'preview.html')
-} )
+});
 
-//update
-
-//delete
-
+app.use('/dashboard', invoicesRouter);
+app.use('/login',userRouter);
+app.use('/preview',previewRouter);
 
 app.listen(process.env.PORT || 8080);
 exports.app = app;
-
 
 // catch-all endpoint if client makes request to non-existent endpoint
 app.use('*', function(req, res) {
