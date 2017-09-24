@@ -62,8 +62,9 @@ h3 {
     font-size: 32px;
 }
 .headlines {
+    margin: 0 auto;
     color: #222222;
-    margin: 0;
+
 }
 .hidden {
     display:none;
@@ -83,6 +84,16 @@ input {
     color: #E65100;
 }
 
+.logo {
+    display: inline-block;
+    vertical-align: top;
+    margin: auto;
+    width: 50px;
+    height: 70px;
+    margin-right: 20px;
+    margin-top: 15px;    
+}
+
 .primary-button {
     color: #FFFFFF;
     background-color: #9C27B0;
@@ -98,14 +109,23 @@ input {
 }
 
 /* style for index page */
-#big-logo {
-    color: #9C27B0;
-    border-bottom: 1px solid #B9B9B9;
+
+.index img {
+    display: block;
+    margin: auto;
 }
+.index span {
+    display: block;
+    text-align: center;
+    margin: 25px auto;
+}
+
 #start-button {
+    display: block;
     width: 310px;
     height: 44px;
     font-size: 21px;
+    margin: auto;
 }
 /* style for login page */
 #sign-in-form input, #register-form input {
@@ -151,18 +171,16 @@ input {
 }
 #app-logo {
     display: inline;
-    color: #9C27B0;
 }
 #company-name {
     float: right;
-    margin-top: 15px;
+    font-size: 25px;
+    margin-top: 35px;
     margin-bottom: 5px;
     color: #707070;
     display: inline;
 }
-.create-invoice {
-    margin-top: 20px;
-}
+
 #form-button {
     display: inline-block;
     float: right;
@@ -170,6 +188,18 @@ input {
     height: 30px;
     margin-bottom: 20px;
 }
+
+#create-form {
+    border: solid 1px #222222;
+    border-radius: 3px;
+    padding: 10px;
+    margin: auto;
+}
+#create-form label {
+    font-size: 17px;
+    color: #222222;
+}
+
 #create-form input {
     padding: 10px;
     width: 310px;
@@ -180,8 +210,11 @@ input {
     height: 40px;
 }
 #search-bar {
+
+    margin-top: 20px;
     text-align: center;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #search-box {
@@ -191,7 +224,7 @@ input {
 }
 #find-button {
     height: 40px;
-    width: 80px;
+    width: 60px;
 }
 table, th, td {
     border-bottom: 1px solid #707070;
