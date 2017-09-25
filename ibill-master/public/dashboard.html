@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iBill- Dashboard</title>
+    <link href="main.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
+</head>
+<body>
+    <header role="banner" class="row">
+        <hgroup class="container col-12" >
+            <div id="app-logo"><a href="index.html"> <img class="logo" src="../logo.png"></a></div>
+            <h4 id="company-name"> | Demo Company</h4>
+        </hgroup>
+    </header>
+    <main>
+    <section name="search" id ="search-bar">
+            <form id="search-form">
+                <input type="search" id="search-box" placeholder="invoice number, customer or date"><button type="submit" class="primary-button" id="find-button"> Find</button></form>
+    </section>
+    <section name="create">
+        <div class="row">
+            <div class= "col-12 create-invoice">
+                <h3 class="headlines">Invoices</h3><button type="button" class="primary-button" id="form-button">Create New Invoice</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <form  id="create-form" class="hidden">
+                        <label>From</label>
+                        <input type="text" placeholder="Your Company or Name" id="my-company"/> <br>
+                        <label for="customer">Bill To </label> 
+                        <input type="text" placeholder="Customer's Name" id="customer" required/> <br>
+                        <label for="invoice-number">Invoice Number</label>
+                        <input type="text" placeholder="0005" id="invoice-number" required/><br>
+                        <label for="invoice-date">Invoice Date</label>
+                        <input type="date" id="invoice-date" required/><br>
+                        <label for"description">Description</label>
+                        <input type="text" id="description"/><br>
+                        <label for ="price">Price</label>
+                        <input type="number" min="0.01" step="0.01" id="price" required/><br>
+                        <label for="quantity">Quantity</label>
+                        <input type="number" min="1" step="1" id="quantity" required/><br>
+                        <button type="button" class="primary-button" id="save-button">Save Invoice</button>
+                    </form>
+            </div>
+        </div>
+    </section>
+
+    <section name ="invoices" >
+        <table id="invoices">
+            <tr>
+                <th>Date</th>
+                <th>Invoice Number</th>
+                <th>Customer</th>
+                <th>Total</th>
+            </tr>
+
+        </table>
+    </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
