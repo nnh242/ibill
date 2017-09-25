@@ -1,5 +1,11 @@
+
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const {DATABASE_URL, PORT} = require('./config');
+
+const invoicesRouter = require('./routers/invoicesRouter');
+const userRouter = require('./routers/userRouter')
 
 app.use(express.static('public'));
 
@@ -17,8 +23,7 @@ app.get('/preview', (req,res) => {
 });
 
 app.use('/dashboard', invoicesRouter);
-app.use('/login',userRouter);
-app.use('/preview',previewRouter);
+app.use('/login', userRouter);
 
 app.listen(process.env.PORT || 8080);
 exports.app = app;

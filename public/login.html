@@ -10,7 +10,7 @@
 </head>
 <body>
     <header role ="banner" class="row">
-           <a href="index.html"> <img class="logo" src="../logo.png"></a>
+        <a href="index.html"> <img class="login-logo" src="../logo.png"></a>
     </header>
     <main>
     <section id ="sign-in-section" class="row">
@@ -23,11 +23,11 @@
                 <label for="password" >Password</label> <br>
                 <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="sign-in-password"/> <br>
                 <button type="submit" class="primary-button" id="sign-in-button">Submit</button>
+                <p>
+                    <span id="register-note">Don't have an account?</span>
+                    <span class="link" id="register-link" on-click="registerFn">Register</span>
+                </p>
             </form>
-        <p>
-        <span id="register-note">Don't have an account?</span>
-        <span class="link" id="register-link" on-click="registerFn">Register</span>
-        </p>
         </div>
     </section>
     <section id ="register-section" class="row hidden">
