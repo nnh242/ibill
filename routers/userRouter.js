@@ -8,7 +8,7 @@ const jsonParser = bodyParser.json();
 router.get('/', (req,res) => {
     console.log ('i am at the user router');
     console.log(__dirname);
-    res.sendFile( '../public/login.html')
+    res.sendFile( './public/login.html')
 });
 
 

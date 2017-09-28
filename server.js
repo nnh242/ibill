@@ -1,6 +1,8 @@
 
 const express = require('express');
 const app = express();
+const morgan = require ('morgan');
+app.use(morgan('common'));
 
 app.use(express.static('public'));
 
@@ -8,6 +10,7 @@ app.get('/', (req,res) => {
     console.log(__dirname);
     res.sendFile(__dirname + 'index.html');
 });
+
 app.get('/login', (req,res) => {
   res.sendFile(__dirname + '/public/login.html');
 });

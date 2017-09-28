@@ -10,6 +10,6 @@ router.get('/', (req, res) => {
 });
 
 //CRUD
-
+console.log('i am at the invoices router');
 
 module.exports = router;
