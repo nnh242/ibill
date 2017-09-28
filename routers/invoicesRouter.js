@@ -4,9 +4,9 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-//this is endpoint /dashboard/
+//this is endpoint /invoices/
 router.get('/', (req, res) => {
-    res.sendFile(__dirname + 'dashboard.html');
+    res.json();
 });
 
 //CRUD
