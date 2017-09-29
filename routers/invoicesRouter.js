@@ -3,13 +3,14 @@ const router = express.Router();
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const {InvoicesList} = require('../models/invoices');
 
-//this is endpoint /invoices/
 router.get('/', (req, res) => {
-    res.json();
+    console.log(__dirname);
+    console.log('app is using invoices router');
+    res.json(InvoicesList.get());
 });
 
-//CRUD
-console.log('i am at the invoices router');
+
 
 module.exports = router;

@@ -2,12 +2,12 @@
 const express = require('express');
 const app = express();
 const morgan = require ('morgan');
+const invoicesRouter = require('./routers/invoicesRouter');
 app.use(morgan('common'));
 
 app.use(express.static('public'));
 
 app.get('/', (req,res) => {
-    console.log(__dirname);
     res.sendFile(__dirname + 'index.html');
 });
 
@@ -20,9 +20,12 @@ app.get('/dashboard', (req,res) => {
 });
 
 app.get('/preview', (req,res) => {
-  console.log(__dirname);
     res.sendFile(__dirname + '/public/preview.html')
 });
+
+app.use('/api/invoices', invoicesRouter);
+  
+
 
 app.listen(process.env.PORT || 3525);
 exports.app = app;
