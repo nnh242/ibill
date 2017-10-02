@@ -3,13 +3,11 @@ const router = express.Router();
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-
-//this is endpoint /login/
+const {UsersList} = require('../models/users');
+//this is endpoint /api/users
 router.get('/', (req,res) => {
     console.log ('i am at the user router');
-    console.log(__dirname);
-    res.sendFile( './public/login.html')
+    res.json(UsersList.get());
 });
-
 
 module.exports = router;

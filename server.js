@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const morgan = require ('morgan');
 const invoicesRouter = require('./routers/invoicesRouter');
+const userRouter = require('./routers/userRouter');
+
 app.use(morgan('common'));
 
 app.use(express.static('public'));
@@ -24,8 +26,8 @@ app.get('/preview', (req,res) => {
 });
 
 app.use('/api/invoices', invoicesRouter);
-  
 
+app.use('/api/users', userRouter);
 
 app.listen(process.env.PORT || 3525);
 exports.app = app;

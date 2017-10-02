@@ -11,30 +11,39 @@
 // building a model for Invoices List to separate from database
 const uuid = require('uuid');
 const InvoicesList = {
-    create: function(id,number,customer,description,price,quantity){
+    create: function(number,customer,description,price,quantity){
         console.log('Creating a new invoice');
-        //not sure about the below block of code
-        /* const invoice ={
-            id: 
-            number: number,
-            customer: customer,
-            description: description,
-            price: price,
-            quantity: quantity
-        }
-        console.log(invoice); */
-    //
+        const invoice ={
+        id: uuid.v4(),
+        number: number,
+        customer: customer,
+        description: description,
+        price: price,
+        quantity: quantity
+        };
+        this.invoices[invoice.id] = invoice;
+        return invoice;
     }, 
     get: function() {
         console.log('Retrieving invoices');
-        /* return Object.keys(this.items).map(key => this.items[key]); */
+        return Object.keys(this.invoices).map(key => this.invoices[key]);
     },
-    delete:function(){
-        console.log('Deleting invoice with number');
+    delete:function(invoiceId){
+        console.log('Deleting invoice with id');
     },
     update:function(){
-        console.log('Updating invoice with number');
+        console.log('Updating invoice with id');
     } 
 }
-module.exports = {InvoicesList};
+//volatile in-memory storage - to be replaced by mongo
+function StorageException(message) {
+    this.message = message;
+    this.name = "StorageException";
+ }
+function createInvoicesList() {
+  const storage = Object.create(InvoicesList);
+  storage.invoices = {};
+  return storage;
+}
+module.exports = {InvoicesList: createInvoicesList()}
 
