@@ -4,25 +4,26 @@ const UsersList = {
     create: function(email, password){
         console.log('Creating a new user');
         const user = {
-            email: email,
             id: uuid.v4(),
+            email: email,
             password: password
           };
-          this.items[item.id] = item;
-          return item;
+          this.users[user.id] = user;
+          return user;
     }, 
     get: function() {
         console.log('Retrieving users');
-        return Object.keys(this.items).map(key => this.items[key]);
+        return Object.keys(this.users).map(key => this.users[key]);
     },
-    delete:function(){
-        console.log('Deleting user by Id');
+    delete:function(userId){
+        console.log('Deleting user by userId');
+        delete this.users[userId];
     },
     update:function(){
         console.log('Updating User by Id');
     } 
 }
-//volatile in-memory storage - to be replaced by mongo
+//volatile in-memory storage - to be replaced by mongoose
 function StorageException(message) {
     this.message = message;
     this.name = "StorageException";
