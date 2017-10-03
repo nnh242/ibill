@@ -19,8 +19,14 @@ const UsersList = {
         console.log('Deleting user by userId');
         delete this.users[userId];
     },
-    update:function(){
-        console.log('Updating User by Id');
+    update:function(updatedUser){
+        const {id} = updatedUser;
+        console.log(`Updating user with \`${id}\``);
+        if (!(id in this.users)) {
+            throw StorageException(`Can't update user \`${id}\` because it does not exist`)
+        }
+        this.users[updatedUser.id] = updatedUser;
+        return updatedUser
     } 
 }
 //volatile in-memory storage - to be replaced by mongoose
