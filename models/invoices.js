@@ -1,16 +1,18 @@
-//const mongoose = require ('mongoose');
-
-/*const invoiceSchema = mongoose.Schema ({
-    id: {type: string, required: false},
-    number: {type: number, required: true}
+const mongoose = require ('mongoose');
+const uuid = require('uuid');
+//schema.. formating, but how to export this schema or to use this schema
+//will this help export default mongoose.model('Skeleton', skeletonSchema);
+//looked it up online and asked in the QA
+const invoiceSchema = mongoose.Schema ({
+    number: {type: number, required: true},
     date: {type: date, required: false},
     customer: {type: string, required: true},
     description: {type: string, required: false},
     price: {type: number, required: true},
     quantity: {type: number, required: true}
-});*/
-// building a model for Invoices List to separate from database
-const uuid = require('uuid');
+});
+// building an object to keep it out of the router,  for Invoices List to separate from database, hoping router looks cleaner
+
 const InvoicesList = {
     create: function(number,customer,description,price,quantity){
         const invoice ={

@@ -9,7 +9,7 @@ const {InvoicesList} = require('../models/invoices');
 InvoicesList.create(1001,'Awesome Company', 'ornaments', 2,50);
 InvoicesList.create(1002,'Awesome Company', 'chairs', 100,15);
 InvoicesList.create(1003,'Awesome Company', 'tables', 250,5);
-// problems with the post method: 
+
 
 //this is endpoint /api/invoices
 router.get('/', (req, res) => {
