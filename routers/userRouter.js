@@ -3,20 +3,17 @@ const router = express.Router();
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
-const {UsersList} = require('../models/users');
-UsersList.create('user_1@email.com','password1');
-UsersList.create('user_2@email.com','password_2');
-UsersList.create('user_3@email.com','pass3');
+router.use(jsonParser);
 
-//this is endpoint /api/users, get endpoint - tested okay
-router.get('/', (req,res) => {
-    console.log ('i am at the user router');
-    res.json(UsersList.get());
-});
+const {User} = require('../models/users');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const jwtAuth = passport.authenticate('jwt', { session: false });
+mongoose.Promise = global.Promise;
 
-// this is posting a new user to endpoint /api/users
-router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['email', 'password'];
+//CREATE
+/* router.post('/', jsonParser, (req, res) => {
+  const requiredFields = ['email', 'password','company'];
     for (let i=0; i<requiredFields.length; i++) {
       const field = requiredFields[i];
       if (!(field in req.body)) {
@@ -28,13 +25,21 @@ router.post('/', jsonParser, (req, res) => {
     const user = UsersList.create(req.body.email, req.body.password);
     res.status(201).json(user);
   });
+ */
+ 
 
-router.delete('/:id', (req,res) => {
-    UsersList.delete(req.params.id);
-    console.log(`Deleting user with \`${req.params.id}\``);
-    res.status(204).end();
+app.get('/:id', (req, res) => {
+  User
+    .findById(req.query.id)
+    .then(user => res.json(user.apiRepr()))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({error: 'something went wrong'});
+    });
 });
 
+
+/*
 router.put('/:id', jsonParser, (req,res) => {
   const requiredFields = ['email', 'password'];
   for (let i=0; i<requiredFields.length; i++) {
@@ -59,6 +64,20 @@ router.put('/:id', jsonParser, (req,res) => {
     "password": req.body.password
   });
   res.status(204).end();
+});
+ */
+
+router.delete('/:id', (req,res) => {
+  User
+  .findByIdAndRemove(req.query.id)
+  .then(() => {
+    console.log(`Deleted blog post with id \`${req.params.ID}\``);
+    res.status(204).end();  
+  })
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({error: 'something went wrong'});
+  });
 });
 
 module.exports = router;
