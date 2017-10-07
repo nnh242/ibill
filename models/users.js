@@ -13,18 +13,20 @@ const userSchema = mongoose.Schema ({
       },
     phone: {type: String}
 });
+
 userSchema.virtual('addressString').get(function() {
-    return `${this.address.number} ${this.address.street}
-    ${this.address.city} ${this.address.state} ${this.address.zipcode}`.trim()});
+    const {number, street, city, state, zipcode} = this.address;
+    return `${number} ${street} ${city} ${state} ${zipcode}`.trim()});
 
 userSchema.methods.apiRepr = function() {
+    const {email, password, company, phone, address: addressString, id: _id} = this;
     return {
-    id: this._id,
-    email: this.email,
-    password: this.email,
-    company: this.company,
-    address: this.addressString,
-    phone: this.phone
+        id,
+        email,
+        password,
+        company,
+        address,
+        phone
     }
   };
 userSchema.methods.validatePassword = function (password) {

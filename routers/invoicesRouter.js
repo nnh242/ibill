@@ -10,57 +10,51 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 //this is endpoint /api/invoices
-router.post('/', jsonParser, (req,res) => {
-  const requiredFields = ['number','customer','price', 'quantity'];
-  for (let i=0; i<requiredFields.length; i++) {
-      const field = requiredFields[i];
-      console.log(field);
-       if (!(field in req.body)) {
-          const message = `Missing \`${field}\` in request body`
-          console.error(message);
-          return res.status(400).send(message);
-        } 
-      } 
-      Invoice
-        .create({
-          number: req.query.number,
-          customer: req.query.customer,
-          description: req.query.description,
-          price: req.query.price,
-          quantity: req.query.quantity
-        })
-        .then(invoice => res.status(201).json(invoice.apiRpr()))
-        .catch(err => {
-          console.error(err);
-          res.status(500).json({error: 'Something went wrong'});
-        });
-});
-//how to write a get endpoint to retrieve all invoices for one user
-// how to add endpoint router/api/invoices/userA 
+const requiredFields = ['number','customer','price', 'item'];
 
-//this is endpoint /api/invoices/user/:id 
-router.get('/:userId/:invoiceId', (req, res) => {
+const alertError = body => field => {
+  if (!(field in body)) {
+    const message = `Missing \`${field}\` in request body`
+    console.error(message);
+    return res.status(400).send(message);
+  }
+}
+
+const catchError = () => {
+  console.error(err);
+  return res.status(500).json({error: 'Something went wrong'});
+}
+
+router.post('/', jsonParser, (req,res) => {
+  const {number, customer, item, price} = req.query;
+  requiredFields.map(alertError(req.body))
+  Invoice
+    .create({
+      number,
+      customer,
+      item,
+      price
+    })
+    .then(invoice => res.status(201).json(invoice.apiRpr()))
+    .catch(catchError);
+});
+
+//how to write a get endpoint to retrieve all invoices for one user
+// how to add endpoint router/api/invoices/userA
+
+//this is endpoint /api/invoices/user/:id
+router.get('/:id', (req, res) => {
   //how do i pass the user id into this endpoint? User.findOne({'userId':})
   Invoice
   .findById(req.query.id)
   .then(invoice => res.json(invoice.apiRepr()))
-  .catch(err => {
-    console.error(err);
-    res.status(500).json({error: 'something went wrong'});
-  });
+  .catch(catchError);
 });
 
 //update invoice by id
 router.put('/:userId/:invoiceId', jsonParser, (req,res) => {
-  const requiredFields = ['number', 'customer','price','quantity', 'id'];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
+  const findRequiredFields = [...requiredFields, 'id'];
+  findRequiredFields.map(alertError(req.body))
   if (req.query.id !== req.body.id) {
     const message = (
       `Request path id (${req.params.id}) and request body id `
@@ -74,9 +68,8 @@ router.put('/:userId/:invoiceId', jsonParser, (req,res) => {
     "id": req.params.id,
     "number": req.body.number,
     "customer": req.body.customer,
-    "description": req.body.description,
-    "price": req.body.price,
-    "quantity": req.body.quantity
+    "item": req.body.item,
+    "price": req.body.price
   });
   res.status(204).end();
 });
