@@ -8,15 +8,15 @@ const invoiceSchema = mongoose.Schema ({
     price: {type: Number, required: true}
 });
 
-
 invoiceSchema.methods.apiRepr = function() {
+    const {date,number,customer,item,price, id: _id} =this
     return {
-      id: this._id,
-      date: this.date,
-      number: this.number,
-      customer: this.customer,
-      item: this.item,
-      price: this.price,
+      id,
+      date,
+      number,
+      customer,
+      item,
+      price
     };
   };
 const Invoice = mongoose.model('Invoice', invoiceSchema);

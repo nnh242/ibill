@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const mongoose = require ('mongoose');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
@@ -26,11 +26,12 @@ const catchError = () => {
 }
 
 router.post('/', jsonParser, (req,res) => {
-  const {number, customer, item, price} = req.query;
+  const {number, date, customer, item, price} = req.query;
   requiredFields.map(alertError(req.body))
   Invoice
     .create({
       number,
+      date,
       customer,
       item,
       price
@@ -41,10 +42,10 @@ router.post('/', jsonParser, (req,res) => {
 
 //how to write a get endpoint to retrieve all invoices for one user
 // how to add endpoint router/api/invoices/userA
+//how do i pass the user id into this endpoint? User.findOne({'userId':})
 
-//this is endpoint /api/invoices/user/:id
+//this is endpoint gets a specific invoice by id
 router.get('/:id', (req, res) => {
-  //how do i pass the user id into this endpoint? User.findOne({'userId':})
   Invoice
   .findById(req.query.id)
   .then(invoice => res.json(invoice.apiRepr()))
@@ -62,7 +63,7 @@ router.put('/:userId/:invoiceId', jsonParser, (req,res) => {
     console.error(message);
     return res.status(400).send(message);
   }
-  // throwing error: id is not defined
+
   console.log(`Updating invoice \`${req.params.id}\``);
   const updatedInvoice = InvoicesList.update({
     "id": req.params.id,

@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require ('mongoose');
+mongoose.Promise = global.Promise;
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
@@ -9,8 +11,20 @@ const {User} = require('../models/users');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
-mongoose.Promise = global.Promise;
 
+const alertError = body => field => {
+  if (!(field in body)) {
+    const message = `Missing \`${field}\` in request body`
+    console.error(message);
+    return res.status(400).send(message);
+  }
+}
+
+const catchError = () => {
+  console.error(err);
+  return res.status(500).json({error: 'Something went wrong'});
+}
+const requiredCredentials = ['email','password']
 //CREATE
 /* router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['email', 'password','company'];
@@ -28,7 +42,7 @@ mongoose.Promise = global.Promise;
  */
  
 
-app.get('/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   User
     .findById(req.query.id)
     .then(user => res.json(user.apiRepr()))
@@ -71,7 +85,7 @@ router.delete('/:id', (req,res) => {
   User
   .findByIdAndRemove(req.query.id)
   .then(() => {
-    console.log(`Deleted blog post with id \`${req.params.ID}\``);
+    console.log(`Deleted user with id \`${req.params.ID}\``);
     res.status(204).end();  
   })
   .catch(err => {
