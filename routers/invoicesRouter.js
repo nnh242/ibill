@@ -6,9 +6,9 @@ const jsonParser = bodyParser.json();
 router.use(jsonParser);
 const {Invoice} = require('../models/invoices');
 mongoose.Promise = global.Promise;
-/* const passport = require('passport');
+const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const jwtAuth = passport.authenticate('jwt', { session: false }); */
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const requiredFields = ['number','customer','price', 'item'];
 
@@ -88,7 +88,7 @@ router.put('/:id', (req,res) => {
     
     Invoice
     .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-    .then(invoice =>  res.status(200).end())
+    .then(invoice => res.status(200).end())
     .catch(catchError);
 });
 
@@ -96,7 +96,7 @@ router.put('/:id', (req,res) => {
 router.delete('/:id', (req,res) => {
     Invoice
     .findByIdAndRemove(req.params.id)
-    .then(restaurant => res.status(204).end())
+    .then(invoice => res.status(204).end())
     .catch(catchError)
 });
 

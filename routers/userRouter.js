@@ -12,86 +12,84 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-const alertError = body => field => {
-  if (!(field in body)) {
-    const message = `Missing \`${field}\` in request body`
-    console.error(message);
-    return res.status(400).send(message);
-  }
-}
 
-const catchError = () => {
+const catchError = (err,res) => {
   console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
 }
-const requiredCredentials = ['email','password']
+const requiredCredentials = ['email','password','company']
 //CREATE
-/* router.post('/', jsonParser, (req, res) => {
-  const requiredFields = ['email', 'password','company'];
-    for (let i=0; i<requiredFields.length; i++) {
-      const field = requiredFields[i];
-      if (!(field in req.body)) {
-        const message = `Missing \`${field}\` in request body`
-        console.error(message);
-        return res.status(400).send(message);
-      }
-    }
-    const user = UsersList.create(req.body.email, req.body.password);
-    res.status(201).json(user);
-  });
- */
- 
-
-router.get('/:id', (req, res) => {
-  User
-    .findById(req.query.id)
-    .then(user => res.json(user.apiRepr()))
-    .catch(err => {
-      console.error(err);
-      res.status(500).json({error: 'something went wrong'});
-    });
-});
-
-
-/*
-router.put('/:id', jsonParser, (req,res) => {
-  const requiredFields = ['email', 'password'];
-  for (let i=0; i<requiredFields.length; i++) {
-    const field = requiredFields[i];
-    if (!(field in req.body)) {
-      const message = `Missing \`${field}\` in request body`
+router.post('/', (req, res) => {
+  requiredCredentials.map((credential) => {
+    if (!(credential in req.body)) {
+      const message = `Missing \`${credential}\` in request body`
       console.error(message);
       return res.status(400).send(message);
     }
-  }
-  if (req.params.id !== req.body.id) {
+  })
+    User
+    .create({
+      email: req.body.email,
+      password: req.body.password,
+      company: req.body.company,
+      address: {
+        street: req.body.address.street,
+        city: req.body.address.city,
+        state: req.body.address.state,
+        zipcode: req.body.address.zipcode
+      },
+      phone: req.body.phone
+    })
+    .then(user=> res.status(201).json(user.apiRepr()))
+    .catch(catchError);
+  });
+
+router.get('/', (req, res) => {
+  User
+    .find()
+    .then(users => {
+      res.json({
+        users: users.map(
+          (user) => user.apiRepr())
+      });
+    })
+    .catch(catchError);
+}); 
+
+router.get('/:id', (req, res) => {
+  User
+    .findById(req.params.id)
+    .then(user => res.json(user.apiRepr()))
+    .catch(catchError);
+});
+
+router.put('/:id', (req,res) => {
+  if (req.query.id !== req.body.id) {
     const message = (
       `Request path id (${req.params.id}) and request body id `
       `(${req.body.id}) must match`);
     console.error(message);
     return res.status(400).send(message);
   }
-  console.log(`Updating user \`${req.params.id}\``);
-  const updatedUser = UsersList.update({
-    "id": req.params.id,
-    "email": req.body.email,
-    "password": req.body.password
+  const toUpdate = {};
+  const updateableFields = ['password','company','item','street','city','state','zipcode']
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
+    }
   });
-  res.status(204).end();
+  
+  User
+  .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+  .then(user => res.status(200).end())
+  .catch(catchError);
 });
- */
 
 router.delete('/:id', (req,res) => {
   User
-  .findByIdAndRemove(req.query.id)
-  .then(() => {
-    console.log(`Deleted user with id \`${req.params.ID}\``);
-    res.status(204).end();  
-  })
-  .catch(err => {
-    console.error(err);
-    res.status(500).json({error: 'something went wrong'});
+  .findByIdAndRemove(req.params.id)
+  .then(user =>res.status(204).end())  
+  .catch(catchError);
   });
-});
 
 module.exports = router;

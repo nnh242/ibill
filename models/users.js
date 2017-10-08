@@ -18,14 +18,13 @@ userSchema.virtual('addressString').get(function() {
     return `${street} ${city} ${state} ${zipcode}`.trim()});
 
 userSchema.methods.apiRepr = function() {
-    const {email, password, company, phone, address: addressString, id: _id} = this;
     return {
-        id,
-        email,
-        password,
-        company,
-        address,
-        phone
+        id: this._id,
+        email: this.email,
+        password: this.password,
+        company: this.company,
+        address: this.addressString,
+        phone: this.phone
     }
   };
 
