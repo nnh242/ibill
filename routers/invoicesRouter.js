@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
       });
     })
     .catch(catchError);
-});
+}); 
 
 //this is endpoint gets a specific invoice by id
 router.get('/:id', (req, res) => {
@@ -53,7 +53,7 @@ router.post('/', (req,res) => {
       item: req.body.item,
       price: req.body.price
     })
-    .then(invoice => res.status(201).json(invoice.apiRpr()))
+    .then(invoice => res.status(201).json(invoice.apiRepr()))
     .catch(catchError);
 });
 
@@ -88,7 +88,7 @@ router.put('/:id', (req,res) => {
     
     Invoice
     .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-    .then(invoice =>  res.status(204).end())
+    .then(invoice =>  res.status(200).end())
     .catch(catchError);
 });
 
