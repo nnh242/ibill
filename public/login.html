@@ -16,10 +16,10 @@
     <section id ="sign-in-section" class="row">
         <div class="col-3"><br></div>
         <div class="col-6">
-            <form id="sign-in-form">
+            <form action="get" id="sign-in-form">
                 <legend class="headlines"><h3>Sign In</h3></legend>
-                <label for="email">Email address</label> <br>
-                <input type ="text" name ="email" id = "sign-in-email" placeholder="user@email.com"/> <br>
+                <label for="username">Username</label> <br>
+                <input type ="text" name ="username" id = "sign-in-username" placeholder="J1234"/> <br>
                 <label for="password" >Password</label> <br>
                 <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="sign-in-password"/> <br>
                 <button type="submit" class="primary-button" id="sign-in-button">Submit</button>
@@ -33,7 +33,7 @@
     <section id ="register-section" class="row hidden">
             <div class="col-3"><br></div>
             <div class="col-6">
-                <form id="register-form">
+                <form action="post" id="register-form">
                     <legend class="headlines"><h3>Register</h3></legend>
                     <label for="name">Your name or company</label> <br>
                     <input type ="text" name ="name" placeholder="John Smith, Awesome Company"/> <br>
@@ -45,8 +45,8 @@
                     <input type ="text" name ="state" placeholder="DC"/> <br>
                     <label for="zipcode">Your name or company</label> <br>
                     <input type ="text" name ="zipcode" placeholder="20002"/> <br>
-                    <label for="email">Registration email</label> <br>
-                    <input type ="text" name ="email" placeholder="user@email.com"/> <br>
+                    <label for="username">Username</label> <br>
+                    <input type ="text" name ="username" placeholder="J12345" id="register-username"/> <br>
                     <label for="password" >Password</label> <br>
                     <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"/> <br>
                     <button type="submit" class="primary-button" id="register-button">Register</button>
@@ -59,7 +59,7 @@
         </section>
     <section id="demo">
         <span>Demo Account:</span> <br>
-        <span>Email: demo@demo.com</span>
+        <span>Username: demo</span>
         <br>
         <span>Password: demo</span>
     </section>

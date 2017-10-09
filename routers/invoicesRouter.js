@@ -7,8 +7,6 @@ router.use(jsonParser);
 const {Invoice} = require('../models/invoices');
 mongoose.Promise = global.Promise;
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const requiredFields = ['number','customer','price', 'item'];
 

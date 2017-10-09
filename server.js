@@ -1,18 +1,31 @@
-
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require ('morgan');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-
+const passport = require('passport');
 const {PORT, DATABASE_URL} = require('./config');
-
+const bcrypt = require('bcryptjs');
 const invoicesRouter = require('./routers/invoicesRouter');
 const userRouter = require('./routers/userRouter');
+const authRouter = require('./auth/authRouter')
+const {auth: basicStrategy, jwtStrategy} = require('./auth');
 app.use(bodyParser.json());
 app.use(morgan('common'));
 app.use(express.static('public'));
+// CORS
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+  if (req.method === 'OPTIONS') {
+      return res.send(204);
+  }
+  next();
+});
+
 app.get('/', (req,res) => {
     res.sendFile(__dirname + 'index.html');
 });
@@ -25,8 +38,14 @@ app.get('/dashboard', (req,res) => {
 app.get('/preview', (req,res) => {
     res.sendFile(__dirname + '/public/preview.html')
 });
+
+app.use(passport.initialize());
+passport.use(basicStrategy);
+passport.use(jwtStrategy);
+
 app.use('/api/invoices', invoicesRouter);
 app.use('/api/users', userRouter);
+app.use('/api/auth/', authRouter);
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
