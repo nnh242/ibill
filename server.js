@@ -8,13 +8,19 @@ mongoose.Promise = global.Promise;
 const passport = require('passport');
 const {PORT, DATABASE_URL} = require('./config');
 const bcrypt = require('bcryptjs');
+
 const invoicesRouter = require('./routers/invoicesRouter');
-const userRouter = require('./routers/userRouter');
-const authRouter = require('./auth/authRouter')
-const {auth: basicStrategy, jwtStrategy} = require('./auth');
+
+const {router: userRouter} = require('./routers/userRouter');
+
+const {router: authRouter} = require('./auth/authRouter');
+
+const {basicStrategy, jwtStrategy }= require ('./auth/strategies');
+
 app.use(bodyParser.json());
 app.use(morgan('common'));
 app.use(express.static('public'));
+
 // CORS
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -40,12 +46,12 @@ app.get('/preview', (req,res) => {
 });
 
 app.use(passport.initialize());
-passport.use(basicStrategy);
-passport.use(jwtStrategy);
+passport.use('basic',basicStrategy);
+passport.use('jwt', jwtStrategy);
 
 app.use('/api/invoices', invoicesRouter);
 app.use('/api/users', userRouter);
-app.use('/api/auth/', authRouter);
+app.use('/api/auth', authRouter);
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});

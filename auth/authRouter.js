@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-const router = express.Router();
+
 
 const createAuthToken = user => {
     return jwt.sign({user}, config.JWT_SECRET, {
@@ -11,6 +11,9 @@ const createAuthToken = user => {
         algorithm: 'HS256'
     });
 };
+
+const router = express.Router();
+
 // this api/auth/login - user use username and password to log in
 router.post('/login',
     passport.authenticate('basic', {session: false}),

@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require ('mongoose');
-mongoose.Promise = global.Promise;
+const {User} = require('../models/users');
 
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
-
-const {User} = require('../models/users');
 
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -18,121 +15,129 @@ const catchError = (err,res) => {
   console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
 }
-const requiredCredentials = ['username','password','company']
-//CREATE
-router.post('/', jsonParser, (req, res) => {
-  requiredCredentials.map((credential) => {
-    if (!(credential in req.body)) {
-      const message = `Missing \`${credential}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  })
-  const stringFields = ['username', 'password', 'company', 'street','city','state','zipcode'];
-  const nonStringField = stringFields.find(field =>
-    (field in req.body) && typeof req.body[field] !== 'string'
+
+function validateUserFields(user) {
+  const stringFields = ['username', 'password', 'company'];
+  const nonStringField = stringFields.find(
+    field => field in user && typeof user[field] !== 'string'
   );
+
   if (nonStringField) {
-    return res.status(422).json({
-        code: 422,
-        reason: 'ValidationError',
-        message: 'Incorrect field type: expected string',
-        location: nonStringField
-    });
+    return {
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Incorrect field type: expected string',
+      location: nonStringField
+    };
   }
+
+  const explicityTrimmedFields = ['username', 'password'];
+  const nonTrimmedField = explicityTrimmedFields.find(
+    field => user[field].trim() !== user[field]
+  );
+
   if (nonTrimmedField) {
-    return res.status(422).json({
-        code: 422,
-        reason: 'ValidationError',
-        message: 'Cannot start or end with whitespace',
-        location: nonTrimmedField
-    });
+    return {
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Cannot start or end with whitespace',
+      location: nonTrimmedField
+    };
   }
 
   const sizedFields = {
-    username: {
-        min: 1
-    },
-    password: {
-        min: 10,
-        // bcrypt truncates after 72 characters, so let's not give the illusion
-        // of security by storing extra (unused) info
-        max: 72
-    }
+    username: { min: 1 },
+    password: { min: 10, max: 72 }
   };
-  const tooSmallField = Object.keys(sizedFields).find(
-    field =>
-        'min' in sizedFields[field] &&
-        req.body[field].trim().length < sizedFields[field].min
+  const tooSmallField = Object.keys(sizedFields).find(field =>
+    'min' in sizedFields[field] &&
+    user[field].trim().length < sizedFields[field].min
   );
-  const tooLargeField = Object.keys(sizedFields).find(
-    field =>
-        'max' in sizedFields[field] &&
-        req.body[field].trim().length > sizedFields[field].max
+  const tooLargeField = Object.keys(sizedFields).find(field =>
+    'max' in sizedFields[field] &&
+    user[field].trim().length > sizedFields[field].max
   );
 
   if (tooSmallField || tooLargeField) {
+    return {
+      code: 422,
+      reason: 'ValidationError',
+      message: tooSmallField
+        ? `Must be at least ${sizedFields[tooSmallField].min} characters long`
+        : `Must be at most ${sizedFields[tooLargeField].max} characters long`,
+      location: tooSmallField || tooLargeField
+    };
+  }
+
+  return { valid: true };
+}
+
+function confirmUniqueUsername(username) {
+  return User.find({ username })
+    .count()
+    .then(count => {
+      if (count > 0) {
+        return Promise.reject({
+          code: 422,
+          reason: 'ValidationError',
+          message: 'Username already takken',
+          location: 'username'
+        });
+      } else {
+        return Promise.resolve();
+      }
+    });
+}
+//api/users/register endpoint
+//CREATE
+router.post('/register', jsonParser, (req, res) => {
+  const requiredFields = ['username', 'password', 'company'];
+  const missingField = requiredFields.find(field => !(field in req.body));
+  console.log('rb', req.body);
+  console.log('mf', missingField);
+  if (missingField) {
     return res.status(422).json({
-        code: 422,
-        reason: 'ValidationError',
-        message: tooSmallField
-            ? `Must be at least ${sizedFields[tooSmallField]
-                  .min} characters long`
-            : `Must be at most ${sizedFields[tooLargeField]
-                  .max} characters long`,
-        location: tooSmallField || tooLargeField
+      code: 422,
+      reason: 'ValidationError',
+      message: 'Missing field',
+      location: missingField
     });
   }
-  let {username, password, company = '', street = '', city = '', state = '',zipcode = ''} = req.body;
-  company =company.trim();
-  street = street.trim();
-  city = city.trim();
-  state = state.trim();
-  zipcode = zipcode.trim();
 
-  return User.find({username})
-  .count()
-  .then(count => {
+  let userValid = {};
+  if (validateUserFields(req.body).valid === true) {
+    userValid = req.body;
+  } else {
+    let code = validateUserFields(req.body).code || 422;
+    return res.status(code).json(validateUserFields(req.body));
+  }
+
+  let { username, password, company, address, phone} = userValid;
+
+  return User.find({ username })
+    .count()
+    .then(count => {
       if (count > 0) {
-          // There is an existing user with the same username
-          return Promise.reject({
-              code: 422,
-              reason: 'ValidationError',
-              message: 'Username already taken',
-              location: 'username'
-          });
+        return Promise.reject({
+          code: 422,
+          reason: 'ValidationError',
+          message: 'Username already taken',
+          location: 'username'
+        });
       }
-      // If there is no existing user, hash the password
       return User.hashPassword(password);
-  })
-  .then(hash => {
-      return  User
-      .create({
-        username: req.body.username,
-        password: req.body.password,
-        company: req.body.company,
-        address: {
-          street: req.body.address.street,
-          city: req.body.address.city,
-          state: req.body.address.state,
-          zipcode: req.body.address.zipcode
-        },
-        phone: req.body.phone
-      });
-  })
-  .then(user => {
+    })
+    .then(hash => {
+      return User.create({ username, password: hash, company, address, phone});
+    })
+    .then(user => {
       return res.status(201).json(user.apiRepr());
-  })
-  .catch(err => {
-      // Forward validation errors on to the client, otherwise give a 500
-      // error because something unexpected has happened
-      if (err.reason === 'ValidationError') {
-          return res.status(err.code).json(err);
-      }
-      res.status(500).json({code: 500, message: 'Internal server error'});
-  });
+    })
+    .catch(err => {
+        return res.status(err.code).json(err);
+    });
 });
-
+// get all users -- should this be protected?
 router.get('/', (req, res) => {
   User
     .find()
@@ -144,37 +149,70 @@ router.get('/', (req, res) => {
     })
     .catch(catchError);
 }); 
-
-router.get('/:id', (req, res) => {
+//get user by id
+router.get('/:id', jwtAuth, (req, res) => {
   User
     .findById(req.params.id)
     .then(user => res.json(user.apiRepr()))
     .catch(catchError);
 });
 
-router.put('/:id', (req,res) => {
-  if (req.query.id !== req.body.id) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id `
-      `(${req.body.id}) must match`);
-    console.error(message);
-    return res.status(400).send(message);
-  }
-  const toUpdate = {};
-  const updateableFields = ['password','company','item','street','city','state','zipcode']
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      toUpdate[field] = req.body[field];
-    }
-  });
+//update user by id 
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   
-  User
-  .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-  .then(user => res.status(200).end())
-  .catch(catchError);
-});
+    let userValid = {};
+    if (validateUserFields(req.body).valid === true) {
+      userValid = req.body;
+    } else {
+      let code = validateUserFields(req.body).code;
+      return res.status(code).json(validateUserFields(req.body));
+    }
+  
+    return confirmUniqueUsername(userValid.username)
+      .then(() => {
+        return User.findById(req.params.id)
+          .count()
+          .then(count => {
+            if (count === 0) {
+              return Promise.reject({
+                code: 422,
+                reason: 'ValidationError',
+                message: 'User not found',
+                location: 'id'
+              });
+            }
+            if (userValid.password) {
+              return User.hashPassword(userValid.password);
+            } else {
+              return '';
+            }
+          })
+          .then((hash) => {
+            if (hash) {
+              userValid.password = hash;
+            }
+          })
+          .then(() => {
+            return User.findByIdAndUpdate(req.params.id,
+              { $set: userValid },
+              { new: true },
+              function (err, user) {
+                if (err) return res.send(err);
+                res.status(201).json(user.apiRepr());
+              }
+            );
+          });
+      })
+      .catch(err => {
+        if (err.reason === 'ValidationError') {
+          return res.status(err.code).json(err);
+        }
+        res.status(500).json({ code: 500, message: 'Internal server error' });
+      });
+  });
 
-router.delete('/:id', (req,res) => {
+//delete user by id
+router.delete('/:id', jwtAuth, (req,res) => {
   User
   .findByIdAndRemove(req.params.id)
   .then(user =>res.status(204).end())  
