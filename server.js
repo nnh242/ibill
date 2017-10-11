@@ -11,9 +11,9 @@ const bcrypt = require('bcryptjs');
 
 const invoicesRouter = require('./routers/invoicesRouter');
 
-const {router: userRouter} = require('./routers/userRouter');
+const userRouter = require('./routers/userRouter');
 
-const {router: authRouter} = require('./auth/authRouter');
+const authRouter = require('./auth/authRouter');
 
 const {basicStrategy, jwtStrategy }= require ('./auth/strategies');
 

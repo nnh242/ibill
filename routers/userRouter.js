@@ -137,7 +137,7 @@ router.post('/register', jsonParser, (req, res) => {
         return res.status(err.code).json(err);
     });
 });
-// get all users -- should this be protected?
+/* all users.
 router.get('/', (req, res) => {
   User
     .find()
@@ -148,7 +148,7 @@ router.get('/', (req, res) => {
       });
     })
     .catch(catchError);
-}); 
+}); */ 
 //get user by id
 router.get('/:id', jwtAuth, (req, res) => {
   User
@@ -159,7 +159,6 @@ router.get('/:id', jwtAuth, (req, res) => {
 
 //update user by id 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  
     let userValid = {};
     if (validateUserFields(req.body).valid === true) {
       userValid = req.body;
@@ -204,10 +203,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
           });
       })
       .catch(err => {
-        if (err.reason === 'ValidationError') {
           return res.status(err.code).json(err);
-        }
-        res.status(500).json({ code: 500, message: 'Internal server error' });
       });
   });
 
@@ -219,4 +215,4 @@ router.delete('/:id', jwtAuth, (req,res) => {
   .catch(catchError);
 });
 
-module.exports = {router};
+module.exports = router;

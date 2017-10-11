@@ -5,7 +5,8 @@ const invoiceSchema = mongoose.Schema ({
     date: {type: Date, required: false},
     customer: {type: String, required: true},
     item: {type: String},
-    price: {type: Number, required: true}
+    price: {type: Number, required: true},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 

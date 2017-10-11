@@ -33,4 +33,4 @@ router.post('/refresh',
     }
 );
 
-module.exports = {router};
+module.exports = router;
