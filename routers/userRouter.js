@@ -137,7 +137,7 @@ router.post('/register', jsonParser, (req, res) => {
         return res.status(err.code).json(err);
     });
 });
-/* all users.
+
 router.get('/', (req, res) => {
   User
     .find()
@@ -148,7 +148,8 @@ router.get('/', (req, res) => {
       });
     })
     .catch(catchError);
-}); */ 
+});
+
 //get user by id
 router.get('/:id', jwtAuth, (req, res) => {
   User

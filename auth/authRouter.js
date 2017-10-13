@@ -15,7 +15,7 @@ const createAuthToken = user => {
 const router = express.Router();
 
 // this api/auth/login - user use username and password to log in
-router.post('/login',
+router.get('/login',
     passport.authenticate('basic', {session: false}),
     (req, res) => {
         const authToken = createAuthToken(req.user.apiRepr());
