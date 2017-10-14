@@ -19,9 +19,9 @@
             <form id="sign-in-form" >
                 <legend class="headlines"><h3>Sign In</h3></legend>
                 <label for="username">Username</label> <br>
-                <input type ="text" name ="username" id = "sign-in-username" placeholder="J1234"/> <br>
+                <input type ="text" name ="username" id = "sign-in-username" /> <br>
                 <label for="password" >Password</label> <br>
-                <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" id="sign-in-password"/> <br>
+                <input type ="password" name="password" id="sign-in-password"/> <br>
                 <button type="button" class="primary-button" id="sign-in-button">Submit</button>
                 <p>
                     <span id="register-note">Don't have an account?</span>
@@ -36,22 +36,22 @@
                 <form action="post" id="register-form">
                     <legend class="headlines"><h3>Register</h3></legend>
                     <label for="name">Your name or company</label> <br>
-                    <input type ="text" name ="name" placeholder="John Smith, Awesome Company"/> <br>
+                    <input type ="text" name ="name" placeholder="Awesome Company" id="name"/> <br>
                     <label for="phone">Phone Number</label> <br>
-                    <input type ="tel" name ="phone" placeholder="7033165648"/> <br>
+                    <input type ="tel" id ="phone" name ="phone" placeholder="(555) 555-5555"/> <br>
                     <label for="address">Street Address</label> <br>
-                    <input type ="text" name ="address" placeholder="123 Main St"/> <br>
+                    <input type ="text" name ="address" placeholder="123 Main St" id="street"/> <br>
                     <label for="city">City</label> <br>
-                    <input type ="text" name ="city" placeholder="Washington"/> <br>
+                    <input type ="text" name ="city" placeholder="Washington" id ="city"/> <br>
                     <label for="state">State</label> <br>
-                    <input type ="text" name ="state" placeholder="DC"/> <br>
+                    <input type ="text" name ="state" placeholder="DC" id="state"/> <br>
                     <label for="zipcode">Zipcode</label> <br>
-                    <input type ="text" name ="zipcode" placeholder="20002"/> <br>
+                    <input type ="text" name ="zipcode" placeholder="20002" id="zipcode"/> <br>
                     <label for="username" >Username</label> <br>
-                    <input type ="text" name ="username" placeholder="J12345" id="register-username" required/> <br>
+                    <input type ="text" name ="username" id="register-username" required/> <br>
                     <label for="password">Password (must be at least 10 characters)</label> <br>
-                    <input type ="password" name="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" required/> <br>
-                    <button type="submit" class="primary-button" id="register-button">Register</button>
+                    <input type ="password" name="password" id ="register-password"required/> <br>
+                    <button type="button" class="primary-button" id="register-button">Register</button>
                 </form>
             <p>
                 <span id="register-note">Already have an account?</span>
