@@ -23,17 +23,17 @@
                 <label for="password" >Password</label> <br>
                 <input type ="password" name="password" id="sign-in-password"/> <br>
                 <button type="button" class="primary-button" id="sign-in-button">Submit</button>
-                <p>
+                <p id="login-footer">
                     <span id="register-note">Don't have an account?</span>
                     <span class="link" id="register-link" on-click="registerFn">Register</span>
                 </p>
             </form>
         </div>
     </section>
-    <section id ="register-section" method="post" action="/api/users/register" class="row hidden">
+    <section id ="register-section" class="row hidden">
             <div class="col-3"><br></div>
             <div class="col-6">
-                <form action="post" id="register-form">
+                <form id="register-form">
                     <legend class="headlines"><h3>Register</h3></legend>
                     <label for="name">Your name or company</label> <br>
                     <input type ="text" name ="name" placeholder="Awesome Company" id="name"/> <br>
@@ -63,7 +63,7 @@
         <span>Demo Account:</span> <br>
         <span>Username: demo</span>
         <br>
-        <span>Password: demo</span>
+        <span>Password: demopassword</span>
     </section>
     </main>
     <script

@@ -9,6 +9,13 @@ $(document).ready(function() {
     $('#invoices').DataTable();
     
 })
+
+function showRegisterFn() {
+    $('#sign-in-section').addClass('hidden');
+    $('#demo').addClass('hidden');
+    $('#register-section').removeClass('hidden');
+}
+
 const catchAllError = err => {
         if (err.status === 401) {
           window.location = '/login.html';
@@ -42,8 +49,7 @@ function registerFn() {
             $('#register-form').empty();
             $('#register-section').addClass('hidden');
             $('#sign-in-section').removeClass('hidden');
-            $('#demo').append(`<span>Your account is registered, please sign in.</span>`)
-            $('#demo').removeClass('hidden');
+            $('#login-footer').replaceWith(`<h4>Thank you for registering, please sign in!</h4>`);
         },
         error: catchAllError
     })
@@ -59,27 +65,39 @@ function signInFn() {
         data: JSON.stringify(userData),
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
-        success: function(token){
+        success: function(token, username){
             console.log(token);
             console.log('user is authenticated');
-            //showDashBoardFn();
+            window.location.href="dashboard.html";
+            getUserFn(token, username);
         },
         error: catchAllError
     })
 }
 
+function getUserFn(token, username) {
+    $.ajax({
+        type: 'GET',
+        url:'/api/users',
+        headers: {'Authorization': 'Bearer' + token},
+        success: function(data){
+            console.log (token);
+            console.log(username);
+            console.log(data);
+            //let user = id;
+            //console.log(user);
+            //getInvoiceFn(id,token);
+        },
+        error: catchAllError
+    })    
+    //do an ajax to get userid by the username
+    //find the invoices for this username
+}
+
+ //getInvoiceFn()
+    //
+    //populate the invoices into the data table  #invoices
+
 function showFormFn() {
     $('#create-form').removeClass('hidden');
 }
-
-function showRegisterFn() {
-    $('#sign-in-section').addClass('hidden');
-    $('#demo').addClass('hidden');
-    $('#register-section').removeClass('hidden');
-}
-
-/* function showDashBoardFn(){
-    $.ajax({
-        url:
-    })
-} */

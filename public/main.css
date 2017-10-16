@@ -69,7 +69,7 @@ h3 {
 }
 .headlines {
     margin: 0 auto;
-    color: #222222;
+    color: #673AB7;
 
 }
 .hidden {
@@ -80,14 +80,14 @@ input {
     border-radius: 3px;
 }
 .link, a {
-    color: #FF9800;
+    color: #673AB7;
     cursor: pointer;
 }
 .link:hover, a:hover {
-    color: #F57C00;
+    color: #1E88E5;
 }
 .link:active, a:active {
-    color: #E65100;
+    color:#311B92 ;
 }
 
 .logo {
@@ -100,16 +100,16 @@ input {
 
 .primary-button {
     color: #FFFFFF;
-    background-color: #9C27B0;
+    background-color: #673AB7;
     border: 1px solid #EFEFEF;
     border-radius: 3px;
     cursor: pointer;
 }
 .primary-button:hover {
-    background-color: #7B1FA2;
+    background-color: #512DA8;
 }
 .primary-button:active {
-    background-color: #6A1B9A;
+    background-color: #311B92;
 }
 
 /* style for index page */
@@ -168,11 +168,11 @@ input {
 }
 #register-link:hover {
     text-decoration: underline;
-    color: #F57C00;
+    color: #1E88E5;
 }
 #register-link:active {
     text-decoration: underline;
-    color: #E65100;
+    color: #0D47A1;
 }
 #demo {
     margin: 20px;
@@ -260,7 +260,7 @@ input {
     text-align: center;
 }
 #invoices thead {
-    color: #222222;
+    color: #673AB7;
 }
 
 #invoices table {
@@ -279,7 +279,7 @@ input {
 }
 .paginate_button {
     margin: 10px;
-    color: #6A1B9A;
+    color: #673AB7;
 }
 /* style for preview page */
 .preview-container {
@@ -291,9 +291,10 @@ input {
     font-size:16px;
     line-height:24px;
     background-color: #FFFFFF;
+    color: #000000;
 }
 .invoice-h {
-    background-color:#6A1B9A;
+    background-color:#673AB7;
     color: #FFFFFF;
     padding: 10px;
 }
@@ -336,7 +337,7 @@ input {
 .invoice-box table tr.top table td.title{
     font-size:45px;
     line-height:45px;
-    color:#333;
+    color:#673AB7;
 }
 .invoice-box table .information td {
     border: none;
