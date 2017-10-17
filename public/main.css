@@ -230,15 +230,15 @@ input {
     display: block;
     margin: 0 auto;
 }
+
+
 #invoices_wrapper {
-    width: 80%;
-    display: block;
-    padding: 10px;
-    margin: 20px auto;
+    max-width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
 }
-#invoices_length {
-    display:none;
-}
+
 #invoices_filter {
     text-align: center;
 }

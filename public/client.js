@@ -6,6 +6,7 @@ $(document).ready(function() {
     //To Do: validate values from the register form to register
     $('#register-button').on('click', registerFn);
     $('#form-button').on('click',showFormFn);
+    $('#save-button').on('click',createInvoiceFn);
     $('#invoices').DataTable();
     
 })
@@ -65,35 +66,35 @@ function signInFn() {
         data: JSON.stringify(userData),
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
-        success: function(token, username){
-            console.log(token);
+        success: function(data){
+            debugger
+            console.log(data);
             console.log('user is authenticated');
-            window.location.href="dashboard.html";
-            getUserFn(token, username);
+           $.cookie('token', data.authToken);
+           $.cookie('userId', data.user._id);
+            window.location.href="/dashboard/" + $.cookie('userId');
+            // i want the company new to show in dashboard  in #company-name heading
         },
         error: catchAllError
     })
 }
 
-function getUserFn(token, username) {
+function createInvoiceFn(){
+    let customer =$('#customer').val();
+    let number=$('#invoice-number').val();
+    let date=$('#invoice-date').val();
+    let price =$('#price').val();
+    let item =$('#item').val();
+    let invoiceData ={customer: customer, number: number, date: date, price: price, item: item };
+    console.log(invoiceData);
     $.ajax({
-        type: 'GET',
-        url:'/api/users',
-        headers: {'Authorization': 'Bearer' + token},
-        success: function(data){
-            console.log (token);
-            console.log(username);
-            console.log(data);
-            //let user = id;
-            //console.log(user);
-            //getInvoiceFn(id,token);
-        },
-        error: catchAllError
-    })    
-    //do an ajax to get userid by the username
-    //find the invoices for this username
-}
+        url: '/api/invoices',
+        method: 'POST',
+        data: JSON.stringify(invoiceData),
 
+    })
+
+}
  //getInvoiceFn()
     //
     //populate the invoices into the data table  #invoices

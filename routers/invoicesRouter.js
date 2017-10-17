@@ -65,8 +65,8 @@ function confirmUniqueNumber(number) {
       }
     });
 }
-//this is api/invoices/user, add an invoice to authenticated user
-router.post('/user', jsonParser, jwtAuth, (req,res) => {
+//this is api/invoices, add an invoice to authenticated user
+router.post('/', jsonParser, jwtAuth, (req,res) => {
   requiredFields.map((field) => {
     if (!(field in req.body)) {
       const message = `Missing \`${field}\` in request body`
@@ -93,14 +93,14 @@ router.post('/user', jsonParser, jwtAuth, (req,res) => {
 });
 
 //this is endpoint gets a specific invoice by id
-router.get('/user/:id', jwtAuth, (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
   Invoice
   .findById(req.params.id)
   .then(invoice => res.json(invoice.apiRepr()))
   .catch(catchError);
 });
 
-router.put('/user/:id', jwtAuth, (req,res) => {
+router.put('/:id', jwtAuth, (req,res) => {
     if (req.query.id !== req.body.id) {
       console.error(message);
       return res.status(400).send(message);
