@@ -6,7 +6,7 @@ const invoiceSchema = mongoose.Schema ({
     customer: {type: String, required: true},
     item: [{type: String, required: true}],
     price:[{type: Number, required: true}],
-    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 
 
@@ -18,6 +18,7 @@ invoiceSchema.methods.apiRepr = function(invoice) {
       customer: this.customer,
       item: this.item,
       price: this.price,
+      userId: this.userId
     };
   };
 const Invoice = mongoose.model('Invoice', invoiceSchema);

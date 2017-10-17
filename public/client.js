@@ -67,13 +67,11 @@ function signInFn() {
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
         success: function(data){
-            debugger
             console.log(data);
             console.log('user is authenticated');
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
-            window.location.href="/dashboard/" + $.cookie('userId');
-            // i want the company new to show in dashboard  in #company-name heading
+            window.location.href= '/dashboard/'+ $.cookie('userId') ;
         },
         error: catchAllError
     })
@@ -85,20 +83,22 @@ function createInvoiceFn(){
     let date=$('#invoice-date').val();
     let price =$('#price').val();
     let item =$('#item').val();
-    let invoiceData ={customer: customer, number: number, date: date, price: price, item: item };
+    let invoiceData ={customer: customer, number: number, date: date, price: price, item: item, user};
     console.log(invoiceData);
     $.ajax({
         url: '/api/invoices',
         method: 'POST',
         data: JSON.stringify(invoiceData),
-
+        dataType: 'json',
+        headers: { 'Authorization' : 'Bearer' + $.cookie('token')},
+        success: function (data){
+            console.log(data);
+        },
+        error: catchAllError
     })
 
 }
- //getInvoiceFn()
-    //
-    //populate the invoices into the data table  #invoices
-
+ 
 function showFormFn() {
     $('#create-form').removeClass('hidden');
 }

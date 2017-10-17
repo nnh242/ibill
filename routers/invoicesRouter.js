@@ -10,30 +10,25 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-const requiredFields = ['number','customer','price', 'item'];
+const requiredFields = ['number','customer','price', 'item', 'userId'];
 
 const catchError = (err,res) => {
   console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
 }
 
-//this is endpoint /api/invoices - getting all invoices
-router.get('/user', jwtAuth, (req, res) => {
+router.get('/', jwtAuth, (req, res) => {
   Invoice
-  .find({'user': req.params.id})
-  Invoice
-    .find()
-    .then(invoices => {
-      res.json({
-        invoices: invoices.map(
-          (invoice) => invoice.apiRepr())
+  .find({'userId': req.user.id})
+  .then(invoices => {
+      res.json({invoices: invoices.map((invoice => invoice.apiRepr()))
       });
     })
     .catch(catchError);
 }); 
 
 function validateInvoiceFields(invoice) {
-  const stringFields = ['number','date','customer','item','price'];
+  const stringFields = ['number','date','customer','item','price','userId'];
   const nonStringField = stringFields.find(
     field => field in invoice && typeof invoice[field] !== 'string'
   );
@@ -65,7 +60,7 @@ function confirmUniqueNumber(number) {
       }
     });
 }
-//this is api/invoices, add an invoice to authenticated user
+
 router.post('/', jsonParser, jwtAuth, (req,res) => {
   requiredFields.map((field) => {
     if (!(field in req.body)) {
@@ -83,16 +78,12 @@ router.post('/', jsonParser, jwtAuth, (req,res) => {
     return res.status(code).json(validateInvoiceFields(req.body));
   }
 
-  let {number, date, customer, item, price} = invoiceValid;
-  return Invoice.find({'user': req.params.id})
-    .then (createInvoice => {
-      return Invoice.create({number, date, customer, item, price})
-    })
+  let {number, date, customer, item, price, userId} = invoiceValid;
+    Invoice.create({number, date, customer, item, price, userId})
     .then(invoice => res.status(201).json(invoice.apiRepr()))
     .catch(catchError);
 });
 
-//this is endpoint gets a specific invoice by id
 router.get('/:id', jwtAuth, (req, res) => {
   Invoice
   .findById(req.params.id)
@@ -101,9 +92,9 @@ router.get('/:id', jwtAuth, (req, res) => {
 });
 
 router.put('/:id', jwtAuth, (req,res) => {
-    if (req.query.id !== req.body.id) {
-      console.error(message);
-      return res.status(400).send(message);
+    if (req.params.id !== req.body.id) {
+      console.error('Unmatched id in request and body');
+      return res.status(400).send('Unmatched id in request and body');
     }
     const toUpdate = {};
     const updateableFields = ['date','number','customer','item','price']
@@ -114,12 +105,11 @@ router.put('/:id', jwtAuth, (req,res) => {
     });
     
     Invoice
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-    .then(invoice => res.status(200).end())
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .then(invoice => res.status(200).json(invoice.apiRepr()))
     .catch(catchError);
 });
 
-// delete invoice by id , tested successful
 router.delete('/:id', jwtAuth, (req,res) => {
     Invoice
     .findByIdAndRemove(req.params.id)

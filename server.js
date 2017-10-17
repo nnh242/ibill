@@ -40,7 +40,6 @@ app.get('/login', (req,res) => {
 });
 app.get('/dashboard/:id', (req,res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
-  res.sendFile(__dirname + '/public/main.css');
 });
 app.get('/preview', (req,res) => {
     res.sendFile(__dirname + '/public/preview.html')
