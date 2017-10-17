@@ -19,7 +19,7 @@ function showRegisterFn() {
 
 const catchAllError = err => {
         if (err.status === 401) {
-          window.location = '/login.html';
+          alert('invalid ajax');
         }
       };
 function registerFn() {
@@ -71,26 +71,27 @@ function signInFn() {
             console.log('user is authenticated');
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
-            window.location.href= '/dashboard/'+ $.cookie('userId') ;
+           window.location.href= '/dashboard';
+            //window.location.href= '/dashboard/'+ $.cookie('userId') ;
         },
         error: catchAllError
     })
 }
-
+const storedToken = $.cookie('token');
 function createInvoiceFn(){
     let customer =$('#customer').val();
     let number=$('#invoice-number').val();
     let date=$('#invoice-date').val();
     let price =$('#price').val();
     let item =$('#item').val();
-    let invoiceData ={customer: customer, number: number, date: date, price: price, item: item, user};
+    let invoiceData ={customer: customer, number: number, date: date, price: price, item: item, userId:$.cookie('userId')};
     console.log(invoiceData);
     $.ajax({
         url: '/api/invoices',
         method: 'POST',
         data: JSON.stringify(invoiceData),
         dataType: 'json',
-        headers: { 'Authorization' : 'Bearer' + $.cookie('token')},
+        headers: {'Authorization': `Bearer ${storedToken}`},
         success: function (data){
             console.log(data);
         },
