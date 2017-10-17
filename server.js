@@ -38,7 +38,7 @@ app.get('/', (req,res) => {
 app.get('/login', (req,res) => {
   res.sendFile(__dirname + '/public/login.html');
 });
-app.get('/dashboard', (req,res) => {
+app.get('/dashboard/:id', (req,res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
 });
 app.get('/preview', (req,res) => {

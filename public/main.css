@@ -282,6 +282,13 @@ input {
     color: #673AB7;
 }
 /* style for preview page */
+#back-button {
+    display: block;
+    float: right;
+    width: 180px;
+    height: 40px;
+    margin-top: 40px;
+}
 .preview-container {
     max-width:800px;
     margin:auto;

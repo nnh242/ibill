@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>iBill- Dashboard</title>
-    <link href="main.css" rel="stylesheet"/>
+    <link href="/main.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"/>
     <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"/>
 </head>
 <body>
     <header role="banner" class="row">
         <hgroup class="container col-12" >
-            <div id="app-logo"><a href="index.html"> <img class="logo" src="logo.png"></a></div>
+            <div id="app-logo"><a href="index.html"> <img class="logo" src="/logo.png"></a></div>
             <h4 id="company-name"> </h4>
         </hgroup>
     </header>
@@ -27,16 +27,16 @@
             <div class="col-12">
                 <form  id="create-form" class="hidden">
                         <label for="customer">Bill To </label> 
-                        <input type="text" placeholder="Customer's Name" id="customer" required/> <br>
-                        <label for="invoice-number">Invoice Number</label>
-                        <input type="text" placeholder="0005" id="invoice-number" required/><br>
-                        <label for="invoice-date">Invoice Date</label>
-                        <input type="date" id="invoice-date" required/><br>
+                        <input type="text" name ="customer" placeholder="Customer's Name" id="customer" required/> <br>
+                        <label for="number">Invoice Number</label>
+                        <input type="text" name="number" placeholder="0005" id="number" required/><br>
+                        <label for="date">Invoice Date</label>
+                        <input type="date" name="date" id="date" required/><br>
                         <label for="item">Item</label>
-                        <input type="text" id="item" required/>
+                        <input type="text" name="item" id="item" required/>
                         <label for ="price">Price</label>
-                        <input type="number" min="0.01" step="0.01" id="price" required/><br>
-                        <button type="button" class="primary-button" id="save-button">Save Invoice</button>
+                        <input type="number" name="price" min="0.01" step="0.01" id="price" required/><br>
+                        <button type="submit" class="primary-button" id="save-button">Save Invoice</button>
                     </form>
             </div>
         </div>
@@ -65,7 +65,8 @@
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src ="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script src ="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="client.js"></script>
+    <script src="/client.js"></script>
 </body>
 </html>
