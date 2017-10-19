@@ -6,6 +6,9 @@ $(document).ready(function() {
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createInvoice);
     $('#invoices').DataTable();
+    $('#delete-invoice').click(deleteInvoice);
+    $('#view-invoice').click(viewInvoice);
+    $('#edit-invoice').click(editInvoice);
 })
 
 function showRegister() {
@@ -76,7 +79,6 @@ function signIn() {
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
             window.location.href= '/dashboard/'+ $.cookie('userId') ;
-            
         },
         error: catchAllError
        /*  error: {
@@ -112,7 +114,7 @@ function loadDashboard() {
                          <td>${invoices[index][i].item}</td>
                          <td>$ ${invoices[index][i].price}</td>
                          <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
-                         <td><button type="button" class="primary-button" id="edit-invioce">Edit</button></td>
+                         <td><button type="button" class="primary-button" id="edit-invoice">Edit</button></td>
                          <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
                         </tr>
                     `)
@@ -120,6 +122,10 @@ function loadDashboard() {
             })
         }
     });
+}
+
+function showForm() {
+    $('#create-form').removeClass('hidden');
 }
 
 function createInvoice(){
@@ -163,7 +169,7 @@ function createInvoice(){
                 <td>${data.item}</td>
                 <td>$ ${data.price}</td>
                 <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
-                <td><button type="button" class="primary-button" id="edit-invioce">Edit</button></td>
+                <td><button type="button" class="primary-button" id="edit-invoice">Edit</button></td>
                 <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
                </tr>
             `);
@@ -174,30 +180,32 @@ function createInvoice(){
     
 }
 
+function deleteInvoice(){
+    console.log('ran delete Invoice function');
+    $.ajax ({
+        url: '',
+        method:'',
+
+    })
+}
+
+function editInvoice(){
+    console.log('ran update invoice function')
+}
+function viewInvoice(){
+    console.log('ran view invoice function')
+}
+function logOut(){
+    console.log('ran logOut')
+}
+function goDashboard(){
+    console.log('going back to Dashboard')
+}
+
 //update invoice
     //user clicks on the Edit button, each field in the data table becomes editable, edit button becomes save button
     //user make changes and hit saves
     // invoice is updated
-//delete invoice
-    function deleteInvoice(){
-
-    }
-    //user clicks on delete button, modal pops up 'Are you sure?', No --> Close Modal, Yes--> 
-    function updateInvoice(){
-
-    }
-    function viewInvioce(){
-
-    }
-    function logOut(){
-
-    }
-    function goBack(){
-        
-    }
 //event: click on View in the Data Table load invoice for preview
 //Back to Dashboard -> go back to same dashboard
 //log out
-function showForm() {
-    $('#create-form').removeClass('hidden');
-}
