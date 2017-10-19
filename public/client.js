@@ -183,8 +183,9 @@ function createInvoice(){
 function deleteInvoice(){
     console.log('ran delete Invoice function');
     $.ajax ({
-        url: '',
-        method:'',
+        url: `'/api/invoices/'+ ${invoiceId}`,
+        method:'DELETE',
+        headers: {'Authorization': `Bearer ${storedToken}`},
 
     })
 }
