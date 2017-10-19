@@ -118,8 +118,7 @@ function loadDashboard() {
                     `)
                 }
             })
-        },
-        error: alert('bad request')
+        }
     });
 }
 
@@ -152,9 +151,22 @@ function createInvoice(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                $('#create-form').empty();
-                $('#create-form').hide();
-                //$('#data-table').append()
+                $('#number,#date,#customer,#price,#item').val('');
+                $('#create-form').toggleClass('hidden');
+                console.log(data.date)
+                let date = moment(data.date).format('MM/DD/YY');
+                $('#data-table').prepend(`
+                <tr>
+                <td>${date}</td>
+                <td>${data.number}</td>
+                <td>${data.customer}</td>
+                <td>${data.item}</td>
+                <td>$ ${data.price}</td>
+                <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
+                <td><button type="button" class="primary-button" id="edit-invioce">Edit</button></td>
+                <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
+               </tr>
+            `);
             },
             error: catchAllError
         })
@@ -167,8 +179,22 @@ function createInvoice(){
     //user make changes and hit saves
     // invoice is updated
 //delete invoice
-    //user clicks on delete button, modal pops up 'Are you sure?', No --> Close Modal, Yes--> 
+    function deleteInvoice(){
 
+    }
+    //user clicks on delete button, modal pops up 'Are you sure?', No --> Close Modal, Yes--> 
+    function updateInvoice(){
+
+    }
+    function viewInvioce(){
+
+    }
+    function logOut(){
+
+    }
+    function goBack(){
+        
+    }
 //event: click on View in the Data Table load invoice for preview
 //Back to Dashboard -> go back to same dashboard
 //log out
