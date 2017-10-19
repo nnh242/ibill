@@ -160,53 +160,28 @@ router.get('/:id', jwtAuth, (req, res) => {
 
 //update user by id 
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-    let userValid = {};
-    if (validateUserFields(req.body).valid === true) {
-      userValid = req.body;
-    } else {
-      let code = validateUserFields(req.body).code;
-      return res.status(code).json(validateUserFields(req.body));
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    const message = (
+      `Request path id (${req.params.id}) and request body id ` +
+      `(${req.body.id}) must match`);
+    console.error(message);
+    return res.status(400).json({message: message});
+  }
+
+  const toUpdate = {};
+  const updateableFields = ['company'];
+
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      toUpdate[field] = req.body[field];
     }
-  
-    return confirmUniqueUsername(userValid.username)
-      .then(() => {
-        return User.findById(req.params.id)
-          .count()
-          .then(count => {
-            if (count === 0) {
-              return Promise.reject({
-                code: 422,
-                reason: 'ValidationError',
-                message: 'User not found',
-                location: 'id'
-              });
-            }
-            if (userValid.password) {
-              return User.hashPassword(userValid.password);
-            } else {
-              return '';
-            }
-          })
-          .then((hash) => {
-            if (hash) {
-              userValid.password = hash;
-            }
-          })
-          .then(() => {
-            return User.findByIdAndUpdate(req.params.id,
-              { $set: userValid },
-              { new: true },
-              function (err, user) {
-                if (err) return res.send(err);
-                res.status(201).json(user.apiRepr());
-              }
-            );
-          });
-      })
-      .catch(err => {
-          return res.status(err.code).json(err);
-      });
   });
+
+ User
+  .findByIdAndUpdate(req.params.id, {$set: toUpdate})
+  .then(invoice => res.status(204).end())
+  .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
 
 //delete user by id
 router.delete('/:id', jwtAuth, (req,res) => {

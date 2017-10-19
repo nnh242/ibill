@@ -1,14 +1,14 @@
 
 $(document).ready(function() {
-    $('#register-link').on('click', showRegisterFn);
-    $('#sign-in-form').on('submit', signInFn);
-    $('#register-form').on('submit', registerFn);
-    $('#form-button').on('click',showFormFn);
-    $('#create-form').on('submit',createInvoiceFn);
+    $('#register-link').on('click', showRegister);
+    $('#sign-in-form').on('submit', loadDashboard, signIn, );
+    $('#register-form').on('submit', register);
+    $('#form-button').on('click',showForm);
+    $('#create-form').on('submit',createInvoice);
     $('#invoices').DataTable();
 })
 
-function showRegisterFn() {
+function showRegister() {
     $('#sign-in-section').addClass('hidden');
     $('#demo').addClass('hidden');
     $('#register-section').removeClass('hidden');
@@ -20,7 +20,7 @@ const catchAllError = err => {
         }
       };
 
-function registerFn() {
+function register() {
     event.preventDefault();
     let username = $('#register-username').val();
     let password = $('#register-password').val();
@@ -35,7 +35,6 @@ function registerFn() {
         let phone = $('#phone').val();
         //let address = {street : $('#street').val(), }
         let registerData = {username: username, password: password, company: company, phone: phone};
-        console.log (registerData);
         $.ajax ({
             url: '/api/users/register',
             method: 'POST',
@@ -43,8 +42,6 @@ function registerFn() {
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
             success: function(data) {
-                console.log(data);
-                console.log('user created successfully');
                 $('#register-form').empty();
                 $('#register-section').addClass('hidden');
                 $('#sign-in-section').removeClass('hidden');
@@ -56,7 +53,7 @@ function registerFn() {
    
 }
 
-function signInFn() {
+function signIn() {
     event.preventDefault();
     let username = $('#sign-in-username').val();
     let password = $('#sign-in-password').val();
@@ -75,20 +72,58 @@ function signInFn() {
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
         success: function(data){
-            console.log(data);
-            console.log('user is authenticated');
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
-           //window.location.href= '/dashboard';
+           $.cookie('displayName', data.user.company);
             window.location.href= '/dashboard/'+ $.cookie('userId') ;
+            
         },
         error: catchAllError
+       /*  error: {
+            stop alert, highlight the invalid input box, notify Invalid username or password
+        } */
     })  
     }
 }
 
 const storedToken = $.cookie('token');
-function createInvoiceFn(){
+const currentUserId = $.cookie('userId');
+const name = $.cookie('displayName');
+
+loadDashboard(storedToken,currentUserId,name);
+
+function loadDashboard() {
+    $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
+    $.ajax ({
+        url: '/api/invoices',
+        method: 'GET',
+        data: currentUserId,
+        dataType: 'json',
+        headers:  {'Authorization': `Bearer ${storedToken}`},
+        success: function(invoices) {
+            $.each(invoices, function loadInvoice(index){
+                for (let i=0; i< invoices[index].length; i++) {
+                    let invoiceDate = moment(invoices[index][i].date).format('MM/DD/YY');
+                    $('#data-table').append(`
+                        <tr>
+                         <td>${invoiceDate}</td>
+                         <td>${invoices[index][i].number}</td>
+                         <td>${invoices[index][i].customer}</td>
+                         <td>${invoices[index][i].item}</td>
+                         <td>$ ${invoices[index][i].price}</td>
+                         <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
+                         <td><button type="button" class="primary-button" id="edit-invioce">Edit</button></td>
+                         <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
+                        </tr>
+                    `)
+                }
+            })
+        },
+        error: alert('bad request')
+    });
+}
+
+function createInvoice(){
     event.preventDefault();
     let number = $('#number').val();
     let customer = $('#customer').val();
@@ -109,10 +144,6 @@ function createInvoiceFn(){
     }
     else {
        let invoiceData = {number: number, customer: customer, date: date, price: price, item: item, userId:$.cookie('userId')};
-        debugger
-        //invoiceData= $('#create-form').serialize();
-        console.log(invoiceData);
-        console.log(storedToken);
         $.ajax({
             url: '/api/invoices',
             method: 'POST',
@@ -121,19 +152,26 @@ function createInvoiceFn(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                console.log(data);
+                $('#create-form').empty();
+                $('#create-form').hide();
+                //$('#data-table').append()
             },
             error: catchAllError
         })
     }
     
 }
-//get invoice
+
 //update invoice
+    //user clicks on the Edit button, each field in the data table becomes editable, edit button becomes save button
+    //user make changes and hit saves
+    // invoice is updated
 //delete invoice
-//load invoice for preview
-//go back to same dashboard
+    //user clicks on delete button, modal pops up 'Are you sure?', No --> Close Modal, Yes--> 
+
+//event: click on View in the Data Table load invoice for preview
+//Back to Dashboard -> go back to same dashboard
 //log out
-function showFormFn() {
+function showForm() {
     $('#create-form').removeClass('hidden');
 }
