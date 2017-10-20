@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require ('mongoose');
@@ -26,10 +27,8 @@ router.get('/', jwtAuth, (req, res) => {
 }); 
 
 router.post('/',jwtAuth, jsonParser, (req,res) => {
-  const requiredFields = ['number','customer','price', 'item', 'userId'];
+  const requiredFields = ['customer','price', 'item', 'userId'];
   const missingField = requiredFields.find(field => !(field in req.body));
-  console.log('rb', req.body);
-  console.log('mf', missingField);
   if (missingField) {
     return res.status(422).json({
       code: 422,
@@ -38,7 +37,8 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
       location: missingField
     });
   }
-    Invoice.create({number:req.body.number, date:req.body.date, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
+
+  Invoice.create({date:req.body.date, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
     .then(invoice => 
       res.status(201).json(invoice.apiRepr()))
     .catch(catchError);
@@ -57,7 +57,7 @@ router.put('/:id', jwtAuth, (req,res) => {
       return res.status(400).send('Unmatched id in request and body');
     }
     const toUpdate = {};
-    const updateableFields = ['date','number','customer','item','price']
+    const updateableFields = ['date','customer','item','price']
     updateableFields.forEach(field => {
       if (field in req.body) {
         toUpdate[field] = req.body[field];
@@ -69,7 +69,7 @@ router.put('/:id', jwtAuth, (req,res) => {
     .then(invoice => res.status(200).json(invoice.apiRepr()))
     .catch(catchError);
 });
-
+//end point is /api/invoices/:id
 router.delete('/:id', jwtAuth, (req,res) => {
     Invoice
     .findByIdAndRemove(req.params.id)

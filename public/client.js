@@ -113,9 +113,9 @@ function loadDashboard() {
                          <td>${invoices[index][i].customer}</td>
                          <td>${invoices[index][i].item}</td>
                          <td>$ ${invoices[index][i].price}</td>
-                         <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
-                         <td><button type="button" class="primary-button" id="edit-invoice">Edit</button></td>
-                         <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
+                         <td><button type="button" class="primary-button" id="delete-invoice" data-invoiceId="${invoices[index][i].id}">Delete</button></td>
+                         <td><button type="button" class="primary-button" id="edit-invoice" data-invoiceId="${invoices[index][i].id}">Edit</button></td>
+                         <td><button type="button" class="primary-button"id="view-invoice" data-invoiceId="${invoices[index][i].id}">View</button></td>
                         </tr>
                     `)
                 }
@@ -130,16 +130,12 @@ function showForm() {
 
 function createInvoice(){
     event.preventDefault();
-    let number = $('#number').val();
     let customer = $('#customer').val();
     let date = $('#date').val();
     let price = $('#price').val();
     let item = $('#item').val();
     if (customer === '') {
         $('#customer').notify('Please fill out this field', { position:"top right" });
-    }
-    else if (number === ''){
-        $('#number').notify('Please fill out this field', { position:"top right" });
     }
     else if (item === ''){
         $('#item').notify('Please fill out this field', { position:"top right" });
@@ -148,7 +144,7 @@ function createInvoice(){
         $('#price').notify('Please fill out this field', { position:"top right" });
     }
     else {
-       let invoiceData = {number: number, customer: customer, date: date, price: price, item: item, userId:$.cookie('userId')};
+       let invoiceData = {customer: customer, date: date, price: price, item: item, userId:$.cookie('userId')};
         $.ajax({
             url: '/api/invoices',
             method: 'POST',
@@ -157,9 +153,8 @@ function createInvoice(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                $('#number,#date,#customer,#price,#item').val('');
+                $('#date,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
-                console.log(data.date)
                 let date = moment(data.date).format('MM/DD/YY');
                 $('#data-table').prepend(`
                 <tr>
@@ -168,25 +163,29 @@ function createInvoice(){
                 <td>${data.customer}</td>
                 <td>${data.item}</td>
                 <td>$ ${data.price}</td>
-                <td><button type="button" class="primary-button" id="delete-invoice">Delete</button></td>
-                <td><button type="button" class="primary-button" id="edit-invoice">Edit</button></td>
-                <td><button type="button" class="primary-button"id="view-invoice">View</button></td>
+                <td><button type="button" class="primary-button" id="delete-invoice" data-invoiceId="${data.id}">Delete</button></td>
+                <td><button type="button" class="primary-button" id="edit-invoice" data-invoiceId="${data.id}">Edit</button></td>
+                <td><button type="button" class="primary-button"id="view-invoice" data-invoiceId="${data.id}">View</button></td>
                </tr>
             `);
             },
             error: catchAllError
         })
-    }
-    
+    }   
 }
 
-function deleteInvoice(){
-    console.log('ran delete Invoice function');
+function deleteInvoice() {
+    let invoiceId = $(this).attr('data-invoiceId');
     $.ajax ({
-        url: `'/api/invoices/'+ ${invoiceId}`,
+        url: `/api/invoices/${invoiceId}`,
         method:'DELETE',
+        data: invoiceId,
+        dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
-
+        success: function removeInvoice(){
+            $(this).parent().parent().closest('tr').remove();
+        },
+        error: catchAllError
     })
 }
 
@@ -194,7 +193,19 @@ function editInvoice(){
     console.log('ran update invoice function')
 }
 function viewInvoice(){
-    console.log('ran view invoice function')
+    debugger
+    let invoiceId = $(this).attr('data-invoiceId');
+    $.ajax ({
+        url: `/api/invoices/${invoiceId}`,
+        method:'GET',
+        data: invoiceId,
+        dataType: 'json',
+        headers: {'Authorization': `Bearer ${storedToken}`},
+        success: function preview(){
+            window.location.href= '/preview/'+ invoiceId; 
+        },
+        error: catchAllError
+    })
 }
 function logOut(){
     console.log('ran logOut')
@@ -206,7 +217,4 @@ function goDashboard(){
 //update invoice
     //user clicks on the Edit button, each field in the data table becomes editable, edit button becomes save button
     //user make changes and hit saves
-    // invoice is updated
-//event: click on View in the Data Table load invoice for preview
-//Back to Dashboard -> go back to same dashboard
-//log out
+    // invoice is updated in database and in the table

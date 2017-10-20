@@ -6,18 +6,9 @@ const userSchema = mongoose.Schema ({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     company: {type: String, required: true},
-    address: {
-        street: String,
-        city: String,
-        state: String,
-        zipcode: String
-      },
+    address: {type: String, Required: true},
     phone: {type: String}
 });
-
-userSchema.virtual('addressString').get(function() {
-    const {street, city, state, zipcode} = this.address;
-    return `${street} ${city} ${state} ${zipcode}`.trim()});
 
 userSchema.methods.apiRepr = function() {
     return {
@@ -25,7 +16,7 @@ userSchema.methods.apiRepr = function() {
         username: this.username,
         password: this.password,
         company: this.company,
-        address: this.addressString,
+        address: this.address,
         phone: this.phone
     }
   };
