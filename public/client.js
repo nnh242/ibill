@@ -6,9 +6,10 @@ $(document).ready(function() {
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createInvoice);
     $('#invoices').DataTable();
-    $('#delete-invoice').click(deleteInvoice);
-    $('#view-invoice').click(viewInvoice);
-    $('#edit-invoice').click(editInvoice);
+    $('#back-button').click()
+    $('#invoices').on('click','#delete-invoice',deleteInvoice);
+    $('#invoices').on('click','#edit-invoice', editInvoice);
+    $('#invoices').on('click','#view-invoice', viewInvoice);
 })
 
 function showRegister() {
@@ -50,7 +51,10 @@ function register() {
                 $('#sign-in-section').removeClass('hidden');
                 $('#login-footer').replaceWith(`<h4>Thank you for registering, please sign in!</h4>`);
             },
-            error: catchAllError
+            error: function() {
+                $('.headlines').notify('Invalid username or password', 
+                { position:"right" })
+            }
         })
     }
    
@@ -78,12 +82,12 @@ function signIn() {
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
-            window.location.href= '/dashboard/'+ $.cookie('userId') ;
+            window.location.href= '/dashboard/'+ $.cookie('userId');
         },
-        error: catchAllError
-       /*  error: {
-            stop alert, highlight the invalid input box, notify Invalid username or password
-        } */
+        error: function() {
+            $('.headlines').notify('Invalid username or password', 
+            { position:"right" })
+        }
     })  
     }
 }
@@ -156,6 +160,7 @@ function createInvoice(){
                 $('#date,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 let date = moment(data.date).format('MM/DD/YY');
+                $('.dataTables_empty').hide();
                 $('#data-table').prepend(`
                 <tr>
                 <td>${date}</td>
@@ -183,7 +188,7 @@ function deleteInvoice() {
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
         success: function removeInvoice(){
-            $(this).parent().parent().closest('tr').remove();
+            $(this).parents('tr').remove();
         },
         error: catchAllError
     })

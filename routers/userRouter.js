@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {User} = require('../models/users');
-
+const {Invoice} = require('../models/invoices');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
@@ -91,6 +91,12 @@ function confirmUniqueUsername(username) {
 //api/users/register endpoint
 //CREATE
 router.post('/register', jsonParser, (req, res) => {
+ /*  Invoice.save(function (err) {
+    Invoice.nextCount(function(err, count) {
+      Invoice.resetCount(function(err, nextCount) {
+               });
+           });
+       }); */
   const requiredFields = ['username', 'password', 'company'];
   const missingField = requiredFields.find(field => !(field in req.body));
   console.log('rb', req.body);
