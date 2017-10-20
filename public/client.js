@@ -120,9 +120,9 @@ function loadDashboard() {
                          <td>${invoices[index][i].customer}</td>
                          <td>${invoices[index][i].item}</td>
                          <td>$ ${invoices[index][i].price}</td>
-                         <td><button type="button" class="primary-button" id="delete-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">Delete</button></td>
-                         <td><button type="button" class="primary-button" id="edit-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}" >Edit</button></td>
-                         <td><button type="button" class="primary-button"id="view-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">View</button></td>
+                         <td><button onclick="deleteInvoice()" type="button" class="primary-button" id="delete-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">Delete</button></td>
+                         <td><button onclick="editInvoice()" type="button" class="primary-button" id="edit-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}" >Edit</button></td>
+                         <td><button onclick="viewInvoice()" type="button" class="primary-button"id="view-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">View</button></td>
                         </tr>
                     `)
                 }
@@ -171,9 +171,9 @@ function createInvoice(){
                 <td>${data.customer}</td>
                 <td>${data.item}</td>
                 <td>$ ${data.price}</td>
-                <td><button type="button" class="primary-button" id="delete-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Delete</button></td>
-                <td><button type="button" class="primary-button" id="edit-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Edit</button></td>
-                <td><button type="button" class="primary-button"id="view-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">View</button></td>
+                <td><button onclick="deleteInvoice()" type="button" class="primary-button" id="delete-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Delete</button></td>
+                <td><button onclick="editInvoice()" type="button" class="primary-button" id="edit-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Edit</button></td>
+                <td><button onclick="viewInvoice()" type="button" class="primary-button"id="view-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">View</button></td>
                </tr>
             `);
             },
@@ -191,7 +191,7 @@ function deleteInvoice() {
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
         success: function removeInvoice(){
-            $(this).parents(3).remove();
+            $(this).closest('tr').remove();
         },
         error: catchAllError
     })
