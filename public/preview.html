@@ -43,15 +43,13 @@
                             <table>
                                 <tr>
                                     <td class="myCompany">
-                                        Demo Company<br>
-                                        No.1 Demo Street <br>
-                                        Washington, DC 20001
+                                        From: 
+                                        <span class="company-name"></span><br>
                                     </td>
                                     
                                     <td class ="customer">
-                                        ABC Customer Company<br>
-                                        5476 1st Street <br>
-                                        Washington, DC 20001
+                                        Bill To:
+                                        <span class="customer-name"></span><br>
                                     </td>
                                 </tr>
                             </table>
@@ -60,49 +58,28 @@
                     
                     <tr class="heading">
                         <td>
-                            Item
+                            Item description
                         </td>
                         
                         <td>
                             Price
                         </td>
                     </tr>
-                    
-                    <tr class="item">
-                        <td>
-                            Consulting Service Week of 09/07/2017
-                        </td>
-                        
-                        <td>
-                            $200.00
-                        </td>
-                    </tr>
-                    
-                    <tr class="item">
-                        <td>
-                                Consulting Service Week of 09/17/2017
-                        </td>
-                        
-                        <td>
-                            $15.00
-                        </td>
-                    </tr>
-                    
                     <tr class="item last">
-                        <td>
-                                Consulting Service Week of 09/27/2017
-                        </td>
-                        
-                        <td>
-                            $10.00
-                        </td>
+                            <td class="invoice-item">
+                                   
+                            </td>
+                                
+                            <td class="price">
+                                   
+                            </td>
                     </tr>
                     
                     <tr class="total">
                         <td></td>
                         
                         <td>
-                            Total: $225.00
+                            Total:$ <span class="price"></span>
                         </td>
                     </tr>
                 </table>
@@ -113,6 +90,7 @@
         crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
         <script src="/moment.js"></script>
+        <script src ="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
         <script src="/client.js"></script>
     </body>
 </html>
