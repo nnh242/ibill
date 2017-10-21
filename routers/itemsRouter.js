@@ -16,7 +16,7 @@ const catchError = (err,res) => {
   return res.status(500).json({error: 'Something went wrong'});
 }
 
-router.get('/', jwtAuth, (req, res) => {
+router.get('/',jwtAuth, (req, res) => {
   Item
   .find({'userId': req.user.id})
   .then(items => {

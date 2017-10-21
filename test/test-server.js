@@ -45,7 +45,7 @@ describe('dashboard page', function() {
   });
 });
 
-describe ('preview item', function (){
+/* describe ('preview item', function (){
   it('exists', function(done) {
     chai.request(app)
       .get('/preview')
@@ -55,4 +55,4 @@ describe ('preview item', function (){
         done();
     });
   });
-});
+}); */

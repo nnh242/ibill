@@ -18,6 +18,7 @@ router.get('/login',
     (req, res) => {
         const authToken = createAuthToken(req.user.apiRepr());
         res.json({authToken: authToken, user: req.user}); 
+        console.log(authToken);
     }
 );
 

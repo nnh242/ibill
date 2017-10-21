@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#start-button').click(start);
     $('#logo').on('click', logOut);
     $('#register-link').on('click', showRegister);
-    $('#sign-in-form').on('submit', loadDashboard, signIn, );
+    $('#sign-in-form').on('submit', signIn, );
     $('#register-form').on('submit', register);
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createItem);
@@ -84,7 +84,7 @@ function signIn() {
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
            $.cookie('displayAddress', data.user.address);
-            window.location.href= '/dashboard/'+ $.cookie('userId');
+            window.location.href= '/dashboard/';
         },
         error: function() {
             $('.headlines').notify('Invalid username or password', 
@@ -97,8 +97,6 @@ function signIn() {
 const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
-
-loadDashboard(storedToken,currentUserId,name);
 
 function loadDashboard() {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
