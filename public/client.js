@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#start-button').click(start);
     $('#logo').on('click', logOut);
     $('#register-link').on('click', showRegister);
-    $('#sign-in-form').on('submit', signIn, );
+    $('#sign-in-form').on('submit', signIn );
     $('#register-form').on('submit', register);
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createItem);
@@ -84,21 +84,27 @@ function signIn() {
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
            $.cookie('displayAddress', data.user.address);
-            window.location.href= '/dashboard/';
+           window.location.href= '/dashboard/' + currentUserId;
+          
         },
         error: function() {
+            event.preventDefault();
             $('.headlines').notify('Invalid username or password', 
-            { position:"right" })
+            { position:"top" })
         }
     })  
     }
 }
 
 const storedToken = $.cookie('token');
+console.log(storedToken);
 const currentUserId = $.cookie('userId');
+console.log(currentUserId);
 const name = $.cookie('displayName');
 
-function loadDashboard() {
+loadDashboard(storedToken,currentUserId,name);
+
+function loadDashboard(storedToken,currentUserId,name) {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
     $.ajax ({
         url: '/api/items',
@@ -115,8 +121,8 @@ function loadDashboard() {
                          <td>${items[index][i].customer}</td>
                          <td>${items[index][i].item}</td>
                          <td>$ ${items[index][i].price}</td>
-                         <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button></td>
-                         <td><button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
+                         <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>
+                         <button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
                         </tr>
                     `)
                 }
@@ -161,13 +167,13 @@ function createItem(){
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
                 $('#data-table').prepend(`
-                <tr>
+                <tr onclick="deleteItem()">
                 <td>${data.number}</td>
                 <td>${data.customer}</td>
                 <td>${data.item}</td>
                 <td>$ ${data.price}</td>
-                <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button></td>
-                <td><button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button></td>
+                <td><button type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button>
+                <button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button></td>
                 </tr>
             `);
             },
@@ -192,6 +198,7 @@ function deleteItem() {
 }
 
 function editItem(){
+    event.preventDefault();
     $('.dataTables_empty').hide();
     let itemId = $(this).attr('data-itemId');
     let itemsNum = $(this).attr('data-itemsNum');
