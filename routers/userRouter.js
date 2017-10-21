@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {User} = require('../models/users');
-const {Invoice} = require('../models/invoices');
+const {Item} = require('../models/items');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
@@ -91,9 +91,9 @@ function confirmUniqueUsername(username) {
 //api/users/register endpoint
 //CREATE
 router.post('/register', jsonParser, (req, res) => {
- /*  Invoice.save(function (err) {
-    Invoice.nextCount(function(err, count) {
-      Invoice.resetCount(function(err, nextCount) {
+ /*  Item.save(function (err) {
+    Item.nextCount(function(err, count) {
+      Item.resetCount(function(err, nextCount) {
                });
            });
        }); */
@@ -185,7 +185,7 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
 
  User
   .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-  .then(invoice => res.status(204).end())
+  .then(item => res.status(204).end())
   .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 

@@ -196,7 +196,7 @@ input {
     color: #707070;
     display: inline;
 }
-.create-invoice {
+.create-item {
     margin: 20px auto;
 }
 #form-button {
@@ -232,48 +232,48 @@ input {
 }
 
 
-#invoices_wrapper {
+#items_wrapper {
     max-width: 1000px;
     padding-left: 20px;
     padding-right: 20px;
     margin: 0 auto;
 }
 
-#invoices_filter {
+#items_filter {
     text-align: center;
 }
 
-#invoices_filter input {
+#items_filter input {
     padding-left: 20px;
     width: 50%;
     height: 30px; 
     border: 1px solid #EFEFEF;
     border-radius: 3px;
 }
-#invoices table {
+#items table {
     border-bottom: 1px solid #707070;
     border-collapse: collapse;
 }
-#invoices th, #invoices td {
+#items th, #items td {
     border-bottom: 1px solid #707070;
     padding: 15px;
     text-align: center;
 }
-#invoices thead {
+#items thead {
     color: #673AB7;
 }
 
-#invoices table {
+#items table {
     margin: 0 auto;
     width: 100%;
 }
-#invoices tbody tr:nth-child(odd) {
+#items tbody tr:nth-child(odd) {
     color: #222222;
 }
-#invoices tbody tr:nth-child(even) {
+#items tbody tr:nth-child(even) {
     background-color: #FFFFFF;
 }
-#invoices_paginate {
+#itemss_paginate {
     float: right;
     padding: 20px;
 }
@@ -300,12 +300,12 @@ input {
     background-color: #FFFFFF;
     color: #000000;
 }
-.invoice-h {
+.item-h {
     background-color:#673AB7;
     color: #FFFFFF;
     padding: 10px;
 }
-.invoice-num {
+.item-num {
     text-align: right;
 }
 .customer {
@@ -316,68 +316,68 @@ input {
     margin: 0;
     text-align: left;
 }
-.invoice-box{
+.item-box{
     max-width:800px;
     margin:auto;
     padding:30px;
 }
 
-.invoice-box table{
+.item-box table{
     width:100%;
     line-height:inherit;
     text-align:left;
 }
 
-.invoice-box table td{
+.item-box table td{
     padding:5px;
     vertical-align:top;
 }
 
-.invoice-box table tr td:nth-child(2){
+.item-box table tr td:nth-child(2){
     text-align:right;
 }
 
-.invoice-box table tr.top table td{
+.item-box table tr.top table td{
     padding-bottom:20px;
 }
 
-.invoice-box table tr.top table td.title{
+.item-box table tr.top table td.title{
     font-size:45px;
     line-height:45px;
     color:#673AB7;
 }
-.invoice-box table .information td {
+.item-box table .information td {
     border: none;
 }
-.invoice-box table tr.information table td{
+.item-box table tr.information table td{
     padding-bottom: 20px;
 }
 
-.invoice-box table tr.item td{
+.item-box table tr.item td{
     border-bottom:1px solid #eee;
 }
 
-.invoice-box table tr.item.last td{
+.item-box table tr.item.last td{
     border-bottom: 2px solid #eeeeee;
 }
 
-.invoice-box table tr.total td:nth-child(2){
+.item-box table tr.total td:nth-child(2){
     border-top:2px solid #eeeeee;
     font-weight:bold;
 }
-.invoice-box table tr.heading td{
+.item-box table tr.heading td{
     background:#eeeeee;
     border-bottom:1px solid #dddddd;
     font-weight:bold;
 }
 @media only screen and (max-width: 600px) {
-    .invoice-box table tr.top table td{
+    .item-box table tr.top table td{
         width:100%;
         display:block;
         text-align:center;
     }
     
-    .invoice-box table tr.information table td{
+    .item-box table tr.information table td{
         width:100%;
         display:block;
         text-align:center;

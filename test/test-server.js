@@ -45,7 +45,7 @@ describe('dashboard page', function() {
   });
 });
 
-describe ('preview invoice', function (){
+describe ('preview item', function (){
   it('exists', function(done) {
     chai.request(app)
       .get('/preview')

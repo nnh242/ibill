@@ -6,12 +6,11 @@ $(document).ready(function() {
     $('#sign-in-form').on('submit', loadDashboard, signIn, );
     $('#register-form').on('submit', register);
     $('#form-button').on('click',showForm);
-    $('#create-form').on('submit',createInvoice);
-    $('#invoices').DataTable();
-    $('#back-button').on('click', toDashboard)
-    $('#invoices').on('click','#delete-invoice',deleteInvoice);
-    $('#invoices').on('click','#edit-invoice', editInvoice);
-    $('#invoices').on('click','#view-invoice', viewInvoice);
+    $('#create-form').on('submit',createItem);
+    $('#items').DataTable();
+    $('#back-button').on('click', toDashboard);
+    $('#items').on('click','#delete-item',deleteItem);
+    $('#items').on('click','#edit-item', editItem);
 })
 function start() {
     window.location.href= '/login';
@@ -56,7 +55,7 @@ function register() {
             },
             error: function() {
                 $('.headlines').notify('Invalid username or password', 
-                { position:"right" })
+                { position:"bottom" })
             }
         })
     }
@@ -104,25 +103,22 @@ loadDashboard(storedToken,currentUserId,name);
 function loadDashboard() {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
     $.ajax ({
-        url: '/api/invoices',
+        url: '/api/items',
         method: 'GET',
         data: currentUserId,
         dataType: 'json',
         headers:  {'Authorization': `Bearer ${storedToken}`},
-        success: function(invoices) {
-            $.each(invoices, function loadInvoice(index){
-                for (let i=0; i< invoices[index].length; i++) {
-                    let invoiceDate = moment(invoices[index][i].date).format('MM/DD/YY');
+        success: function(items) {
+            $.each(items, function loadItem(index){
+                for (let i=0; i< items[index].length; i++) {
                     $('#data-table').append(`
                         <tr>
-                         <td>${invoiceDate}</td>
-                         <td>${invoices[index][i].number}</td>
-                         <td>${invoices[index][i].customer}</td>
-                         <td>${invoices[index][i].item}</td>
-                         <td>$ ${invoices[index][i].price}</td>
-                         <td><button onclick="deleteInvoice()" type="button" class="primary-button" id="delete-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">Delete</button></td>
-                         <td><button onclick="editInvoice()" type="button" class="primary-button" id="edit-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}" >Edit</button></td>
-                         <td><button onclick="viewInvoice()" type="button" class="primary-button"id="view-invoice" data-invoiceId="${invoices[index][i].id}" data-invoiceNum="${invoices[index][i].number}" data-customer="${invoices[index][i].customer}" data-item="${invoices[index][i].item}" data-price="${invoices[index][i].price}" data-date="${invoices[index][i].date}">View</button></td>
+                         <td>${items[index][i].number}</td>
+                         <td>${items[index][i].customer}</td>
+                         <td>${items[index][i].item}</td>
+                         <td>$ ${items[index][i].price}</td>
+                         <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button></td>
+                         <td><button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
                         </tr>
                     `)
                 }
@@ -135,14 +131,17 @@ function showForm() {
     $('#create-form').removeClass('hidden');
 }
 
-function createInvoice(){
+function createItem(){
     event.preventDefault();
+    let number = $('#number').val()
     let customer = $('#customer').val();
-    let date = $('#date').val();
     let price = $('#price').val();
     let item = $('#item').val();
     if (customer === '') {
         $('#customer').notify('Please fill out this field', { position:"top right" });
+    }
+    else if (number === ''){
+        $('#number').notify('Please fill out this field', { position:"top right" })
     }
     else if (item === ''){
         $('#item').notify('Please fill out this field', { position:"top right" });
@@ -151,30 +150,27 @@ function createInvoice(){
         $('#price').notify('Please fill out this field', { position:"top right" });
     }
     else {
-       let invoiceData = {customer: customer, date: date, price: price, item: item, userId:$.cookie('userId')};
+       let itemsData = {number:number, customer: customer, price: price, item: item, userId:$.cookie('userId')};
         $.ajax({
-            url: '/api/invoices',
+            url: '/api/items',
             method: 'POST',
-            data: JSON.stringify(invoiceData),
+            data: JSON.stringify(itemsData),
             dataType: 'json',
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                $('#date,#customer,#price,#item').val('');
+                $('#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
-                let date = moment(data.date).format('MM/DD/YY');
                 $('.dataTables_empty').hide();
                 $('#data-table').prepend(`
                 <tr>
-                <td>${date}</td>
                 <td>${data.number}</td>
                 <td>${data.customer}</td>
                 <td>${data.item}</td>
                 <td>$ ${data.price}</td>
-                <td><button onclick="deleteInvoice()" type="button" class="primary-button" id="delete-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Delete</button></td>
-                <td><button onclick="editInvoice()" type="button" class="primary-button" id="edit-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">Edit</button></td>
-                <td><button onclick="viewInvoice()" type="button" class="primary-button"id="view-invoice" data-invoiceId="${data.id}" data-invoiceNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" data-date="${data.date}">View</button></td>
-               </tr>
+                <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button></td>
+                <td><button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button></td>
+                </tr>
             `);
             },
             error: catchAllError
@@ -182,66 +178,62 @@ function createInvoice(){
     }   
 }
 
-function deleteInvoice() {
-    let invoiceId = $(this).attr('data-invoiceId');
+function deleteItem() {
+    let itemId = $(this).attr('data-itemId');
     $.ajax ({
-        url: `/api/invoices/${invoiceId}`,
+        url: `/api/items/${itemId}`,
         method:'DELETE',
-        data: invoiceId,
+        data: itemId,
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
-        success: function removeInvoice(){
+        success: function removeItem(){
             $(this).closest('tr').remove();
         },
         error: catchAllError
     })
 }
 
-function editInvoice(){
+function editItem(){
     $('.dataTables_empty').hide();
-    let invoiceId = $(this).attr('data-invoiceId');
-    let invoiceNum = $(this).attr('data-invoiceNum');
+    let itemId = $(this).attr('data-itemId');
+    let itemsNum = $(this).attr('data-itemsNum');
     let thisCustomer = $(this).attr('data-customer');
     let thisItem = $(this).attr('data-item');
     let thisPrice = $(this).attr('data-price');
-    let thisDate = $(this).attr('data-date');
-    let useDate = moment.parseZone(thisDate).utc().format();
-     $('#customer').val(thisCustomer);
-    $('#date').val(useDate);
+    $('#number').val(itemsNum);
+    $('#customer').val(thisCustomer);
     $('#price').val(thisPrice);
     $('#item').val(thisItem);
     $('#save-button').replaceWith(`<button type="button" class="primary-button" id="update-button">Update</button>`)
     $('#create-form').show();
     $('#update-button').on('click', function (){
-        let updateData = {id: invoiceId, customer: thisCustomer, date: thisDate, price: thisPrice, item: thisItem, userId:$.cookie('userId')};
+        let updateData = {id: itemId, customer: thisCustomer, price: thisPrice, item: thisItem, userId:$.cookie('userId')};
         $.ajax({
-            url: `/api/invoices/${invoiceId}`,
+            url: `/api/items/${itemId}`,
             method: 'PUT',
             data: JSON.stringify(updateData),
             dataType: 'json',
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function(data){
-                $('#date,#customer,#price,#item').val('');
-                $('#create-form').toggleClass('hidden');
             },
             error: catchAllError
         })
     })
 }
 
-function viewInvoice(name){
-    let invoiceId = $(this).attr('data-invoiceId');
-    let invoiceNum = $(this).attr('data-invoiceNum');
+/* function viewItem(name){
+    let itemId = $(this).attr('data-itemId');
+    let itemsNum = $(this).attr('data-itemsNum');
     let thisCustomer = $(this).attr('data-customer');
     let thisItem = $(this).attr('data-item');
     let thisPrice = $(this).attr('data-price');
-    window.location.href= '/preview/'+ invoiceId;
+    window.location.href= '/preview/'+ itemId;
     $(window).on('load',function () {
         $(".company-name").text(`${name}`);
-        $(".invoice-number").text(`${invoiceNum}`); 
+        $(".item-number").text(`${itemsNum}`); 
     });
-}
+} */
 function logOut(){
     window.location.href= '/'
 }

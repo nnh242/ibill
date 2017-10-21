@@ -5,7 +5,7 @@ const mongoose = require ('mongoose');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 router.use(jsonParser);
-const {Invoice} = require('../models/invoices');
+const {Item} = require('../models/items');
 mongoose.Promise = global.Promise;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
@@ -17,18 +17,19 @@ const catchError = (err,res) => {
 }
 
 router.get('/', jwtAuth, (req, res) => {
-  Invoice
+  Item
   .find({'userId': req.user.id})
-  .then(invoices => {
-      res.json({invoices: invoices.map((invoice => invoice.apiRepr()))
+  .then(items => {
+      res.json({items: items.map((item => item.apiRepr()))
       });
     })
     .catch(catchError);
 }); 
 
 router.post('/',jwtAuth, jsonParser, (req,res) => {
-  const requiredFields = ['customer','price', 'item', 'userId'];
+  const requiredFields = ['number','customer','price', 'item', 'userId'];
   const missingField = requiredFields.find(field => !(field in req.body));
+  console.log(req.body);
   if (missingField) {
     return res.status(422).json({
       code: 422,
@@ -38,16 +39,16 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
     });
   }
 
-  Invoice.create({date:req.body.date, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
-    .then(invoice => 
-      res.status(201).json(invoice.apiRepr()))
+  Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
+    .then(item => 
+      res.status(201).json(item.apiRepr()))
     .catch(catchError);
 });
 
 router.get('/:id', jwtAuth, (req, res) => {
-  Invoice
+  Item
   .findById(req.params.id)
-  .then(invoice => res.json(invoice.apiRepr()))
+  .then(item => res.json(item.apiRepr()))
   .catch(catchError);
 });
 
@@ -57,23 +58,23 @@ router.put('/:id', jwtAuth, (req,res) => {
       return res.status(400).send('Unmatched id in request and body');
     }
     const toUpdate = {};
-    const updateableFields = ['date','customer','item','price']
+    const updateableFields = ['customer','item','price']
     updateableFields.forEach(field => {
       if (field in req.body) {
         toUpdate[field] = req.body[field];
       }
     });
     
-    Invoice
+    Item
     .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
-    .then(invoice => res.status(200).json(invoice.apiRepr()))
+    .then(item => res.status(200).json(item.apiRepr()))
     .catch(catchError);
 });
-//end point is /api/invoices/:id
+//end point is /api/items/:id
 router.delete('/:id', jwtAuth, (req,res) => {
-    Invoice
+    Item
     .findByIdAndRemove(req.params.id)
-    .then(invoice => res.status(204).end())
+    .then(item => res.status(204).end())
     .catch(catchError)
 });
 

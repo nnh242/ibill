@@ -9,7 +9,7 @@ const passport = require('passport');
 const {PORT, DATABASE_URL} = require('./config');
 const bcrypt = require('bcryptjs');
 
-const invoicesRouter = require('./routers/invoicesRouter');
+const itemsRouter = require('./routers/itemsRouter');
 
 const userRouter = require('./routers/userRouter');
 
@@ -49,7 +49,7 @@ app.use(passport.initialize());
 passport.use('basic',basicStrategy);
 passport.use('jwt', jwtStrategy);
 
-app.use('/api/invoices', invoicesRouter);
+app.use('/api/items', itemsRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
