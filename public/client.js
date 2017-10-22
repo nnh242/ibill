@@ -10,11 +10,13 @@ $(document).ready(function() {
     $('#items').DataTable();
     $('#back-button').on('click', toDashboard);
     $('#items').on('click','#delete-item',deleteItem);
-    $('#items').on('click','#edit-item', editItem);
+    $('#items').on('click', '#edit-item',editItem);
 })
+
 function start() {
     window.location.href= '/login';
 }
+
 function showRegister() {
     $('#sign-in-section').addClass('hidden');
     $('#demo').addClass('hidden');
@@ -75,7 +77,7 @@ function signIn() {
         let userData ={ username: username, password: password};
       $.ajax({
         url: '/api/auth/login',
-        method: 'GET',
+        method: 'POST',
         data: JSON.stringify(userData),
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
@@ -84,7 +86,6 @@ function signIn() {
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
            window.location.href= '/dashboard/' + currentUserId;
-          
         },
         error: function() {
             event.preventDefault();
@@ -111,6 +112,7 @@ function loadDashboard(storedToken,currentUserId,name) {
         headers:  {'Authorization': `Bearer ${storedToken}`},
         success: function(items) {
             console.log(items);
+            $('#data-table').html('');
             $.each(items, function loadItem(index){
                 for (let i=0; i< items[index].length; i++) {
                     $('#data-table').append(`
@@ -120,12 +122,13 @@ function loadDashboard(storedToken,currentUserId,name) {
                          <td>${items[index][i].item}</td>
                          <td>$ ${items[index][i].price}</td>
                          <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>
-                         <button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
+                         <button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
                         </tr>
                     `)
                 }
             })
-        }
+        },
+        error: catchAllError
     });
 }
 
@@ -191,7 +194,8 @@ function deleteItem() {
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
         success: function removeItem(){
-            $(this).closest('tr').remove();
+           // $(this).closest('tr').remove();
+           loadDashboard(storedToken,currentUserId,name);
         },
         error: catchAllError
     })
@@ -240,9 +244,8 @@ function editItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function(data){
-                console.log(data);
                 $('#create-form').toggleClass('hidden');
-                
+                loadDashboard(storedToken,currentUserId,name);
             },
             error: catchAllError
         })
@@ -250,18 +253,6 @@ function editItem(){
     })
 }
 
-/* function viewItem(name){
-    let itemId = $(this).attr('data-itemId');
-    let itemsNum = $(this).attr('data-itemsNum');
-    let thisCustomer = $(this).attr('data-customer');
-    let thisItem = $(this).attr('data-item');
-    let thisPrice = $(this).attr('data-price');
-    window.location.href= '/preview/'+ itemId;
-    $(window).on('load',function () {
-        $(".company-name").text(`${name}`);
-        $(".item-number").text(`${itemsNum}`); 
-    });
-} */
 function logOut(){
     window.location.href= '/'
 }

@@ -13,7 +13,7 @@ const createAuthToken = user => {
 
 const router = express.Router();
 
-router.get('/login',
+router.post('/login',
     passport.authenticate('basic', {session: false}),
     (req, res) => {
         const authToken = createAuthToken(req.user.apiRepr());
