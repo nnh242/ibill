@@ -163,7 +163,7 @@ function createItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                $('#number','#customer,#price,#item').val('');
+                $('#number,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
                 $('#data-table').prepend(`
@@ -210,7 +210,8 @@ function editItem(){
     let thisItem = $(this).attr('data-item');
     let thisPrice = $(this).attr('data-price');
     let thisNumber=$(this).attr('data-itemsNum');
-    $('#number').val(thisNumber).attr('readonly');
+    $('#number-lable').addClass('hidden');
+    $('#number').addClass('hidden')
     $('#customer').val(thisCustomer);
     $('#price').val(thisPrice);
     $('#item').val(thisItem);
@@ -226,6 +227,7 @@ function editItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function(data){
+                console.log(data);
             },
             error: catchAllError
         })
