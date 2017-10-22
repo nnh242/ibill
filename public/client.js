@@ -83,7 +83,6 @@ function signIn() {
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
-           $.cookie('displayAddress', data.user.address);
            window.location.href= '/dashboard/' + currentUserId;
           
         },
@@ -97,9 +96,7 @@ function signIn() {
 }
 
 const storedToken = $.cookie('token');
-console.log(storedToken);
 const currentUserId = $.cookie('userId');
-console.log(currentUserId);
 const name = $.cookie('displayName');
 
 loadDashboard(storedToken,currentUserId,name);
@@ -113,6 +110,7 @@ function loadDashboard(storedToken,currentUserId,name) {
         dataType: 'json',
         headers:  {'Authorization': `Bearer ${storedToken}`},
         success: function(items) {
+            console.log(items);
             $.each(items, function loadItem(index){
                 for (let i=0; i< items[index].length; i++) {
                     $('#data-table').append(`
@@ -137,7 +135,7 @@ function showForm() {
 
 function createItem(){
     event.preventDefault();
-    let number = $('#number').val()
+    let number = $('#number').val();
     let customer = $('#customer').val();
     let price = $('#price').val();
     let item = $('#item').val();
@@ -177,7 +175,7 @@ function createItem(){
                 </tr>
             `);
             },
-            error: function duplicateOrder(){
+            error: function (){
                 $('#number').notify('Order number cannot be duplicate', {position: 'top right'})
             }
         })
@@ -186,7 +184,6 @@ function createItem(){
 
 function deleteItem() {
     let itemId = $(this).attr('data-itemId');
-    console.log(itemId);
     $.ajax ({
         url: `/api/items/${itemId}`,
         method:'DELETE',
@@ -205,7 +202,6 @@ function editItem(){
     
     $('.dataTables_empty').hide();
     let itemId = $(this).attr('data-itemId');
-    console.log('item Id is ' + itemId)    ;
     let thisCustomer = $(this).attr('data-customer');
     let thisItem = $(this).attr('data-item');
     let thisPrice = $(this).attr('data-price');
@@ -218,8 +214,25 @@ function editItem(){
     $('#save-button').replaceWith(`<button type="button" class="primary-button" id="update-button">Update</button>`)
     $('#create-form').show();
     $('#update-button').on('click', function (){
-        let updateData = {id: itemId, customer: thisCustomer, price: thisPrice, item: thisItem, userId:$.cookie('userId')};
-        $.ajax({
+        let customer = $('#customer').val();
+        let price = $('#price').val();
+        let item = $('#item').val();
+        if (customer === '') {
+            $('#customer').notify('Please fill out this field', { position:"top right" });
+        }
+        else if (number === ''){
+            $('#number').notify('Please fill out this field', { position:"top right" })
+        }
+        else if (item === ''){
+            $('#item').notify('Please fill out this field', { position:"top right" });
+        }
+        else if (price === ''){
+            $('#price').notify('Please fill out this field', { position:"top right" });
+        }
+        else {
+            let updateData={id: itemId, number:thisNumber, customer:customer, price:price, item:item}
+            console.log(updateData);
+            $.ajax({
             url: `/api/items/${itemId}`,
             method: 'PUT',
             data: JSON.stringify(updateData),
@@ -228,9 +241,12 @@ function editItem(){
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function(data){
                 console.log(data);
+                $('#create-form').toggleClass('hidden');
+                
             },
             error: catchAllError
         })
+        }
     })
 }
 

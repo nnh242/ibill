@@ -2,8 +2,8 @@ const mongoose = require ('mongoose');
 const itemSchema = mongoose.Schema ({
     number: {type: String, required:true, unique: true},
     customer: {type: String, required: true},
-    item: [{type: String, required: true}],
-    price:[{type: Number, required: true}],
+    item: {type: String, required: true},
+    price: {type: Number, required: true},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
