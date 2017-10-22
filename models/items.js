@@ -1,6 +1,6 @@
 const mongoose = require ('mongoose');
 const itemSchema = mongoose.Schema ({
-    number: {type: Number, required:true, unique: true},
+    number: {type: String, required:true, unique: true},
     customer: {type: String, required: true},
     item: [{type: String, required: true}],
     price:[{type: Number, required: true}],

@@ -163,7 +163,7 @@ function createItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                $('#customer,#price,#item').val('');
+                $('#number','#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
                 $('#data-table').prepend(`
@@ -177,13 +177,16 @@ function createItem(){
                 </tr>
             `);
             },
-            error: catchAllError
+            error: function duplicateOrder(){
+                $('#number').notify('Order number cannot be duplicate', {position: 'top right'})
+            }
         })
     }   
 }
 
 function deleteItem() {
     let itemId = $(this).attr('data-itemId');
+    console.log(itemId);
     $.ajax ({
         url: `/api/items/${itemId}`,
         method:'DELETE',
@@ -199,13 +202,15 @@ function deleteItem() {
 
 function editItem(){
     event.preventDefault();
+    
     $('.dataTables_empty').hide();
     let itemId = $(this).attr('data-itemId');
-    let itemsNum = $(this).attr('data-itemsNum');
+    console.log('item Id is ' + itemId)    ;
     let thisCustomer = $(this).attr('data-customer');
     let thisItem = $(this).attr('data-item');
     let thisPrice = $(this).attr('data-price');
-    $('#number').val(itemsNum);
+    let thisNumber=$(this).attr('data-itemsNum');
+    $('#number').val(thisNumber).attr('readonly');
     $('#customer').val(thisCustomer);
     $('#price').val(thisPrice);
     $('#item').val(thisItem);
