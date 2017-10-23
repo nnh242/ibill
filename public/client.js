@@ -115,7 +115,7 @@ function validateNumber() {$.ajax({
     },
     error: catchAllError
    })}
-   
+
 loadDashboard(storedToken,currentUserId,name);
 
 function loadDashboard(storedToken,currentUserId,name) {
@@ -127,7 +127,6 @@ function loadDashboard(storedToken,currentUserId,name) {
         dataType: 'json',
         headers:  {'Authorization': `Bearer ${storedToken}`},
         success: function(items) {
-            console.log(items);
             $('#data-table').html('');
             $.each(items, function loadItem(index){
                 for (let i=0; i< items[index].length; i++) {
@@ -181,8 +180,6 @@ function createItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
-                console.log(data);
-                //if (data.message){$('#number').notify(err.message, {position: 'top right'});};
                 $('#number,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
@@ -220,7 +217,6 @@ function deleteItem() {
 
 function editItem(){
     event.preventDefault();
-    
     $('.dataTables_empty').hide();
     let itemId = $(this).attr('data-itemId');
     let thisCustomer = $(this).attr('data-customer');
@@ -235,6 +231,7 @@ function editItem(){
     $('#save-button').replaceWith(`<button type="button" class="primary-button" id="update-button">Update</button>`)
     $('#create-form').show();
     $('#update-button').on('click', function (){
+        $('#create-form').hide();
         let customer = $('#customer').val();
         let price = $('#price').val();
         let item = $('#item').val();
@@ -261,7 +258,6 @@ function editItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function(data){
-                $('#create-form').toggleClass('hidden');
                 loadDashboard(storedToken,currentUserId,name);
             },
             error: catchAllError
