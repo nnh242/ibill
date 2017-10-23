@@ -100,6 +100,22 @@ const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
 
+function validateNumber() {$.ajax({
+    url: '/api/items',
+    method: 'GET',
+    data: currentUserId,
+    dataType: 'json',
+    headers:  {'Authorization': `Bearer ${storedToken}`},
+    success: function(items) {
+        console.log(items);
+       /*  $.each(items, function loadItem(index){
+            for (let i=0; i< items[index].length; i++) {
+            const number= items[index][i].number;                        
+        }); */
+    },
+    error: catchAllError
+   })}
+   
 loadDashboard(storedToken,currentUserId,name);
 
 function loadDashboard(storedToken,currentUserId,name) {
@@ -156,6 +172,7 @@ function createItem(){
     }
     else {
        let itemsData = {number:number, customer: customer, price: price, item: item, userId:$.cookie('userId')};
+       
         $.ajax({
             url: '/api/items',
             method: 'POST',
@@ -164,6 +181,8 @@ function createItem(){
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
             success: function (data){
+                console.log(data);
+                //if (data.message){$('#number').notify(err.message, {position: 'top right'});};
                 $('#number,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
@@ -178,9 +197,7 @@ function createItem(){
                 </tr>
             `);
             },
-            error: function (){
-                $('#number').notify('Order number cannot be duplicate', {position: 'top right'})
-            }
+            error: catchAllError
         })
     }   
 }

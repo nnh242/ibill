@@ -12,7 +12,6 @@ const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const catchError = (err,res) => {
-  console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
 }
 
@@ -38,7 +37,6 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
       location: missingField
     });
   }
-
   Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
     .then(item => 
       res.status(201).json(item.apiRepr()))
