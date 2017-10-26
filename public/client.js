@@ -77,10 +77,11 @@ function signIn() {
         let userData ={ username: username, password: password};
       $.ajax({
         url: '/api/auth/login',
-        method: 'GET',
+        method: 'POST',
         data: JSON.stringify(userData),
         dataType: 'json',
-        headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
+        contentType: 'application/json',
+        //headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
         success: function(data){
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);

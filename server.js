@@ -15,7 +15,7 @@ const userRouter = require('./routers/userRouter');
 
 const authRouter = require('./auth/authRouter');
 
-const {basicStrategy, jwtStrategy }= require ('./auth/strategies');
+const {localStrategy, jwtStrategy }= require ('./auth/strategies');
 
 app.use(bodyParser.json());
 app.use(morgan('common'));
@@ -46,7 +46,7 @@ app.get('/dashboard/:id', (req,res) => {
 }); */
 
 app.use(passport.initialize());
-passport.use('basic',basicStrategy);
+passport.use('local',localStrategy);
 passport.use('jwt', jwtStrategy);
 
 app.use('/api/items', itemsRouter);
