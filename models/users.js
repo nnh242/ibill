@@ -5,9 +5,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = mongoose.Schema ({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
-    company: {type: String, required: true},
-    address: {type: String, Required: true},
-    phone: {type: String}
+    company: {type: String, required: true}
 });
 
 userSchema.methods.apiRepr = function() {
@@ -15,9 +13,7 @@ userSchema.methods.apiRepr = function() {
         id: this._id,
         username: this.username,
         password: this.password,
-        company: this.company,
-        address: this.address,
-        phone: this.phone
+        company: this.company
     }
   };
 

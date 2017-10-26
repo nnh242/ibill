@@ -118,7 +118,7 @@ router.post('/register', jsonParser, (req, res) => {
     return res.status(code).json(validateUserFields(req.body));
   }
 
-  let { username, password, company, address, phone} = userValid;
+  let { username, password, company} = userValid;
 
   return User.find({ username })
     .count()
@@ -134,7 +134,7 @@ router.post('/register', jsonParser, (req, res) => {
       return User.hashPassword(password);
     })
     .then(hash => {
-      return User.create({ username, password: hash, company, address, phone});
+      return User.create({ username, password: hash, company});
     })
     .then(user => {
       return res.status(201).json(user.apiRepr());

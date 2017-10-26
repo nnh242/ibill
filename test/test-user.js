@@ -10,7 +10,7 @@ const{TEST_DATABASE_URL} = require('../config');
 
 chai.use(chaiHttp);
 
-function seedUserData() {
+/* function seedUserData() {
     console.info('seeding user data');
     const seedData = [];
     for(let i=1; i<=10;i++){seedData.push(generateUserData());}
@@ -21,14 +21,7 @@ function generateUserData(){
     return {
         company: faker.company.name(),
         username: faker.internet.user_name(),
-        password: faker.internet.password(10),
-        address: {
-            street: faker.address.streetAddress(),
-            city: faker.address.city(),
-            state: faker.address.state(),
-            zipcode: faker.address.zip()
-        },
-        phone: faker.phoneNumber.cell_phone()
+        password: faker.internet.password(10)
     }
 }
 
@@ -91,4 +84,4 @@ describe('Users API resource', function() {
             });
         });
     });
-}); */
+});  */

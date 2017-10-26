@@ -3,7 +3,7 @@ $(document).ready(function() {
     $('#start-button').click(start);
     $('#logo').on('click', logOut);
     $('#register-link').on('click', showRegister);
-    $('#sign-in-form').on('submit', signIn );
+    $('#sign-in-form').on('submit', signIn);
     $('#register-form').on('submit', register);
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createItem);
@@ -77,7 +77,7 @@ function signIn() {
         let userData ={ username: username, password: password};
       $.ajax({
         url: '/api/auth/login',
-        method: 'POST',
+        method: 'GET',
         data: JSON.stringify(userData),
         dataType: 'json',
         headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
@@ -85,7 +85,11 @@ function signIn() {
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
            $.cookie('displayName', data.user.company);
+           const storedToken = $.cookie('token');
+           const currentUserId = $.cookie('userId');
+           const name = $.cookie('displayName');
            window.location.href= '/dashboard/' + currentUserId;
+           loadDashboard(storedToken,currentUserId,name);
         },
         error: function() {
             event.preventDefault();
@@ -99,8 +103,8 @@ function signIn() {
 const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
-
-function validateNumber() {$.ajax({
+loadDashboard(storedToken,currentUserId,name);
+/* function validateNumber() {$.ajax({
     url: '/api/items',
     method: 'GET',
     data: currentUserId,
@@ -108,15 +112,15 @@ function validateNumber() {$.ajax({
     headers:  {'Authorization': `Bearer ${storedToken}`},
     success: function(items) {
         console.log(items);
-       /*  $.each(items, function loadItem(index){
+        $.each(items, function loadItem(index){
             for (let i=0; i< items[index].length; i++) {
-            const number= items[index][i].number;                        
-        }); */
+            const number= items[index][i].number;   
+            }                     
+        });
     },
     error: catchAllError
-   })}
+   })} */
 
-loadDashboard(storedToken,currentUserId,name);
 
 function loadDashboard(storedToken,currentUserId,name) {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
@@ -193,6 +197,7 @@ function createItem(){
                 <button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button></td>
                 </tr>
             `);
+            loadDashboard(storedToken,currentUserId,name);
             },
             error: catchAllError
         })
@@ -208,7 +213,6 @@ function deleteItem() {
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
         success: function removeItem(){
-           // $(this).closest('tr').remove();
            loadDashboard(storedToken,currentUserId,name);
         },
         error: catchAllError

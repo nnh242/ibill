@@ -34,6 +34,7 @@ const basicStrategy = new BasicStrategy((username, password, callback) => {
       return callback(err, false);
     });
 });
+
 const jwtStrategy = new JwtStrategy(
   {
       secretOrKey: JWT_SECRET,
