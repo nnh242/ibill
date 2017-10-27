@@ -12,7 +12,7 @@ $(document).ready(function() {
     $('#items').on('click','#delete-item',deleteItem);
     $('#items').on('click', '#edit-item',editItem);
 })
-
+const t = $('#items').DataTable();;
 function start() {
     window.location.href= '/login';
 }
@@ -105,23 +105,6 @@ const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
 loadDashboard(storedToken,currentUserId,name);
-/* function validateNumber() {$.ajax({
-    url: '/api/items',
-    method: 'GET',
-    data: currentUserId,
-    dataType: 'json',
-    headers:  {'Authorization': `Bearer ${storedToken}`},
-    success: function(items) {
-        console.log(items);
-        $.each(items, function loadItem(index){
-            for (let i=0; i< items[index].length; i++) {
-            const number= items[index][i].number;   
-            }                     
-        });
-    },
-    error: catchAllError
-   })} */
-
 
 function loadDashboard(storedToken,currentUserId,name) {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
@@ -130,21 +113,20 @@ function loadDashboard(storedToken,currentUserId,name) {
         method: 'GET',
         data: currentUserId,
         dataType: 'json',
+        cache: false,
         headers:  {'Authorization': `Bearer ${storedToken}`},
         success: function(items) {
             $('#data-table').html('');
             $.each(items, function loadItem(index){
                 for (let i=0; i< items[index].length; i++) {
-                    $('#data-table').append(`
-                        <tr>
-                         <td>${items[index][i].number}</td>
-                         <td>${items[index][i].customer}</td>
-                         <td>${items[index][i].item}</td>
-                         <td>$ ${items[index][i].price}</td>
-                         <td><button onclick="deleteItem()" type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>
-                         <button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button></td>
-                        </tr>
-                    `)
+                    t.row.add( [
+                        items[index][i].number,
+                        items[index][i].customer,
+                        items[index][i].item,
+                        items[index][i].price,
+                        `<button type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>`,
+                        `<button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button>`
+                        ] ).draw( false );
                 }
             })
         },
@@ -188,19 +170,19 @@ function createItem(){
                 $('#number,#customer,#price,#item').val('');
                 $('#create-form').toggleClass('hidden');
                 $('.dataTables_empty').hide();
-                $('#data-table').prepend(`
-                <tr onclick="deleteItem()">
-                <td>${data.number}</td>
-                <td>${data.customer}</td>
-                <td>${data.item}</td>
-                <td>$ ${data.price}</td>
-                <td><button type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button>
-                <button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button></td>
-                </tr>
-            `);
-            loadDashboard(storedToken,currentUserId,name);
+                t.row.add( [
+                    data.number,
+                    data.customer,
+                    data.item,
+                    data.price,
+                    `<button type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button>`,
+                    `<button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button>`
+                    ] ).draw( false );
+            },
+            error: function (message){
+                $('#number').notify(message.responseText, {position:"top right"});
             }
-        })
+        });
     }   
 }
 

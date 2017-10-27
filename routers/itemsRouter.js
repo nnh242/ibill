@@ -38,16 +38,19 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
     });
   }
   Item
-  .find({number: req.body.number, number: {$exists:true}, userId:req.user.id})
-  .then( ()=> {
+  .find({number: req.body.number, userId:req.user.id})
+  .then( items => { if (items.length > 0) {
     const message ='Number has already been used'
     return res.status(400).send(message);
+    }
+    else {
+      Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
+      .then(item => 
+        res.status(201).json(item.apiRepr()))
+      .catch(catchError);
+    }
   })
-  .catch(() => {Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
-                    .then(item => 
-                      res.status(201).json(item.apiRepr()))
-                    .catch(catchError);
-  });
+  .catch(catchError);
 });
   
 
