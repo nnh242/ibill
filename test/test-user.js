@@ -10,7 +10,7 @@ const{TEST_DATABASE_URL} = require('../config');
 
 chai.use(chaiHttp);
 
-function seedUserData() {
+/* function seedUserData() {
     console.info('seeding user data');
     const seedData = [];
     for(let i=1; i<=10;i++){seedData.push(generateUserData());}
@@ -83,4 +83,4 @@ describe('Users API resource', function() {
             });
         });
     });
-}); 
+});  */
