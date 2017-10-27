@@ -10,7 +10,7 @@ const{TEST_DATABASE_URL} = require('../config');
 
 chai.use(chaiHttp);
 
-/* function seedUserData() {
+function seedUserData() {
     console.info('seeding user data');
     const seedData = [];
     for(let i=1; i<=10;i++){seedData.push(generateUserData());}
@@ -19,8 +19,8 @@ chai.use(chaiHttp);
 
 function generateUserData(){
     return {
-        company: faker.company.name(),
-        username: faker.internet.user_name(),
+        company: faker.company.companyName(),
+        username: faker.internet.userName(),
         password: faker.internet.password(10)
     }
 }
@@ -36,7 +36,7 @@ describe('Users API resource', function() {
       });
     
       beforeEach(function() {
-        return seedRestaurantData();
+        return seedUserData();
       });
     
       afterEach(function() {
@@ -58,12 +58,11 @@ describe('Users API resource', function() {
             return User.count();
             })
             .then(function(count) {
-            res.body.Users.should.have.length.of(count);
+            res.body.User.should.have.length.of(count);
             });
         });
     });
-    //post endpoint
-    //put endpoint
+    
     describe('DELETE endpoint', function() {
         it('delete user by id', function() {
     
@@ -84,4 +83,4 @@ describe('Users API resource', function() {
             });
         });
     });
-});  */
+}); 

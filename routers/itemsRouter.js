@@ -37,11 +37,19 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
       location: missingField
     });
   }
-  Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
-    .then(item => 
-      res.status(201).json(item.apiRepr()))
-    .catch(catchError);
+  Item
+  .find({number: req.body.number, number: {$exists:true}, userId:req.user.id})
+  .then( ()=> {
+    const message ='Number has already been used'
+    return res.status(400).send(message);
+  })
+  .catch(() => {Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
+                    .then(item => 
+                      res.status(201).json(item.apiRepr()))
+                    .catch(catchError);
+  });
 });
+  
 
 router.get('/:id', jwtAuth, (req, res) => {
   Item

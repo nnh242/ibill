@@ -44,15 +44,3 @@ describe('dashboard page', function() {
     });
   });
 });
-
-/* describe ('preview item', function (){
-  it('exists', function(done) {
-    chai.request(app)
-      .get('/preview')
-      .end(function(err, res) {
-        res.should.have.status(200);
-        res.should.be.html;
-        done();
-    });
-  });
-}); */

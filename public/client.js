@@ -199,8 +199,7 @@ function createItem(){
                 </tr>
             `);
             loadDashboard(storedToken,currentUserId,name);
-            },
-            error: catchAllError
+            }
         })
     }   
 }
