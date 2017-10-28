@@ -7,12 +7,14 @@ iBill is an application that allows users to log items sold to customers and sim
 ## UI/UX 
 The user gets started by clicking the Register link for an account, once they are logged in  and then sign in to the dashboard. In this application, one user account can create and store their own lists of items. Each billing database is unique to the user's account. 
 The landing page provides basic information and instruction of usage for the iBill application.
-            ->![ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/index.PNG)<-
-The user can sign in with exsiting account or register then sign in.
-            
-I want to give the user simplicity and ease of access while using this application, so I kept the UI clean and simple.
-           
-Credit to Gravit Designer Tutorials for the UI inspiration of this application.
+![Index ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/index.PNG)
+The user can sign in with exsiting account 
+![LogIn ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/login.PNG)
+or register then sign in.
+![Register ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/register.PNG)
+I want to give the user simplicity and ease of access while using this application, so I kept the UI clean and simple.Credit to Gravit Designer Tutorials for the UI inspiration of this application.
+![Dashboard ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/dashboard.PNG)
+
 
 ## Technologies
 * Front-End
