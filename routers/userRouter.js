@@ -91,12 +91,6 @@ function confirmUniqueUsername(username) {
 //api/users/register endpoint
 //CREATE
 router.post('/register', jsonParser, (req, res) => {
- /*  Item.save(function (err) {
-    Item.nextCount(function(err, count) {
-      Item.resetCount(function(err, nextCount) {
-               });
-           });
-       }); */
   const requiredFields = ['username', 'password', 'company'];
   const missingField = requiredFields.find(field => !(field in req.body));
   console.log('rb', req.body);
@@ -143,8 +137,8 @@ router.post('/register', jsonParser, (req, res) => {
         return res.status(err.code).json(err);
     });
 });
-
-router.get('/', (req, res) => {
+// get all users endpoint is only used for development
+/* router.get('/', (req, res) => {
   User
     .find()
     .then(users => {
@@ -155,7 +149,7 @@ router.get('/', (req, res) => {
     })
     .catch(catchError);
 });
-
+ */
 //get user by id
 router.get('/:id', jwtAuth, (req, res) => {
   User
