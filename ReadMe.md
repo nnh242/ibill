@@ -1,4 +1,5 @@
-# iBill  Live Demo: https://ibill.herokuapp.com/
+# iBill  
+Live Demo: https://ibill.herokuapp.com/
 ## Summary
 iBill is an application that allows users to log items sold to customers and simply create a printable invoice.
 ## Usage
@@ -8,13 +9,12 @@ iBill is an application that allows users to log items sold to customers and sim
 The user gets started by clicking the Register link for an account, and then sign in to be redirected to their own dashboard. In this application, one user account can create and store their own list of items which make up their billing database. 
 The landing page provides basic information and instruction of usage for the iBill application.
 <<<<<<< HEAD
-->![Index ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/index.PNG)<-
+->![Index ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/index.PNG)
 The user can sign in with exsiting account or register then sign in.
             
 I want to give the user simplicity and ease of access while using this application, so I kept the UI clean and simple.
            
 Credit to Gravit Designer Tutorials for the UI inspiration of this application.
-=======
 
 ![Index ScreenShot](https://github.com/nnh242/ibill/blob/master/screenshots/index.PNG)
 
