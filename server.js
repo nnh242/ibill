@@ -41,9 +41,9 @@ app.get('/login', (req,res) => {
 app.get('/dashboard/:id', (req,res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
 });
-/* app.get('/preview/:id', (req,res) => {
-    res.sendFile(__dirname + '/public/preview.html')
-}); */
+app.get('/invoice/:id', (req,res) => {
+    res.sendFile(__dirname + '/public/invoice.html')
+});
 
 app.use(passport.initialize());
 passport.use('local',localStrategy);

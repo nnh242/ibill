@@ -281,3 +281,41 @@ input {
     margin: 10px;
     color: #673AB7;
 }
+/* style for invoice preview page */
+.preview-container {
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+    border:1px solid #eee;
+    box-shadow:0 0 10px rgba(0, 0, 0, .15);
+    font-size:16px;
+    line-height:24px;
+    background-color: #FFFFFF;
+}
+.invoice-h {
+    background-color:#6A1B9A;
+    color: #FFFFFF;
+    padding: 10px;
+}
+.invoice-num {
+    text-align: right;
+}
+.customer {
+    float:right;
+    text-align: right;
+}
+.company-name {
+    margin: 0;
+    text-align: left;
+}
+.invoice-box{
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+}
+
+.invoice-box table{
+    width:100%;
+    line-height:inherit;
+    text-align:left;
+}

@@ -11,6 +11,7 @@ $(document).ready(function() {
     $('#back-button').on('click', toDashboard);
     $('#items').on('click','#delete-item',deleteItem);
     $('#items').on('click', '#edit-item',editItem);
+    $('#items').on('click','#invoice-item', invoice);
 })
 const t = $('#items').DataTable();;
 function start() {
@@ -125,7 +126,8 @@ function loadDashboard(storedToken,currentUserId,name) {
                         items[index][i].item,
                         items[index][i].price,
                         `<button type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>`,
-                        `<button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button>`
+                        `<button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button>`,
+                        `<button type="button" class="primary-button" id="invoice-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Invoice</button>`,
                         ] ).draw( false );
                 }
             })
@@ -176,7 +178,8 @@ function createItem(){
                     data.item,
                     data.price,
                     `<button type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button>`,
-                    `<button onclick="editItem()" type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button>`
+                    `<button type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button>`,
+                    `<button type="button" class="primary-button" id="invoice-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Invoice</button>`
                     ] ).draw( false );
             },
             error: function (message){
@@ -250,6 +253,16 @@ function editItem(){
         })
         }
     })
+}
+
+function invoice() {
+    let itemId = $(this).attr('data-itemId');
+    let thisCustomer = $(this).attr('data-customer');
+    let thisItem = $(this).attr('data-item');
+    let thisPrice = $(this).attr('data-price');
+    let thisNumber=$(this).attr('data-itemsNum');
+    console.log(itemId,thisCustomer,thisItem,thisPrice,thisNumber);
+    window.location.href= '/invoice/' + itemId;
 }
 
 function logOut(){
