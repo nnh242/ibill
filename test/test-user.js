@@ -12,7 +12,7 @@ const {JWT_SECRET} = require('../config');
 const expect = chai.expect;
 chai.use(chaiHttp);
 
-describe('/api/users', function() {
+describe('User API endpoints', function() {
     const username = 'testUser';
     const password = 'testPass';
     const company = 'Test';

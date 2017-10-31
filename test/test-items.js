@@ -4,7 +4,6 @@ const server = require('../server');
 const faker = require('faker');
 const mongoose = require('mongoose');
 const should = chai.should();
-const app = server.app;
 const {app, runServer, closeServer} = require('../server');
 chai.use(chaiHttp);
 
@@ -25,10 +24,10 @@ function seedItemData() {
 
 function generateTestItem() {
   return {
-    number: faker.number,
+    number: faker.random.number({min:1}),
     customer: faker.company.companyName(),
-    price: faker.,
-    userId: faker.internet
+    price: faker.commerce.price(),
+    userId: faker.random.uuid()
   }
 }
 
