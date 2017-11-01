@@ -123,13 +123,34 @@ input {
     text-align: center;
     margin: 25px auto;
 }
-
+.intro{
+    display: block;
+    color: #222222;
+    font-weight: bold;
+    text-align: center;
+    margin: 25px auto;
+}
+.index-images {
+    border: 1px solid white;
+    border-radius: 3px;
+    max-width: 1000px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+}
 #start-button {
     display: block;
     width: 310px;
     height: 44px;
     font-size: 21px;
     margin: auto;
+}
+.credits {
+    margin-top: 20px;
+    font-size: 10px;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
 }
 /* style for login page */
 .login-logo {
@@ -270,9 +291,7 @@ input {
 #items tbody tr:nth-child(odd) {
     color: #222222;
 }
-#items tbody tr:nth-child(even) {
-    background-color: #FFFFFF;
-}
+
 #itemss_paginate {
     float: right;
     padding: 20px;
@@ -281,7 +300,47 @@ input {
     margin: 10px;
     color: #673AB7;
 }
+
+#delete-item {
+    
+    background-image: url(/delete-button.PNG);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: white;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+      
+#delete-item span {
+    display: none;
+}
+
+#delete-item:hover, #edit-item:hover{
+    cursor: pointer;
+}
+#edit-item {
+    background-image: url(/edit-button.PNG);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: white;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
+#edit-item span {
+    display: none;
+}
 /* style for invoice preview page */
+
+#back-button {
+    display: block;
+    float: right;
+    width: 180px;
+    height: 40px;
+    margin-top: 40px;
+}
 .preview-container {
     max-width:800px;
     margin:auto;
@@ -291,9 +350,10 @@ input {
     font-size:16px;
     line-height:24px;
     background-color: #FFFFFF;
+    color: #000000;
 }
 .invoice-h {
-    background-color:#6A1B9A;
+    background-color:#673AB7;
     color: #FFFFFF;
     padding: 10px;
 }
@@ -318,4 +378,17 @@ input {
     width:100%;
     line-height:inherit;
     text-align:left;
+}
+
+.invoice-box table td{
+    padding:5px;
+    vertical-align:top;
+}
+
+.invoice-box table tr td:nth-child(2){
+    text-align:right;
+}
+
+.invoice-box table tr.top table td{
+    padding-bottom:20px;
 }

@@ -125,14 +125,13 @@ function loadDashboard(storedToken,currentUserId,name) {
                         items[index][i].customer,
                         items[index][i].item,
                         items[index][i].price,
-                        `<button type="button" class="primary-button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" >Delete</button>`,
-                        `<button type="button" class="primary-button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Edit</button>`,
+                        `<button type="button" id="delete-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}" ></button>`,
+                        `<button type="button" id="edit-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}"></button>`,
                         `<button type="button" class="primary-button" id="invoice-item" data-itemId="${items[index][i].id}" data-itemsNum="${items[index][i].number}" data-customer="${items[index][i].customer}" data-item="${items[index][i].item}" data-price="${items[index][i].price}">Invoice</button>`,
                         ] ).draw( false );
                 }
             })
-        },
-        error: catchAllError
+        }
     });
 }
 
@@ -177,8 +176,8 @@ function createItem(){
                     data.customer,
                     data.item,
                     data.price,
-                    `<button type="button" class="primary-button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}" >Delete</button>`,
-                    `<button type="button" class="primary-button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Edit</button>`,
+                    `<button type="button" id="delete-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}"></button>`,
+                    `<button type="button" id="edit-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}"></button>`,
                     `<button type="button" class="primary-button" id="invoice-item" data-itemId="${data.id}" data-itemsNum="${data.number}" data-customer="${data.customer}" data-item="${data.item}" data-price="${data.price}">Invoice</button>`
                     ] ).draw( false );
             },
@@ -198,7 +197,7 @@ function deleteItem() {
         dataType: 'json',
         headers: {'Authorization': `Bearer ${storedToken}`},
         success: function removeItem(){
-           loadDashboard(storedToken,currentUserId,name);
+            window.location.reload();
         },
         error: catchAllError
     })
@@ -217,7 +216,7 @@ function editItem(){
     $('#customer').val(thisCustomer);
     $('#price').val(thisPrice);
     $('#item').val(thisItem);
-    $('#save-button').replaceWith(`<button type="button" class="primary-button" id="update-button">Update</button>`)
+    $('#save-button').replaceWith(`<button type="button" class="primary-button" onClick="window.location.reload()" id="update-button">Update</button>`)
     $('#create-form').show();
     $('#update-button').on('click', function (){
         $('#create-form').hide();
@@ -238,7 +237,6 @@ function editItem(){
         }
         else {
             let updateData={id: itemId, number:thisNumber, customer:customer, price:price, item:item}
-            console.log(updateData);
             $.ajax({
             url: `/api/items/${itemId}`,
             method: 'PUT',
@@ -246,8 +244,10 @@ function editItem(){
             dataType: 'json',
             contentType:'application/json',
             headers: {'Authorization': `Bearer ${storedToken}`},
-            success: function(data){
-                loadDashboard(storedToken,currentUserId,name);
+            success: function() {
+                t.row(this)
+                .invalidate()
+                .draw()
             },
             error: catchAllError
         })

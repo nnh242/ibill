@@ -42,6 +42,7 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
   .then( items => { if (items.length > 0) {
     const message ='Number has already been used'
     return res.status(400).send(message);
+    next();
     }
     else {
       Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
