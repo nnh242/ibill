@@ -254,7 +254,6 @@ function editItem(){
         }
     })
 }
-
 function invoice() {
     let itemId = $(this).attr('data-itemId');
     let thisCustomer = $(this).attr('data-customer');

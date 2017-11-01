@@ -131,7 +131,7 @@ input {
     margin: 25px auto;
 }
 .index-images {
-    border: 1px solid white;
+    border: 2px solid white;
     border-radius: 3px;
     max-width: 1000px;
     padding-left: 20px;
@@ -208,6 +208,10 @@ input {
 }
 #app-logo {
     display: inline;
+}
+#app-logo:hover {
+    cursor:pointer;
+    
 }
 #company-name {
     float: right;
@@ -307,6 +311,8 @@ input {
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-color: white;
+    border: 1px white solid;
+    border-radius: 50%;
     height: 30px;
     width: 30px;
     border: none;
@@ -323,6 +329,8 @@ input {
     background-image: url(/edit-button.PNG);
     background-repeat: no-repeat;
     background-position: 50% 50%;
+    border: 1px white solid;
+    border-radius: 50%;
     background-color: white;
     height: 30px;
     width: 30px;
