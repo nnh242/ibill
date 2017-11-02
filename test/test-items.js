@@ -45,21 +45,15 @@ describe('Items API resource', function() {
   });
 
   beforeEach(function() {
-    return seedItemData()
-    .then( () =>{
-      chai.request(app)
+      return chai.request(app)
           .post('/api/users/register')
-          .send({username:"testuser", password:"1234567890", company:"TestCompany"})
-          .get('/api/auth/login')
-          .send({username:"testuser", password:"1234567890"})
-          .then(function(res){
-            test_token = res.body.authToken;
-            console.log(test_token);
-            userId = res.body.id;
-          })
+          .send({username:"testB", password:"1234567890", company:"TestB"})
+          .then(function() {return chai.request(app).post('/api/auth/login')
+                     .send({username:"testB", password:"1234567890"})
+                     .then(function(res){test_token = res.body.authToken; userId = res.body.id;})})
+          .then(function(){return seedItemData()});
     });
-  });
-
+  
   afterEach(function() {
     return tearDownDb();
   });
@@ -86,10 +80,7 @@ describe('Items API resource', function() {
         });
     });
 
-
     it('should return items with right fields', function() {
-      // Strategy: Get back all items, and ensure they have expected keys
-
       let resItem;
       return chai.request(app)
         .get('/api/items')
