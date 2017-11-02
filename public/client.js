@@ -82,7 +82,6 @@ function signIn() {
         data: JSON.stringify(userData),
         dataType: 'json',
         contentType: 'application/json',
-        //headers:  { 'Authorization': 'Basic ' + window.btoa(userData.username + ':' + userData.password) },
         success: function(data){
            $.cookie('token', data.authToken);
            $.cookie('userId', data.user._id);
@@ -252,7 +251,6 @@ function editItem(){
         }
     })
 }
-
 
 function logOut(){
     window.location.href= '/'

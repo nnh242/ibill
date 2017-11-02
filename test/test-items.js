@@ -49,7 +49,9 @@ describe('Items API resource', function() {
     .then( () =>{
       chai.request(app)
           .post('/api/users/register')
-          .send({username:"testuser",password:"1234567890", company:"TestCompany"})
+          .send({username:"testuser", password:"1234567890", company:"TestCompany"})
+          .get('/api/auth/login')
+          .send({username:"testuser", password:"1234567890"})
           .then(function(res){
             test_token = res.body.authToken;
             console.log(test_token);
