@@ -261,7 +261,7 @@ function invoice() {
     let thisPrice = $(this).attr('data-price');
     let thisNumber=$(this).attr('data-itemsNum');
     console.log(itemId,thisCustomer,thisItem,thisPrice,thisNumber);
-    window.location.href= '/invoice/' + itemId;
+    //window.location.href= '/invoice/' + itemId;
 }
 
 function logOut(){
