@@ -37,7 +37,7 @@ describe('User API endpoints', function() {
             it('Should reject users with missing username', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({password, company})
                     .then(() =>
                         expect.fail(null, null, 'Request should not succeed')
@@ -57,7 +57,7 @@ describe('User API endpoints', function() {
             it('Should reject users with missing password', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username,
                         company
@@ -80,7 +80,7 @@ describe('User API endpoints', function() {
             it('Should reject users with non-string username', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username: 1234,
                         password,
@@ -107,7 +107,7 @@ describe('User API endpoints', function() {
             it('Should reject users with empty username', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username: '',
                         password,
@@ -133,7 +133,7 @@ describe('User API endpoints', function() {
             it('Should reject users with password less than ten characters', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username,
                         password: '123456789',
@@ -159,7 +159,7 @@ describe('User API endpoints', function() {
             it('Should reject users with password greater than 72 characters', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username,
                         password: new Array(73).fill('a').join(''),
@@ -217,7 +217,7 @@ describe('User API endpoints', function() {
             it('Should create a new user', function() {
                 return chai
                     .request(app)
-                    .post('/api/users')
+                    .post('/api/users/register')
                     .send({
                         username,
                         password,

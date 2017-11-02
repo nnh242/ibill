@@ -400,3 +400,12 @@ input {
 .invoice-box table tr.top table td{
     padding-bottom:20px;
 }
+.heading {
+    background-color: #EFEFEF;
+    color: #222222;
+    border-bottom: 1px solid #DDDDDD;
+    font-weight: bold;
+}
+.item {
+    border-bottom: 1px solid #DDDDDD;
+}

@@ -6,10 +6,12 @@ const mongoose = require('mongoose');
 const should = chai.should();
 const {app, runServer, closeServer} = require('../server');
 chai.use(chaiHttp);
-
+const jwt = require('jsonwebtoken');
+const {JWT_SECRET} = require('../config');
 const {Item} = require('../models/items');
 
 const {TEST_DATABASE_URL} = require('../config');
+let test_token = "";
 
 function seedItemData() {
   console.info('seeding item data');
@@ -26,8 +28,9 @@ function generateTestItem() {
   return {
     number: faker.random.number({min:1}),
     customer: faker.company.companyName(),
+    item: faker.random.words(),
     price: faker.commerce.price(),
-    userId: faker.random.uuid()
+    userId: mongoose.Types.ObjectId()
   }
 }
 
@@ -42,7 +45,17 @@ describe('Items API resource', function() {
   });
 
   beforeEach(function() {
-    return seedItemData();
+    return seedItemData()
+    .then( () =>{
+      chai.request(app)
+          .post('/api/users/register')
+          .send({username:"testuser",password:"1234567890", company:"TestCompany"})
+          .then(function(res){
+            test_token = res.body.authToken;
+            console.log(test_token);
+            userId = res.body.id;
+          })
+    });
   });
 
   afterEach(function() {
@@ -58,7 +71,8 @@ describe('Items API resource', function() {
     it('should return all existing items', function() {
       let res;
       return chai.request(app)
-        .get('/items')
+        .get('/api/items')
+        .set('Authorization', `Bearer ${test_token}`)
         .then(function(_res) {
           res = _res;
           res.should.have.status(200);
@@ -76,7 +90,8 @@ describe('Items API resource', function() {
 
       let resItem;
       return chai.request(app)
-        .get('/items')
+        .get('/api/items')
+        .set('Authorization', `Bearer ${test_token}`)
         .then(function(res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -105,10 +120,11 @@ describe('Items API resource', function() {
 
   describe('POST endpoint', function() {
     it('should add a new item', function() {
-      const newItem = generateItemData();
+      const newItem = generateTestItem();
 
       return chai.request(app)
-        .post('/items')
+        .post('/api/items')
+        .set('Authorization', `Bearer ${test_token}`)
         .send(newItem)
         .then(function(res) {
           res.should.have.status(201);
@@ -147,7 +163,8 @@ describe('Items API resource', function() {
         .then(function(item) {
           updateData.id = item.id;
           return chai.request(app)
-            .put(`/items/${item.id}`)
+            .put(`/api/items/${item.id}`)
+            .set('Authorization', `Bearer ${test_token}`)
             .send(updateData);
         })
         .then(function(res) {
@@ -172,7 +189,7 @@ describe('Items API resource', function() {
         .findOne()
         .then(function(_item) {
           item = _item;
-          return chai.request(app).delete(`/items/${item.id}`);
+          return chai.request(app).delete(`/api/items/${item.id}`).set('Authorization', `Bearer ${test_token}`);
         })
         .then(function(res) {
           res.should.have.status(204);

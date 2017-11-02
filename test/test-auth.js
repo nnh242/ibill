@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../config');
 const expect = chai.expect;
 chai.use(chaiHttp);
+chai.use(require('chai-shallow-deep-equal'));
 
 describe('Auth endpoints', function() {
     const username = 'testUser';
@@ -79,7 +80,7 @@ describe('Auth endpoints', function() {
             return chai
                 .request(app)
                 .post('/api/auth/login')
-                .auth(username, password)
+                .send({username, password})
                 .then(res => {
                     expect(res).to.have.status(200);
                     expect(res.body).to.be.an('object');
@@ -88,7 +89,7 @@ describe('Auth endpoints', function() {
                     const payload = jwt.verify(token, JWT_SECRET, {
                         algorithm: ['HS256']
                     });
-                    expect(payload.user).to.deep.equal({
+                    expect(payload.user).to.shallowDeepEqual({
                         username,
                         company
                     });
