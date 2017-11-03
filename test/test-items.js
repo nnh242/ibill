@@ -30,7 +30,7 @@ function generateTestItem() {
     customer: faker.company.companyName(),
     item: faker.random.words(),
     price: faker.commerce.price(),
-    userId: mongoose.Types.ObjectId()
+    userId: userId
   }
 }
 
@@ -48,9 +48,12 @@ describe('Items API resource', function() {
       return chai.request(app)
           .post('/api/users/register')
           .send({username:"testB", password:"1234567890", company:"TestB"})
-          .then(function() {return chai.request(app).post('/api/auth/login')
+          .then(function(res) {
+            userId = res.body.id; 
+            console.log(userId);
+            return chai.request(app).post('/api/auth/login')
                      .send({username:"testB", password:"1234567890"})
-                     .then(function(res){test_token = res.body.authToken; userId = res.body.id;})})
+                     .then(function(res){test_token = res.body.authToken;})})
           .then(function(){return seedItemData()});
     });
   
@@ -76,7 +79,8 @@ describe('Items API resource', function() {
           return Item.count();
         })
         .then(function(count) {
-          res.body.items.should.have.length.of(count);
+          console.log(res.body);
+          res.body.items.should.have.lengthOf(count);
         });
     });
 
@@ -105,8 +109,8 @@ describe('Items API resource', function() {
           resItem.number.should.equal(item.number);
           resItem.customer.should.equal(item.customer);
           resItem.item.should.equal(item.item);
-          resItem.price.should.contain(item.price);
-          resItem.userId.should.equal(item.userId);
+          resItem.price.should.equal(item.price);
+          resItem.userId.should.equal(item.userId+'');
         });
     });
   });
@@ -125,20 +129,20 @@ describe('Items API resource', function() {
           res.body.should.be.a('object');
           res.body.should.include.keys(
             'id', 'number', 'customer', 'item', 'price', 'userId');
-          res.body.number.should.equal(newItem.number);
+          res.body.number.should.equal(newItem.number+'');
           res.body.id.should.not.be.null;
           res.body.customer.should.equal(newItem.customer);
-          res.body.price.should.equal(newItem.price);
+          res.body.price.should.equal(parseFloat(newItem.price));
           res.body.item.should.equal(newItem.item);
-          resItem.userId.should.equal(newItem.userId);         
+          res.body.userId.should.equal(newItem.userId);         
           return Item.findById(res.body.id);
         })
         .then(function(item) {
-          item.number.should.equal(newItem.number);
+          item.number.should.equal(newItem.number + '');
           item.customer.should.equal(newItem.customer);
-          item.price.should.equal(newItem.price);
+          item.price.should.equal(parseFloat(newItem.price));
           item.item.should.equal(newItem.item);
-          item.userId.should.equal(newItem.userId);
+          (item.userId + '').should.equal(newItem.userId +'');
         });
     });
   });
@@ -161,7 +165,7 @@ describe('Items API resource', function() {
             .send(updateData);
         })
         .then(function(res) {
-          res.should.have.status(204);
+          res.should.have.status(200);
 
           return Item.findById(updateData.id);
         })

@@ -1,6 +1,7 @@
 
 $(document).ready(function() {
     $('#start-button').click(start);
+    $('#start').click(start);
     $('#logo').on('click', logOut);
     $('#register-link').on('click', showRegister);
     $('#sign-in-form').on('submit', signIn);

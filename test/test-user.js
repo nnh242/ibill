@@ -14,10 +14,10 @@ chai.use(chaiHttp);
 
 describe('User API endpoints', function() {
     const username = 'testUser';
-    const password = 'testPass';
+    const password = 'testPassword';
     const company = 'Test';
     const usernameB = 'testUserB';
-    const passwordB = 'testPassB';
+    const passwordB = 'testPasswordB';
     const companyB = 'TestB';
 
     before(function() {
@@ -183,15 +183,13 @@ describe('User API endpoints', function() {
                     });
             });
             it('Should reject users with duplicate username', function() {
-                // Create an initial user
                 return User.create({
                     username,
                     password,
                     company
                 })
                     .then(() =>
-                        // Try to create a second user with the same username
-                        chai.request(app).post('/api/users').send({
+                        chai.request(app).post('/api/users/register').send({
                             username,
                             password,
                             company
@@ -226,7 +224,7 @@ describe('User API endpoints', function() {
                     .then(res => {
                         expect(res).to.have.status(201);
                         expect(res.body).to.be.an('object');
-                        expect(res.body).to.have.keys('username','company');
+                        expect(res.body).to.contain.keys('username','password','company','id');
                         expect(res.body.username).to.equal(username);
                         expect(res.body.company).to.equal(company);
                         return User.findOne({
