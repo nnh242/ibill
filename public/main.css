@@ -307,14 +307,14 @@ input {
 
 #delete-item {
     
-    background-image: url(/delete-button.PNG);
+    background-image: url(/delete-button.png);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     background-color: white;
     border: 1px white solid;
     border-radius: 50%;
-    height: 30px;
-    width: 30px;
+    height: 24px;
+    width: 24px;
     border: none;
 }
       
@@ -326,14 +326,14 @@ input {
     cursor: pointer;
 }
 #edit-item {
-    background-image: url(/edit-button.PNG);
+    background-image: url(/edit-button.png);
     background-repeat: no-repeat;
     background-position: 50% 50%;
     border: 1px white solid;
     border-radius: 50%;
     background-color: white;
-    height: 30px;
-    width: 30px;
+    height: 24px;
+    width: 24px;
     border: none;
 }
 
