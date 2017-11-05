@@ -12,7 +12,6 @@ const jwtAuth = passport.authenticate('jwt', { session: false });
 
 //reusable catch Error function
 const catchError = (err,res) => {
-  console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
 }
 
@@ -93,8 +92,6 @@ function confirmUniqueUsername(username) {
 router.post('/register', jsonParser, (req, res) => {
   const requiredFields = ['username', 'password', 'company'];
   const missingField = requiredFields.find(field => !(field in req.body));
-  console.log('rb', req.body);
-  console.log('mf', missingField);
   if (missingField) {
     return res.status(422).json({
       code: 422,
@@ -137,19 +134,6 @@ router.post('/register', jsonParser, (req, res) => {
         return res.status(err.code).json(err);
     });
 });
-// get all users endpoint is only used for development
-/* router.get('/', (req, res) => {
-  User
-    .find()
-    .then(users => {
-      res.json({
-        users: users.map(
-          (user) => user.apiRepr())
-      });
-    })
-    .catch(catchError);
-});
- */
 
 //GET user by id 
 router.get('/:id', jwtAuth, (req, res) => {
@@ -165,7 +149,6 @@ router.put('/:id', jsonParser, jwtAuth, (req, res) => {
     const message = (
       `Request path id (${req.params.id}) and request body id ` +
       `(${req.body.id}) must match`);
-    console.error(message);
     return res.status(400).json({message: message});
   }
 

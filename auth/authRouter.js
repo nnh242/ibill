@@ -18,7 +18,6 @@ router.post('/login',
     (req, res) => {
         const authToken = createAuthToken(req.user.apiRepr());
         res.json({authToken: authToken, user: req.user}); 
-        console.log(authToken);
     }
 );
 // this is endpoint api/auth/refresh
@@ -27,7 +26,6 @@ router.post('/refresh',
     (req, res) => {
         const authToken = createAuthToken(req.user);
         res.json({authToken}); 
-        console.log(req.user);
     }
 );
 

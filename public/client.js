@@ -28,7 +28,6 @@ function showRegister() {
 
 const catchAllError = err => {
         if (err.status === 401) {
-          console.log('invalid ajax');
           alert('Bad Request');
         }
       };

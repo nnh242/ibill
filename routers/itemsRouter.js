@@ -28,7 +28,6 @@ router.get('/',jwtAuth, (req, res) => {
 router.post('/',jwtAuth, jsonParser, (req,res) => {
   const requiredFields = ['number','customer','price', 'item', 'userId'];
   const missingField = requiredFields.find(field => !(field in req.body));
-  console.log(req.body);
   if (missingField) {
     return res.status(422).json({
       code: 422,
@@ -41,24 +40,18 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
   .find({number: req.body.number, userId:req.user.id})
   .then( items => { if (items.length > 0) {
     const message ='Number has already been used';
-    console.log('a');
     return res.status(400).send(message);
     }
     else {
       Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
       .then(item => {
-        console.log('d');
         res.status(201).json(item.apiRepr())})
       .catch((err) => {
-        console.log(err);
-        console.log('c');
         return res.status(500).json({error: 'Something went wrong'});
       })
     }
   })
   .catch((err) => {
-    console.log(err);
-    console.log('b');
     return res.status(500).json({error: 'Something went wrong'});
   });
 });
