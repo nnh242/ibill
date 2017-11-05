@@ -143,36 +143,4 @@ router.get('/:id', jwtAuth, (req, res) => {
     .catch(catchError);
 });
 
-//UPDATE user by id this is api/users/:id
-router.put('/:id', jsonParser, jwtAuth, (req, res) => {
-  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id ` +
-      `(${req.body.id}) must match`);
-    return res.status(400).json({message: message});
-  }
-
-  const toUpdate = {};
-  const updateableFields = ['company'];
-
-  updateableFields.forEach(field => {
-    if (field in req.body) {
-      toUpdate[field] = req.body[field];
-    }
-  });
-
- User
-  .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-  .then(item => res.status(204).end())
-  .catch(err => res.status(500).json({message: 'Internal server error'}));
-});
-
-//delete user by id
-router.delete('/:id', jwtAuth, (req,res) => {
-  User
-  .findByIdAndRemove(req.params.id)
-  .then(user =>res.status(204).end())  
-  .catch(catchError);
-});
-
 module.exports = router;
