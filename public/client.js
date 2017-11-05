@@ -22,7 +22,6 @@ function start() {
 //hide the log-in form and show the register form
 function showRegister() {
     $('#sign-in-section').addClass('hidden');
-    $('#demo').addClass('hidden');
     $('#register-section').removeClass('hidden');
 }
 
