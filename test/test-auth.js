@@ -107,7 +107,7 @@ describe('Auth endpoints', function() {
                 'wrongSecret',
                 {
                     algorithm: 'HS256',
-                    expiresIn: '70d'
+                    expiresIn: '7d'
                 }
             );
 
@@ -171,7 +171,7 @@ describe('Auth endpoints', function() {
                 {
                     algorithm: 'HS256',
                     subject: username,
-                    expiresIn: '70d'
+                    expiresIn: '7d'
                 }
             );
             const decoded = jwt.decode(token);
