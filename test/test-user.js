@@ -21,7 +21,7 @@ describe('User API endpoints', function() {
     const companyB = 'TestB';
 
     before(function() {
-        return runServer();
+        return runServer(TEST_DATABASE_URL);
     });
 
     after(function() {

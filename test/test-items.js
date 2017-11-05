@@ -58,7 +58,7 @@ describe('Items API resource', function() {
     });
   
   afterEach(function() {
-    return tearDownDb();
+    return tearDownDb(TEST_DATABASE_URL);
   });
 
   after(function() {

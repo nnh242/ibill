@@ -10,7 +10,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
 
-
+//reusable catch Error function
 const catchError = (err,res) => {
   console.error(err);
   return res.status(500).json({error: 'Something went wrong'});
@@ -150,7 +150,8 @@ router.post('/register', jsonParser, (req, res) => {
     .catch(catchError);
 });
  */
-//get user by id
+
+//GET user by id 
 router.get('/:id', jwtAuth, (req, res) => {
   User
     .findById(req.params.id)
@@ -158,7 +159,7 @@ router.get('/:id', jwtAuth, (req, res) => {
     .catch(catchError);
 });
 
-//update user by id 
+//UPDATE user by id this is api/users/:id
 router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
     const message = (

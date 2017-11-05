@@ -10,11 +10,11 @@ mongoose.Promise = global.Promise;
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const jwtAuth = passport.authenticate('jwt', { session: false });
-
+//reusable catchError function
 const catchError = (err,res) => {
   return res.status(500).json({error: 'Something went wrong'});
 }
-
+//this endpoint api/items is protected
 router.get('/',jwtAuth, (req, res) => {
   Item
   .find({'userId': req.user.id})
@@ -24,7 +24,7 @@ router.get('/',jwtAuth, (req, res) => {
     })
     .catch(catchError);
 }); 
-
+//this is POST endpoint api/items with input validation, no order has the same number
 router.post('/',jwtAuth, jsonParser, (req,res) => {
   const requiredFields = ['number','customer','price', 'item', 'userId'];
   const missingField = requiredFields.find(field => !(field in req.body));
@@ -40,28 +40,37 @@ router.post('/',jwtAuth, jsonParser, (req,res) => {
   Item
   .find({number: req.body.number, userId:req.user.id})
   .then( items => { if (items.length > 0) {
-    const message ='Number has already been used'
+    const message ='Number has already been used';
+    console.log('a');
     return res.status(400).send(message);
-    next();
     }
     else {
       Item.create({number: req.body.number, customer:req.body.customer, item:req.body.item, price:req.body.price, userId:req.user.id})
-      .then(item => 
-        res.status(201).json(item.apiRepr()))
-      .catch(catchError);
+      .then(item => {
+        console.log('d');
+        res.status(201).json(item.apiRepr())})
+      .catch((err) => {
+        console.log(err);
+        console.log('c');
+        return res.status(500).json({error: 'Something went wrong'});
+      })
     }
   })
-  .catch(catchError);
+  .catch((err) => {
+    console.log(err);
+    console.log('b');
+    return res.status(500).json({error: 'Something went wrong'});
+  });
 });
   
-
+//getting an item of the database by item's id api/items/:id
 router.get('/:id', jwtAuth, (req, res) => {
   Item
   .findById(req.params.id)
   .then(item => res.json(item.apiRepr()))
   .catch(catchError);
 });
-
+//Update ordered item by id
 router.put('/:id', jwtAuth, (req,res) => {
     if (req.params.id !== req.body.id) {
       console.error('Unmatched id in request and body');
@@ -80,7 +89,7 @@ router.put('/:id', jwtAuth, (req,res) => {
     .then(item => res.status(200).json(item.apiRepr()))
     .catch(catchError);
 });
-//end point is /api/items/:id
+//DELETE end point is /api/items/:id
 router.delete('/:id', jwtAuth, (req,res) => {
     Item
     .findByIdAndRemove(req.params.id)

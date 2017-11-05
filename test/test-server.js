@@ -8,7 +8,7 @@ const app = server.app;
 
 chai.use(chaiHttp);
 
-
+//test that index.html is served at root endpoint
 describe('index page', function() {
   it('exists', function(done) {
     chai.request(app)
@@ -20,7 +20,7 @@ describe('index page', function() {
     });
   });
 });
-
+// test that login.html is served at /login endpoint
 describe('login page', function() {
   it('exists', function(done) {
     chai.request(app)
@@ -32,7 +32,7 @@ describe('login page', function() {
     });
   });
 });
-
+//test taht dashboard.html is served and customized by userId at /dashboard/:id
 describe('dashboard page', function() {
   it('exists', function(done) {
     chai.request(app)

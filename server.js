@@ -8,18 +8,14 @@ mongoose.Promise = global.Promise;
 const passport = require('passport');
 const {PORT, DATABASE_URL} = require('./config');
 const bcrypt = require('bcryptjs');
-
 const itemsRouter = require('./routers/itemsRouter');
-
 const userRouter = require('./routers/userRouter');
-
 const authRouter = require('./auth/authRouter');
-
 const {localStrategy, jwtStrategy }= require ('./auth/strategies');
-
 app.use(bodyParser.json());
+
+//morgan is for logging
 app.use(morgan('common'));
-app.use(express.static('public'));
 
 // CORS
 app.use(function(req, res, next) {
@@ -32,6 +28,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+//serving static assets
+app.use(express.static('public'));
 app.get('/', (req,res) => {
     res.sendFile(__dirname + 'index.html');
 });
@@ -42,15 +40,17 @@ app.get('/dashboard/:id', (req,res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
 });
 
-
+//initialize and redirect to passport strategies
 app.use(passport.initialize());
 passport.use('local',localStrategy);
 passport.use('jwt', jwtStrategy);
 
+//routes to endpoints
 app.use('/api/items', itemsRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 
+//catching all endpoints not intended
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
 });
@@ -58,7 +58,7 @@ app.use('*', function(req, res) {
 app.listen(process.env.PORT || 3525);
 
 let server;
-
+//run server and close server functions are useful for testing
 function runServer(databaseUrl=DATABASE_URL, port=PORT) {
   
     return new Promise((resolve, reject) => {

@@ -9,16 +9,17 @@ $(document).ready(function() {
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createItem);
     $('#items').DataTable();
-    $('#back-button').on('click', toDashboard);
     $('#items').on('click','#delete-item',deleteItem);
     $('#items').on('click', '#edit-item',editItem);
 
 })
 const t = $('#items').DataTable();;
+
+//redirect users to log-in page
 function start() {
     window.location.href= '/login';
 }
-
+//hide the log-in form and show the register form
 function showRegister() {
     $('#sign-in-section').addClass('hidden');
     $('#demo').addClass('hidden');
@@ -27,14 +28,16 @@ function showRegister() {
 
 const catchAllError = err => {
         if (err.status === 401) {
-          alert('invalid ajax');
+          console.log('invalid ajax');
+          alert('Bad Request');
         }
       };
-
+// validate and user's username passwordto api/users/register to create new user
 function register() {
     event.preventDefault();
     let username = $('#register-username').val();
     let password = $('#register-password').val();
+    let company = $('#name').val();
     if (username === '') {
         $('#register-username').notify('Please fill out this field');
     }
@@ -42,9 +45,7 @@ function register() {
         $('#register-password').notify('Please fill out this field');
     }
     else {
-        let company = $('#name').val();
-        let phone = $('#phone').val();
-        let registerData = {username: username, password: password, company: company, phone: phone};
+        let registerData = {username: username, password: password, company: company};
         $.ajax ({
             url: '/api/users/register',
             method: 'POST',
@@ -57,14 +58,19 @@ function register() {
                 $('#sign-in-section').removeClass('hidden');
                 $('#login-footer').replaceWith(`<h4>Thank you for registering, please sign in!</h4>`);
             },
-            error: function() {
-                $('.headlines').notify('Invalid username or password', 
-                { position:"bottom" })
+            error: function(res) {
+                if(res.responseJSON.location === 'password'){
+                    $('#register-password').notify('Password must have at least 10 characters')
+                }
+                else if(res.responseJSON.location === 'username'){
+                   $('#register-username').notify('Username is already taken')
+                } 
             }
         })
     }
 }
-
+//post username and password to api/auth/login to exchange for a jwt token to access protected, user-unique dashboard
+//access controlled by userID and jwt token
 function signIn() {
     event.preventDefault();
     let username = $('#sign-in-username').val();
@@ -106,7 +112,8 @@ const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
 loadDashboard(storedToken,currentUserId,name);
-
+//loadDashboard function is reused for each CRUD ajax request of app
+//loading the data table and the company's information
 function loadDashboard(storedToken,currentUserId,name) {
     $('#company-name').replaceWith(`<h4 id="company-name">${name}<h4>`)
     $.ajax ({
@@ -137,7 +144,7 @@ function loadDashboard(storedToken,currentUserId,name) {
 function showForm() {
     $('#create-form').removeClass('hidden');
 }
-
+//this function validates user's inputs and create/display an item to the data table
 function createItem(){
     event.preventDefault();
     let number = $('#number').val();
@@ -185,7 +192,7 @@ function createItem(){
         });
     }   
 }
-
+// this function deletes an item by id and then update the page
 function deleteItem() {
     let itemId = $(this).attr('data-itemId');
     $.ajax ({
@@ -200,7 +207,9 @@ function deleteItem() {
         error: catchAllError
     })
 }
-
+//this function allows users to update item by customer, price and item's description
+// it loads the current details back up to the form
+// after user enters new updated data and hits update, the data table is updated
 function editItem(){
     event.preventDefault();
     $('.dataTables_empty').hide();
@@ -253,9 +262,7 @@ function editItem(){
     })
 }
 
+//user clicks on the logo and redirected to home page
 function logOut(){
     window.location.href= '/'
-}
-function toDashboard(){
-    window.location.href= '/dashboard/'+ $.cookie('userId');
 }

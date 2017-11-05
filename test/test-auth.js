@@ -20,13 +20,13 @@ describe('Auth endpoints', function() {
   
 
     before(function() {
-        return runServer();
+        return runServer(TEST_DATABASE_URL);
     });
 
     after(function() {
         return closeServer();
     });
-
+//before each test user is created and password is hashed
     beforeEach(function() {
         return User.hashPassword(password).then(password =>
             User.create({
@@ -107,7 +107,7 @@ describe('Auth endpoints', function() {
                 'wrongSecret',
                 {
                     algorithm: 'HS256',
-                    expiresIn: '7d'
+                    expiresIn: '70d'
                 }
             );
 
@@ -171,7 +171,7 @@ describe('Auth endpoints', function() {
                 {
                     algorithm: 'HS256',
                     subject: username,
-                    expiresIn: '7d'
+                    expiresIn: '70d'
                 }
             );
             const decoded = jwt.decode(token);

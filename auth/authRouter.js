@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
-
+//create a jwt token when client sends username and password
 const createAuthToken = user => {
     return jwt.sign({user}, config.JWT_SECRET, {
         subject: user.username,
@@ -12,7 +12,7 @@ const createAuthToken = user => {
 };
 
 const router = express.Router();
-
+// this is endpoint api/auth/login
 router.post('/login',
     passport.authenticate('local', {session: false}),
     (req, res) => {
@@ -21,7 +21,7 @@ router.post('/login',
         console.log(authToken);
     }
 );
-
+// this is endpoint api/auth/refresh
 router.post('/refresh',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {

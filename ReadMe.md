@@ -17,8 +17,6 @@ I want to give the user simplicity and ease of access while using this applicati
            
 Credit to Gravit Designer Tutorials for the UI inspiration of this application.
 
-![Index ScreenShot](https://github.com/nnh242/ibill/blob/master/public/screenshots/index.PNG)
-
 The user can sign in with exsiting account 
 
 ![LogIn ScreenShot](https://github.com/nnh242/ibill/blob/master/public/screenshots/login.PNG)
