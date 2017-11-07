@@ -73,14 +73,19 @@ function signIn() {
     event.preventDefault();
     let username = $('#sign-in-username').val();
     let password = $('#sign-in-password').val();
-    if (username === '') {
+    let name = $('#name').val();
+    let 
+    if (name === ''){
+        $('#name').notify('Please fill out this field');
+    }
+    else if (username === '') {
         $('#sign-in-username').notify('Please fill out this field');
     }
     else if (password === '') {
         $('#sign-in-password').notify('Please fill out this field');
     }
     else {
-        let userData ={ username: username, password: password};
+        let userData ={ username: username, password: password, name:name};
       $.ajax({
         url: '/api/auth/login',
         method: 'POST',
