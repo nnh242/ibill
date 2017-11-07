@@ -299,39 +299,3 @@ input {
     margin: 10px;
     color: #673AB7;
 }
-
-#delete-item {
-    
-    background-image: url(/delete-button.png);
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-color: white;
-    border: 1px white solid;
-    border-radius: 50%;
-    height: 24px;
-    width: 24px;
-    border: none;
-}
-      
-#delete-item span {
-    display: none;
-}
-
-#delete-item:hover, #edit-item:hover{
-    cursor: pointer;
-}
-#edit-item {
-    background-image: url(/edit-button.png);
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    border: 1px white solid;
-    border-radius: 50%;
-    background-color: white;
-    height: 24px;
-    width: 24px;
-    border: none;
-}
-
-#edit-item span {
-    display: none;
-}
