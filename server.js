@@ -55,8 +55,6 @@ app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
 });
 
-app.listen(process.env.PORT || 3525);
-
 let server;
 //run server and close server functions are useful for testing
 function runServer(databaseUrl=DATABASE_URL, port=PORT) {

@@ -89,7 +89,7 @@ function confirmUniqueUsername(username) {
 }
 //api/users/register endpoint
 //CREATE
-router.post('/register', jsonParser, (req, res) => {
+router.post('/register', jsonParser, (req, res, next) => {
   const requiredFields = ['username', 'password', 'company'];
   const missingField = requiredFields.find(field => !(field in req.body));
   if (missingField) {
@@ -128,11 +128,14 @@ router.post('/register', jsonParser, (req, res) => {
       return User.create({ username, password: hash, company});
     })
     .then(user => {
-      return res.status(201).json(user.apiRepr());
+      //return res.status(201).json(user.apiRepr());
+      return next();
     })
     .catch(err => {
         return res.status(err.code).json(err);
     });
+}, passport.authenticate('local'), function(req, res) {
+  res.status(200).send({});
 });
 
 //GET user by id 
