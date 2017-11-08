@@ -1,10 +1,9 @@
 # iBill  
 Live Demo: https://ibill.herokuapp.com/
 ## Summary
-iBill is an application that allows users to log items sold to customers and simply create a printable invoice.
+iBill is an application that allows users to log items sold to customers.
 ## Usage
 - Create, Update, Delete, Retrieve items in a Sortable and Searchable table
-- Create a simple HTML, read-only, printable invoice 
 ## UI/UX 
 The user gets started by clicking the Register link for an account, and then sign in to be redirected to their own dashboard. In this application, one user account can create and store their own list of items which make up their billing database. 
 The landing page provides basic information and instruction of usage for the iBill application.
