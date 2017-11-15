@@ -195,7 +195,9 @@ input {
     text-decoration: underline;
     color: #0D47A1;
 }
-
+.demo {
+    text-align: center;
+}
 /* style for dashboard page */
 .container {
     display:block;
