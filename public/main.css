@@ -264,6 +264,9 @@ input {
     display: block;
     margin: 0 auto;
 }
+#items {
+    text-align: center;
+}
 #items_wrapper {
     display: block;
     margin: 0 auto;
