@@ -46,8 +46,8 @@
     .table-container {
         max-width: 80%;
     }
-    #create-form {
-        max-width: 80%;
+    #create-form, #create-item, .container {
+        max-width: 100%;
     }
     .index-images {
         max-width: 80%;
@@ -206,7 +206,13 @@ input {
 /* style for dashboard page */
 .container {
     display:block;
+    max-width: 1000px;
     border-bottom: 1px solid #707070;
+    margin: 20px auto;
+}
+.dash-header {
+    display:block;
+    max-width: 100%;
 }
 #app-logo {
     display: inline;
@@ -225,10 +231,10 @@ input {
 }
 .create-item {
     margin: 20px auto;
+    max-width: 1000px;
 }
 #form-button {
-    display: inline-block;
-    float: right;
+    display: inline;
     width: 140px;
     height: 30px;
     margin-bottom: 20px;
@@ -239,6 +245,7 @@ input {
     border-radius: 3px;
     padding: 10px;
     margin: 20px auto;
+    max-width: 1000px;
 }
 #create-form label {
     font-size: 17px;
@@ -262,52 +269,3 @@ input {
     margin: 0 auto;
     max-width: 1000px;
 }
-/* 
-
-#items_wrapper {
-    max-width: 1000px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin: 0 auto;
-}
-
-#items_filter {
-    text-align: center;
-}
-
-#items_filter input {
-    padding-left: 20px;
-    width: 50%;
-    height: 30px; 
-    border: 1px solid #EFEFEF;
-    border-radius: 3px;
-}
-#items table {
-    border-bottom: 1px solid #707070;
-    border-collapse: collapse;
-}
-#items th, #items td {
-    border-bottom: 1px solid #707070;
-    padding: 15px;
-    text-align: center;
-}
-#items thead {
-    color: #673AB7;
-}
-
-#items table {
-    margin: 0 auto;
-    width: 100%;
-}
-#items tbody tr:nth-child(odd) {
-    color: #222222;
-}
-
-#items_paginate {
-    float: right;
-    padding: 20px;
-}
-.paginate_button {
-    margin: 10px;
-    color: #673AB7;
-} */
