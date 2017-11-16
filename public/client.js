@@ -1,4 +1,4 @@
-
+let t;
 $(document).ready(function() {
     $('#start-button').click(start);
     $('#start').click(start);
@@ -8,12 +8,12 @@ $(document).ready(function() {
     $('#register-form').on('submit', register);
     $('#form-button').on('click',showForm);
     $('#create-form').on('submit',createItem);
-    $('#items').DataTable();
+    t=$('#items').DataTable({responsive: true});
     $('#items').on('click','#delete-item',deleteItem);
     $('#items').on('click', '#edit-item',editItem);
-
+    loadDashboard(storedToken,currentUserId,name);
 })
-const t = $('#items').DataTable();;
+
 
 //redirect users to log-in page
 function start() {
@@ -110,7 +110,7 @@ function signIn() {
 const storedToken = $.cookie('token');
 const currentUserId = $.cookie('userId');
 const name = $.cookie('displayName');
-loadDashboard(storedToken,currentUserId,name);
+
 //loadDashboard function is reused for each CRUD ajax request of app
 //loading the data table and the company's information
 function loadDashboard(storedToken,currentUserId,name) {

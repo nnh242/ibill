@@ -49,6 +49,9 @@
     #create-form {
         max-width: 80%;
     }
+    .index-images {
+        max-width: 80%;
+    }
 }
 /*typography*/
 body {
@@ -117,6 +120,7 @@ input {
 .index img {
     display: block;
     margin: auto;
+    max-width: 100%;
 }
 .index span {
     display: block;
@@ -132,9 +136,9 @@ input {
     margin: 25px auto;
 }
 .index-images {
+
     border: 2px solid #673AB7;
     border-radius: 3px;
-    max-width: 800px;
     padding-left: 20px;
     padding-right: 20px;
     margin: 0 auto;
@@ -253,7 +257,12 @@ input {
     display: block;
     margin: 0 auto;
 }
-
+#items_wrapper {
+    display: block;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+/* 
 
 #items_wrapper {
     max-width: 1000px;
@@ -294,11 +303,11 @@ input {
     color: #222222;
 }
 
-#itemss_paginate {
+#items_paginate {
     float: right;
     padding: 20px;
 }
 .paginate_button {
     margin: 10px;
     color: #673AB7;
-}
+} */
