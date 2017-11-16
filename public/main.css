@@ -71,9 +71,9 @@ h3 {
     font-size: 32px;
 }
 .headlines {
+    display:block;
     margin: 0 auto;
     color: #673AB7;
-
 }
 .hidden {
     display:none;
@@ -230,21 +230,24 @@ input {
     display: inline;
 }
 .create-item {
+    display: block;
     margin: 20px auto;
     max-width: 1000px;
 }
+
 #form-button {
-    display: inline;
+    float: right;
     width: 140px;
     height: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
+
 }
 
 #create-form {
     border: solid 1px #222222;
     border-radius: 3px;
     padding: 10px;
-    margin: 20px auto;
+    margin: 40px auto;
     max-width: 1000px;
 }
 #create-form label {
