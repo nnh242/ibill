@@ -141,10 +141,10 @@ input {
 }
 #start-button, #start {
     display: block;
-    width: 310px;
+    width: 280px;
     height: 44px;
     font-size: 21px;
-    margin: 20px auto;
+    margin: 0 auto;
 }
 .credits {
     margin-top: 20px;
