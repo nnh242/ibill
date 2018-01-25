@@ -1,4 +1,4 @@
-* { 
+* {
     box-sizing: border-box;
 }
 /*responsive grid*/
@@ -8,22 +8,22 @@
     padding-right: 20px;
     margin: 0 auto;
   }
-  
+
   .row::before, .row::after {
     display: table;
     content: '';
   }
-  
+
   .row::after {
     clear: both;
   }
-  
+
   .col-3, .col-4, .col-6,.col-12 {
     float: left;
     padding-left: 1.04166666%;
     padding-right: 1.04166666%;
   }
-  
+
   .col-3, .col-4, .col-6, .col-12 {
     width: 100%;
   }
@@ -32,14 +32,14 @@
     .col-3 {
       width: 25%;
     }
-  
+
     .col-4 {
       width: 33.33%;
     }
-  
+
     .col-6 {
       width: 50%;
-    }  
+    }
      .col-12 {
       width: 100%;
     }
@@ -96,7 +96,7 @@ input {
     width: 75px;
     height: 100px;
     margin-right: 20px;
-    margin-top: 15px;    
+    margin-top: 15px;
 }
 
 .primary-button {
@@ -144,7 +144,7 @@ input {
     width: 280px;
     height: 44px;
     font-size: 21px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 .credits {
     margin-top: 20px;
@@ -215,7 +215,7 @@ input {
 }
 #app-logo:hover {
     cursor:pointer;
-    
+
 }
 #company-name {
     float: right;
