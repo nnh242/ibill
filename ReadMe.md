@@ -28,6 +28,17 @@ I want to give the user simplicity and ease of access while using this applicati
 
 ![Dashboard ScreenShot](https://github.com/nnh242/ibill/blob/master/public/screenshots/dashboard.PNG)
 
+## API:
+* Items
+    * CREATE: api/items- POST to to this endpoint and a valid request will create an item with an id in the response
+    * READ:  
+        * api/items/ - GET all items in the user account to display on the dashboard 
+        * api/items/:id - GET an item by id
+    * UPDATE: api/items/:id - PUT request to this endpoint will update the item's fields (order number, client, price, quantity)
+    * DELETE: api/items/:id - DELETE request to this endpooint to delete a specific item
+* Users
+    * CREATE: To register a new user, the endpoint is api/users/register 
+    * READ: To log in, GET user by id, the endpoint is api/users/:id
 
 ## Technologies
 * Front-End
