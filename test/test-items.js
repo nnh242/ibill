@@ -129,7 +129,7 @@ describe('Items API resource', function() {
           res.body.should.be.a('object');
           res.body.should.include.keys(
             'id', 'number', 'customer', 'item', 'price', 'userId');
-          res.body.number.should.equal(newItem.number+'');
+          res.body.number.should.equal(newItem.number);
           res.body.id.should.not.be.null;
           res.body.customer.should.equal(newItem.customer);
           res.body.price.should.equal(parseFloat(newItem.price));
