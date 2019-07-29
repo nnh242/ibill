@@ -138,7 +138,7 @@ describe('Items API resource', function() {
           return Item.findById(res.body.id);
         })
         .then(function(item) {
-          item.number.should.equal(newItem.number + '');
+          item.number.should.equal(newItem.number);
           item.customer.should.equal(newItem.customer);
           item.price.should.equal(parseFloat(newItem.price));
           item.item.should.equal(newItem.item);
