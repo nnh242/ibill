@@ -3,14 +3,19 @@ node_js: node
 services:
 - mongodb
 env:
-- CXX=g++-5
+- CXX=g++-4.8
 sudo: required
+before-install:
+- sudo apt-get install python2.7
+- npm install -g node-gyp
 addons:
     apt:
         sources:
         - ubuntu-toolchain-r-test
+        - deadsnakes
         packages:
-        - g++-5
+        - g++-4.8
+        - python2.7
 deploy:
   provider: heroku
   api_key:
