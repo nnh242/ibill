@@ -3,14 +3,13 @@ node_js: node
 services:
 - mongodb
 env:
-    global:
-        - CXX=g++-5
+- CXX=g++-5
 addons:
     apt:
     sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-5
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-5
 deploy:
   provider: heroku
   api_key:
