@@ -15,7 +15,7 @@
     "express": "^4.16.2",
     "faker": "^4.1.0",
     "json-parser": "^1.1.5",
-    "jsonwebtoken": "^8.0.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mongoose": "^4.12.0",
     "morgan": "^1.9.1",
